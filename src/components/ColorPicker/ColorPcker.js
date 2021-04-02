@@ -10,6 +10,9 @@ class ColorPicker extends React.Component {
     displayColorPicker: true,
     bgColor: "",
   };
+  componentDidMount(){
+    console.log(this.props);
+  }
 
   handleClick = () => {
     this.setState({ displayColorPicker: !this.state.displayColorPicker });
@@ -19,7 +22,18 @@ class ColorPicker extends React.Component {
     this.setState({ displayColorPicker: false });
   };
 
+  getProbability = () => {
+    
+  }
+ 
+  
   render() {
+    const prob = ((this.props.probability/25)*90) + 3;
+    const val = Math.round(prob);
+    console.log(val);
+    // const val = 100 - prob;
+    // console.log("hskdkdnk",prob);
+    // console.log(this.props);
     // const styles = reactCSS({
     //   default: {
     //     color: {
@@ -55,17 +69,20 @@ class ColorPicker extends React.Component {
     //   },
     // });
     return (
-      <div style={{ width: "100%", position: "relative" }}>
-        <SketchPicker
+      <div style={{ width: "100%", height:"100%", position: "relative" }}>
+        {/* <SketchPicker
           color={this.props.color}
           onChangeComplete={this.props.handleChange}
-        />
-        <div>
-          <div className="step-four-color-line-container">
+        /> */}
+        <div className="step-four-color-image">
+          <img  src={Images.color} alt="color"  />
+        </div>
+        
+          <div className="step-four-color-line-container" style={{bottom: `${val}%`}}>
             <img src={Images.search} alt="color" />
             <div className="step-four-color-line"></div>
           </div>
-        </div>
+      
       </div>
     );
   }

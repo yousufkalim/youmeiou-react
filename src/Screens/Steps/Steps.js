@@ -84,20 +84,26 @@ class Steps extends Component {
               </Header>
             </div>
             <div className="steps-content">
-              {now >= 10 && now < 20 ? (
+              {
+              now >= 10 && now < 20 ? (
                 <StepOne changeStepper={this.changeStepper} data={this.props.location.state} />
-              ) : now >= 20 && now < 30 ? (
+              ) 
+              : now >= 20 && now < 30 ? (
                 <StepTwo changeStepper={this.changeStepper} />
               ) 
-              // : now >= 30 && now < 80 ? (
-              //   <StepThree changeStepper={this.changeStepper} now={now} data={this.props.location.state} />
-              // ) 
-              : now >= 30 && now < 99 ? (
+              : now >= 30 && now < 80 ? (
+                <StepThree changeStepper={this.changeStepper} now={now} data={this.props.location.state} />
+              ) 
+              : 
+              now >= 79 && now < 99 ? 
+              (
                 <StepFour changeStepper={this.changeStepper} data={this.props.location.state} />
               ) 
-              : (
+              : 
+              (
                 <StepFive routerInfo={this.props} />
-              )}
+              )
+              }
             </div>
           </div>
         </div>

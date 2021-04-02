@@ -9,7 +9,7 @@ const Card = (props) => {
         <div {...props} className={classnames(`${props.className} custom-card`)}>
             {
                 heading && (
-                    <div className="card-heading mb-4">{heading}</div>
+                    <div className="card-heading mb-4" style={props.noheadingMargin && {marginBottom: "0"}}>{heading}</div>
                 )
             }
             {props.children}

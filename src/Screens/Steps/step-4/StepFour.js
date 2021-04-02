@@ -24,6 +24,7 @@ class StepFour extends Component {
       data: {},
       spinner: true,
       score: "",
+      probability: 0,
     };
   }
 
@@ -48,12 +49,14 @@ class StepFour extends Component {
       .then((result) => {
         this.setState({data: result, spinner: false});
         const score = result.evalGravity * result.evalProbability;
+        const prob = result.evalGravity;
+        this.setState({probability: prob});
         this.setState({score: score});
         console.log(result);
       })
       .catch((error) => {
         this.setState({spinner: false});
-        alert(error)
+        alert(error);
       });
   };
 
@@ -63,9 +66,10 @@ class StepFour extends Component {
     // console.log("color is", color.hex);
   };
   render() {
-    const { color, spinner,data, score } = this.state;
+    const { color, spinner,data, score,probability } = this.state;
     // const score = this.state.data.evalgravity * 
     console.log(this.state.data);
+    console.log(this.state.probability);
     // console.log(this.props.data);
     return (
       <div className="step-four-container">
@@ -120,7 +124,7 @@ class StepFour extends Component {
         </div>
 
         <div
-          className="step-four-header"
+          className="step-four-header-2"
           style={{ marginBottom: "10rem", marginTop: "5rem" }}
         >
           <div style={{ flexBasis: "80%" }}>
@@ -128,6 +132,8 @@ class StepFour extends Component {
               style={{
                 padding: "1.5rem 1.5rem 4rem 1.5rem",
                 borderRadius: "3.5rem",
+                height: "65rem",
+                overflow: "hidden"
               }}
             >
               <div className="step-four-card2-header">Cartographie</div>
@@ -143,13 +149,17 @@ class StepFour extends Component {
                 borderRadius: "3.5rem",
                 fontWeight: "bold",
                 backgroundColor: "#EBEBEB",
+                height: "100%",
+                overflow: "hidden"
               }}
+              noheadingMargin
             >
               <div className="step-four-color-container">
                 <div className="step-four-color">
                   <ColorPicker
                     color={color}
                     handleChange={this.handleChangecolor}
+                    probability={probability}
                   />
                 </div>
               </div>

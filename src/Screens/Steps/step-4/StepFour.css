@@ -17,6 +17,15 @@
       width: 100%;
       gap: 3rem;
   }
+  .step-four-header-2{
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    padding-top: 5rem;
+    width: 100%;
+    height: 100%;
+    gap: 3rem;
+  }
   .step-four-card1-heading{
       color: var(--text_color);
       font-weight: bold;
@@ -39,12 +48,14 @@
 }  
 .step-four-color-container{
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     padding: 1rem 4rem;
 }
 .step-four-color{
     width: 100%;
+    height: 100%;
 }
 .step-four-color .flexbox-fix{
     display: none !important;
