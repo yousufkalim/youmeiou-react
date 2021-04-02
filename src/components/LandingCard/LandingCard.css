@@ -1,0 +1,30 @@
+
+.landing-card{
+    color: var(--text_color);
+    flex-basis: 24%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.landing-card-heading{
+    font-size: 3rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    text-align: center;
+    /* height: 10rem; */
+    min-height: 10rem;
+
+
+}
+
+.landing-card-detail{
+    font-size: 2.5rem;
+    text-align: center;
+
+
+}
+.landing-card img{
+    max-width: 100%;
+}

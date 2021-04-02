@@ -1,0 +1,18 @@
+.custom-input{
+    background-color: #EBEBEB;
+    color: var(--text_color);
+    width: 100%;
+    border-radius: 2.6rem;
+    padding: 1rem 2rem;
+    outline: none !important;
+    border: none !important;
+    margin: 1rem 0;
+    font-size: 2rem;
+}
+.custom-input::placeholder{
+    font-size: 2rem;
+    color: var(--text_color);
+    font-weight: 300;
+    font-style: italic;
+    font-family: 'Fira Sans' !important;
+}

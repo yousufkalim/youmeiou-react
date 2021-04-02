@@ -1,0 +1,109 @@
+ .login-container{
+     position: relative;
+     height: 100vh;
+     width: 100%;
+     background-color:#fff;
+     display: flex;
+     overflow:hidden;
+
+ }
+
+ .login-left{
+     flex-basis: 50%;
+     height: 100%;
+     background: url("../../assets//images/login_bg.png");
+     background-position: center;
+     background-size: 100% 100%;
+ }
+
+ .login{
+     flex-basis: 50%;
+     height: 100vh;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background: url("../../assets/images/circle2.png") no-repeat, url("../../assets/images/circle_login.png") no-repeat;
+     background-position: right -50% bottom -55%, left -25% top -30%;
+     background-size: 50% 55%,40% 40%;
+     padding: 10rem;
+ }
+ .circular-spinner{
+     color: var(--yellow_color) !important;
+ }
+.login-form{
+    width: 100%;
+}
+ .spinner{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.login-bottom{
+    color: var(--text_color);
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.register-text{
+    color: var(--yellow_color);
+}
+
+.register-text a{
+    color: var(--yellow_color) !important;
+    text-decoration: none !important;
+
+}
+
+/* ==============================================
+                Modal
+   ============================================ */
+
+   .custom-modal-2{
+
+}
+.custom-modal-2 .modal-header{
+    border: none !important;
+}
+.custom-modal-2 .modal-dialog{
+    /* margin: auto !important; */
+    /* display: flex;
+    align-items: center; */
+    /* height: 100%; */
+    position: absolute;
+    top: 31%;
+    left: 31%;
+    width: 40%; 
+    transform: translate(-50%, -50%);
+    max-width: 50% !important;
+    height: 100%;
+} 
+.custom-modal-2 .modal-content {
+    border-radius: 6.5rem !important;
+    padding: 1rem 1.5rem 3rem 1.5rem !important;
+    font-size: 2rem !important;
+    box-shadow: 2px 2px 10px rgba(0,0,0,30%);
+    border: 1px solid var(--yellow_color);
+
+}
+
+.custom-modal-2 .modal-header .close {
+    font-size: 4rem;
+    color: var(--yellow_color);
+    text-shadow: none !important;
+}
+
+.mapping-modal-content{
+    padding: 2rem 5rem;
+}
+.login-modal-btn{
+    width:40% !important;
+    text-align: center;
+    margin: auto;
+
+}
+.login-modal-btn{
+    width:40% !important;
+    text-align: center;
+    margin: auto;
+
+}

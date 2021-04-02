@@ -1,0 +1,86 @@
+.chart{
+    height: 100%;
+    width: 100%;
+}
+.chart-table-container{
+    margin-top: 5rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.chart-table-right{
+    width: 80%;
+    height: 42rem;
+    /* height: 100%; */
+    /* overflow-x: hidden; */
+}
+
+.chart-table{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    width: 100%;
+}
+
+.chart-table-box{
+    width: 19.6%;
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--text_color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-table-footer{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
+
+}
+
+.chart-arrow{
+    width: 80%;
+    margin-top: 1rem;
+}
+
+.chart-arrow img{
+    width: 100%;
+}
+
+.chart-table-footer-content{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    width: 80%;
+}
+
+.chart-table-left{
+    width: 20%;
+    height: 42rem;
+    display: flex;
+    justify-content: center;
+}
+
+.chart-table-left img{
+    /* transform: rotate(90deg); */
+    /* width: 100%; */
+    height: 100%;
+    
+}
+.chart-table-left-content{
+    font-size: 2.5rem;
+    color: var(--text_color);
+}
+
+.chart-table-left-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    height: 42rem;
+    gap: 1.5rem;
+}

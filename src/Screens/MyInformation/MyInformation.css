@@ -1,0 +1,78 @@
+.account-management{
+    height: 90%;
+    width: 100%;
+    overflow: auto;
+}
+.account-cards{
+    height: 90%;
+    width: 100%;
+    padding: 2rem 10rem 5rem 2rem;
+}
+
+.account-cards{
+    display: flex;
+    justify-content: space-between;
+}
+.account-card{
+    flex-basis: 46%;
+}
+.account-card-img{
+    flex-basis: 50%;
+    /* height: 100%; */
+    
+}
+.account-card-img img{
+    max-width: 100%;
+    height: 100%;
+    
+}
+.account-card-detail{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.5rem;
+    color: var(--text_color);
+    font-size: 2.5rem;
+}
+.account-card-detail-2{
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: flex-start;
+    gap: 5rem;
+    align-items: center;
+    padding: 1.5rem;
+    height: 100%;
+    width: 100%;
+    padding: 2rem 5rem;
+    color: var(--text_color);
+    font-size: 2.5rem;
+}
+.account-card-link{
+    color: var(--text_color) !important;
+    padding-top: 2rem;
+    text-decoration: underline;
+}
+.account-card-dropdown{
+    width: 100%;
+}
+.account-card-2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    height: 100%;
+    font-weight: bold;
+
+}
+
+.account-card-2 h1{
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--text_color);
+}
+.account-card-dropdown{
+    width: 70%;
+    padding: 2rem !important;
+}

@@ -1,0 +1,55 @@
+/* .step-one {
+  background: url("../../../../assets/images/circle.png");
+} */
+
+.steps-header {
+  background-color: var(--text_color);
+  height: 7%;
+  width: 100%;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.step-card-text {
+  color: black;
+  font-size: 2.5rem;
+}
+
+.step-card-wrapper {
+  width: 80%;
+  height: 45%;
+  border-radius: 20px !important;
+}
+
+.steps-three-content {
+  display: flex;
+  color: var(--text_color) !important;
+  background: url("../../../assets/images/stepTwo.png") no-repeat;
+  background-position: bottom -1.5rem right -15rem;
+  background-size: 50rem 45rem;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 5rem;
+}
+
+.steps-three-content h3 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.steps-three-content p {
+  font-size: 1.5rem;
+}
+.steps-three-box {
+  padding: 1rem 3rem;
+  border: 1px solid var(--yellow_color);
+  margin-left: 1rem;
+  border-radius: 5px;
+  font-size: 2rem;
+  display: inline-block;
+  margin-top: 1rem;
+  cursor: pointer;
+}

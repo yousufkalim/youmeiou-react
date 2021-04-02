@@ -1,0 +1,133 @@
+.landing {
+  padding: 0 3rem;
+  background-color: #fff;
+  width: 100%;
+  background: url("../../assets//images/circle.png");
+  background-repeat: no-repeat;
+  background-position: top 45% right -15%;
+  /* background-position: right -15% center; */
+  background-size: 28% 25%;
+}
+
+.landing-navbar-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 10rem;
+}
+.landing-navbar {
+  display: flex;
+  padding-top: 1rem;
+}
+.landing-logo {
+  width: 10rem;
+}
+
+.landing-header {
+  padding: 10rem 5rem 20rem 5rem;
+}
+.landing-header-img {
+  width: 90%;
+  height: 100%;
+  max-width: 100%;
+}
+.landing-header-content {
+  color: var(--text_color);
+}
+.landing-heading {
+  font-size: 5rem;
+  padding-bottom: 5rem;
+  font-weight: bold;
+  /* color: var(--text-color)        */
+}
+
+.landing-detail {
+  font-size: 2.5rem;
+  padding-bottom: 5rem;
+}
+
+.landing-cards-container {
+  padding: 8rem 0;
+}
+
+.landing-content-heading {
+  color: var(--yellow_color);
+  font-size: 5rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 5rem 0;
+}
+
+.landing-cards {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: wrap;
+  padding: 3rem 5rem;
+}
+
+.landing-footer {
+  background-color: var(--yellow_color);
+  display: flex;
+  align-items: center;
+  gap: 10rem;
+  padding: 5rem 8rem;
+}
+.landing-footer-content {
+  padding-right: 20rem;
+}
+.landing-footer-img img {
+  /* width: 5rem; */
+  max-width: 100%;
+}
+.landing-footer-comma {
+  width: 7rem;
+  max-width: 100%;
+}
+.landing-footer-detail {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--text_color);
+  padding: 5rem 0;
+}
+
+.landing-footer-text {
+  font-size: 2.5rem;
+  font-weight: 100;
+  font-family: 'Fira Sans' !important;
+  color: var(--text_color);
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: 3rem;
+}
+
+.landing-bottom{
+    background-color: #EBEBEB;
+    width: 100%;
+    padding: 10rem;
+}
+
+.landing-bottom-copyright{
+    color: var(--text_color);
+    font-size: 2.5rem;
+}
+
+.landing-slider{
+  /* height: 30vh; */
+  width: 100%;
+  background-color: aqua;
+  color: var(--text_color) !important;
+}
+
+.landing-slider .carousel-indicators{
+  /* position: unset !important; */
+}
+.landing-slider .carousel-control-next-icon,
+.landing-slider .carousel-control-prev-icon{
+  display: none !important;
+}
+
+.landing-slider .carousel-indicators li {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50% !important;
+}

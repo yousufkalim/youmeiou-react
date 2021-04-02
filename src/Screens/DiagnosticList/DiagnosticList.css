@@ -1,0 +1,86 @@
+.diagnostic{
+    height: 100vh;
+    overflow:hidden;
+    width: 100%;
+}
+.diagnostic-container{
+    height: 90%;
+    width: 100%;
+    /* padding-top: 3rem; */
+    
+}
+.diagnostic-wrapper{
+    height: 90%;
+    width: 100%;
+}
+.diagnostic-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+    height: 10%;
+    margin-top: 1.5rem;
+    background-color: var(--text_color);
+    width: 100%;
+}
+.diagnostic-dropdown{
+    flex-basis: 18%;
+}
+
+.diagnostic-content{
+    height: 88%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url("../../assets/images/circle2.png") no-repeat, url("../../assets/images/circle2.png") no-repeat;
+    background-size: 40rem 40rem, 50rem 50rem;
+    background-position: top 3rem right -20rem, bottom -5rem left -20rem;
+    /* position: relative; */
+}
+
+.diagnostic-card{
+    width: 90%;
+    height: 90%;
+    /* position: relative; */
+
+}
+
+/* .spinner{
+    position: absolute;
+    top: 60%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+ } */
+.circular-spinner-blue{
+    color: var(--text_color);
+}
+
+.diagnostic-card a,
+.diagnostic-card a:hover{
+    text-decoration: none !important;
+}
+
+.diagnostic-list-search{
+     flex-basis: 18%;
+}
+.diagnostic-list-search input{
+     flex-basis: 18%;
+     border-radius: 2.9rem !important;
+    border: 1px solid var(--text_color) !important;
+    padding: 0.5rem 1rem !important;
+    width: 100%;
+    font-size: 2rem !important;
+}
+.diagnostic-list-search input:focus{
+    outline: none !important;
+    border: none !important;
+}
+
+.diagnostic-list-item{
+     overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 1; /* number of lines to show */
+   -webkit-box-orient: vertical;
+}

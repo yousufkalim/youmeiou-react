@@ -1,0 +1,22 @@
+.custom-dropdown {
+  /* width: 80% !important;
+  border-radius: 2.9rem !important; */
+  /* border: 1px solid var(--text_color) !important;
+    padding: 1rem !important */
+}
+
+.custom-dropdown {
+  border-radius: 2.9rem !important;
+  border: 1px solid var(--text_color) !important;
+  padding: 0.5rem 1rem !important;
+  width: 100%;
+  font-size: 2rem !important;
+}
+
+.custom-dropdown::after {
+  content: "";
+  width: 0.8em;
+  height: 0.5em;
+  background-color: var(--select-arrow);
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+}

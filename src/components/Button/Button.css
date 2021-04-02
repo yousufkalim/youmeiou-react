@@ -1,0 +1,33 @@
+.button-component{
+    color: #fff;
+    border-radius: 2.9rem;
+    padding: 0.5rem 2.5rem;
+    border: none !important;
+    outline: none !important;
+    font-size: 2.5rem;
+    /* width: 100%; */
+}
+.button-disabled{
+    background-color: #EBD671!important;
+    color: #fff;
+    border-radius: 2.9rem;
+    padding: 0.5rem 2.5rem;
+    border: none !important;
+    outline: none !important;
+    font-size: 2.5rem;
+    cursor: not-allowed !important;
+
+}
+.button-component a{
+    text-decoration: none !important;
+    color: var(--text_color) !important;
+}
+
+@media (max-width: 1367px) {
+    .button-component,
+    .button-disabled{
+        font-size: 2rem;
+        /* width: 100%; */
+    }
+    
+  }

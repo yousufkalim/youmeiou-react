@@ -1,0 +1,10 @@
+.custom-box{
+    border-radius: 1rem;
+    width: 100%;
+    font-size: 5rem;
+    font-weight: 500;
+    color: var(--text_color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

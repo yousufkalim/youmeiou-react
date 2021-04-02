@@ -1,0 +1,12 @@
+.screen-heading{
+    font-weight: 800;
+    color: var(--yellow_color);
+    font-size: 5rem;
+}
+
+
+@media (max-width: 1367px) {
+    .screen-heading{
+        font-size: 4rem;
+    }
+  }

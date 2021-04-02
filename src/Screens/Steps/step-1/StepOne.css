@@ -1,0 +1,35 @@
+/* .step-one {
+  background: url("../../../../assets/images/circle.png");
+} */
+/* 
+.steps-header {
+  background-color: var(--text_color);
+  height: 7%;
+  width: 100%;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.step-card-text {
+  color: black;
+  font-size: 2.5rem;
+}
+
+.step-card-wrapper {
+  width: 50%;
+  height: 45%;
+  border-radius: 20px !important;
+}
+
+.step-one-content {
+  display: flex;
+  background: url("../../../assets/images/circle2.png") no-repeat;
+  background-position: top -12rem left -25rem;
+  background-size: 70rem 70rem;
+  width: 100%;  
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+}

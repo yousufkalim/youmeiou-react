@@ -1,0 +1,64 @@
+.step-four-container {
+    background: url("../../../assets/images/circle2.png") no-repeat;
+    background-position: left -17% top 100%;
+    background-size: 30% 70%;
+    width: 100%;
+    height: 100%;
+
+    padding: 0rem 10rem;
+    margin-bottom: 5rem;
+    overflow-y: auto;
+  }
+  .step-four-header{
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding-top: 5rem;
+      width: 100%;
+      gap: 3rem;
+  }
+  .step-four-card1-heading{
+      color: var(--text_color);
+      font-weight: bold;
+      font-size: 3.5rem;
+  }
+  .step-four-card1-content{
+      font-weight: bold;
+      font-size: 15rem;
+      color: var(--text_color);
+  }
+  .step-four-card2-header{
+      color: var(--yellow_color);
+      font-size: 3.5rem;
+      font-weight: bold;
+  }
+.step-four-card2-content{
+    font-size: 2.5rem;
+    color: var(--text_color);
+    margin: 0.5rem 0;
+}  
+.step-four-color-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 4rem;
+}
+.step-four-color{
+    width: 100%;
+}
+.step-four-color .flexbox-fix{
+    display: none !important;
+}   
+.step-four-color .sketch-picker {
+    width: 80% !important;
+    height: 45rem !important;
+    background: none !important;
+    box-shadow: none !important;
+    /* position: relative; */
+}
+.step-four-color .sketch-picker > * {
+    /* height: 100% !important; */
+    height: 100% !important;
+
+}
+

@@ -1,0 +1,111 @@
+.plan{
+    width: 100%;
+    height: 90%;
+    overflow-y: auto;
+}
+.plan-container{
+width: 100%;
+height: 100%;
+background: url("../../assets/images/plan.png");
+background-repeat: no-repeat;
+background-position: left -11rem top -7rem;
+background-size: 65rem;
+/* padding-left: 10rem;
+padding-right: 10rem; */
+
+}
+.plan-container-first{
+    /* height: 100%; */
+    width: 100%;
+    padding: 0 10rem;
+}
+.plan-header{
+    background-color: var(--text_color);
+    height: 7%;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.plan-content{
+    padding: 2rem 10rem 1rem 5rem;
+    width: 100%;
+    height: 93%;
+    overflow-y: auto;
+}
+
+.plan-header-content{
+    width: 70%;
+    padding-top: 5rem;
+   
+}
+.plan-header-content-detail{
+    padding: 5rem 15rem;
+    color: var(--text_color);
+    font-size: 2.5rem;
+    
+}
+
+.plan-first-cards{
+   margin: 5rem 0;
+}
+
+.plan-card-heading{
+    color: var(--yellow_color);
+    font-size: 3.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem 0 2rem;
+}
+.plan-card-heading-score{
+    font-size: 2.5rem;
+    color: var(--text_color);
+
+}
+.plan-list-container{
+    padding: 5rem 10rem 30rem 10rem;
+    height: 100%;
+    width: 100%;
+    background: url("../../assets/images/circle2.png") no-repeat;
+    background-position: bottom -30rem right -23rem;
+    background-size: 50rem 45rem;
+}
+.plan-list-heading{
+    color: #fff;
+    font-weight: 700;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.plan-list-item{
+    text-align: center;
+}
+
+.plan-card-detail{
+    color: var(--text_color);
+    font-size: 2.5rem;
+    padding-top: 2rem;
+}
+
+.plan-container-second{
+    /* height: 100%; */
+    margin-bottom: 10rem;
+    width: 100%;
+    background: url("../../assets/images/circle.png");
+background-repeat: no-repeat;
+background-position: right -18% center;
+background-size: 50rem;
+z-index: -1;
+}
+
+.plan-cards-second{
+    width: 100%;
+    padding: 0rem 10rem 10rem 10rem;
+}
+.plan-card-footer{
+    font-style: italic;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 3rem;
+    cursor: pointer;
+}

@@ -1,0 +1,55 @@
+.step-five-container {
+  background: url("../../../assets/images/stepFive.png") no-repeat;
+  background-position: center center;
+  background-size: 60rem 60rem;
+  width: 100%;
+  height: 100%;
+  padding: 0rem 10rem;
+  overflow-y: auto;
+}
+.step-five-content-container{
+  display: flex;
+  flex-direction: column;
+  /* align-items: flex-start; */
+  justify-content: space-between;
+  height: 100%;
+}
+.step-five-header{
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  padding-top: 5rem;
+  width: 100%;
+}
+.step-five-card-heading{
+  color: var(--yellow_color);
+  font-weight: bold;
+  font-size: 3.5rem;
+  /* flex-basis: 15%; */
+}
+.step-five-card-content{
+  font-size: 2.5rem;
+  color: var(--text_color);
+}
+.step-five-card2-header{
+  color: var(--yellow_color);
+  font-size: 3.5rem;
+  font-weight: bold;
+}
+.step-five-card2-content{
+font-size: 2.5rem;
+color: var(--text_color);
+margin: 0.5rem 0;
+}  
+
+.step-five-card-text{
+  font-size: 1.5rem;
+color: var(--text_color);
+text-align: center;
+padding-top: 1.5rem;
+}
+
+.step-five-header-2{
+  margin-top: 18rem;
+  margin-bottom: 10rem;
+}

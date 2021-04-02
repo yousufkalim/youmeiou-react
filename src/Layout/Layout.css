@@ -1,0 +1,64 @@
+.layout{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.layout-sidebar{
+    /* flex-basis: 20%; */
+    height: 100%;
+    /* padding: 0 5rem; */
+    width: 23%;
+    background-color: var(--text_color);
+    animation: sidebaranims 0.5s ease-in;
+    transition: 0.5s all ease;
+}
+
+@keyframes sidebaranims {
+    0% {
+        display: none;
+        visibility: hidden;
+        width: 0%;
+    }
+    100% {
+        visibility: visible;
+        display: block;
+        width: 23%;
+
+    }
+}
+
+
+.layout-children{
+    width: 100%;
+    height: 100%;
+
+}
+
+.sidebar-drawer{
+    display: inline-block;
+    cursor: pointer;
+}
+.sidebar-toggler{
+    color: var(--yellow_color);
+}
+.profile-img{
+    width: 7rem;
+    margin-right: 4rem;
+    height: 6.9rem;
+}
+
+.sidebar-drawer-container img{
+    width: 10rem;
+}
+.screen-navbar{
+    border-bottom: 1px solid rgba(1,35,64, 18%);
+    height: 10%;
+    /* background-color: aqua; */
+}
+@media (max-width: 1536.1px){
+    /* .sidebar-drawer{
+        display: inline-block;
+    } */
+} 
