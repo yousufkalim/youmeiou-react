@@ -13,7 +13,7 @@ import ColorPicker from "../../../components/ColorPicker/ColorPcker";
 import Button from "../../../components/Button/Button";
 import endPoints from "../../../globals/Constants";
 import jwt_decode from "jwt-decode";
-
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class StepFour extends Component {
   constructor(props) {
@@ -21,35 +21,60 @@ class StepFour extends Component {
 
     this.state = {
       color: "#fff",
+      data: {},
+      spinner: true,
+      score: "",
     };
   }
 
-  componentDidMount(){
-    console.log(this.props);
+  componentDidMount() {
+    // console.log(this.props);
     this.getScore();
   }
 
   getScore = () => {
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem("token");
     const decoded = jwt_decode(token);
-    const id = parseInt(decoded.Id)
-    console.log("user id ==> ",id);
-    fetch(`${endPoints.GET_SCORE}/`, {
-
-    })
-  }
+    const id = parseInt(decoded.Id);
+    // console.log("user id ==> ", id);
+    const diagnosticId = this.props.data.diagnosticId;
+    fetch(`${endPoints.GET_SCORE}/${diagnosticId}, ${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => res.json())
+      .then((result) => {
+        this.setState({data: result, spinner: false});
+        const score = result.evalGravity * result.evalProbability;
+        this.setState({score: score});
+        console.log(result);
+      })
+      .catch((error) => {
+        this.setState({spinner: false});
+        alert(error)
+      });
+  };
 
   handleChangecolor = (color) => {
     this.setState({ color: color.hex });
     // setColor(color.hex )
-    console.log("color is", color.hex);
+    // console.log("color is", color.hex);
   };
   render() {
-    const { color } = this.state;
-    console.log(this.props.data);
+    const { color, spinner,data, score } = this.state;
+    // const score = this.state.data.evalgravity * 
+    console.log(this.state.data);
+    // console.log(this.props.data);
     return (
       <div className="step-four-container">
         <div className="step-four-header">
+        {spinner && (
+                  <div className="spinner">
+                    <CircularProgress className="circular-spinner-blue" />
+                  </div>
+                )}
           <div style={{ flexBasis: "40%" }}>
             <Card
               style={{
@@ -60,7 +85,7 @@ class StepFour extends Component {
             >
               <div className="step-four-card1-heading">Scoring</div>
               <div className="d-flex justify-content-center align-items-center">
-                <div className="step-four-card1-content">70</div>
+                <div className="step-four-card1-content">{score}</div>
               </div>
             </Card>
           </div>
@@ -94,7 +119,10 @@ class StepFour extends Component {
           </div>
         </div>
 
-        <div className="step-four-header" style={{marginBottom: "10rem", marginTop: "5rem"}}>
+        <div
+          className="step-four-header"
+          style={{ marginBottom: "10rem", marginTop: "5rem" }}
+        >
           <div style={{ flexBasis: "80%" }}>
             <Card
               style={{
@@ -109,25 +137,27 @@ class StepFour extends Component {
           </div>
           <div style={{ flexBasis: "20%" }}>
             <Card
-            heading="Criticité"
+              heading="Criticité"
               style={{
                 padding: "1rem",
                 borderRadius: "3.5rem",
                 fontWeight: "bold",
-                backgroundColor: "#EBEBEB"
+                backgroundColor: "#EBEBEB",
               }}
             >
               <div className="step-four-color-container">
-              <div className="step-four-color">
-              <ColorPicker
-                color={color}
-                handleChange={this.handleChangecolor}
-              />
-              </div>
+                <div className="step-four-color">
+                  <ColorPicker
+                    color={color}
+                    handleChange={this.handleChangecolor}
+                  />
+                </div>
               </div>
             </Card>
             <div className="step-four-card-btn text-center mt-5 pt-4">
-              <Button secondary onClick={() => this.props.changeStepper(100)}>Traitement du risque</Button>
+              <Button secondary onClick={() => this.props.changeStepper(100)}>
+                Traitement du risque
+              </Button>
             </div>
           </div>
         </div>
