@@ -164,7 +164,7 @@ const StepThree = (props) => {
             const key = questions[0];
             const valu = key[activeAnswer];
 
-            fetch(endPoints.SUBMIT_ANSWER, {
+             fetch(endPoints.SUBMIT_ANSWER, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -206,13 +206,12 @@ const StepThree = (props) => {
           alert(error)
         });
     } else {
-      if (questions.length > 1) {
-
+      if (questions) {
         const key = questions[0];
         const valu = key[activeAnswer];
         console.log(activeQuestionId);
 
-        fetch(endPoints.SUBMIT_ANSWER, {
+        await fetch(endPoints.SUBMIT_ANSWER, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -226,12 +225,12 @@ const StepThree = (props) => {
           }),
         })
           .then((res) => {
-            if (res.status === 200) {
+            if (res.status === 200 && questions) {
               props.changeStepper(props.now + progressPerQuestion);
               setActiveIndex("");
               questions.shift();
               // setTotalQuestions(totalQuestions + 1);
-              questions && setActiveQuestionId(questions[0]?.id);
+              questions ? setActiveQuestionId(questions[0]?.id) : setActiveQuestionId("");
               console.log("remianing question => ", questions);
               console.log("first question index => ", questions[0].id);
               console.log(props.now);
@@ -245,7 +244,8 @@ const StepThree = (props) => {
           })
           .catch((error) => {
             setSpinner(false);
-            alert(error)
+            // alert("",error)
+            console.log(error);
           });
       } else {
         setSpinner(false);
