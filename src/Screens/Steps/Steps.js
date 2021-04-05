@@ -101,7 +101,7 @@ class Steps extends Component {
               ) 
               : 
               (
-                <StepFive routerInfo={this.props} />
+                <StepFive routerInfo={this.props} state={this.props.location.state} />
               )
               }
             </div>

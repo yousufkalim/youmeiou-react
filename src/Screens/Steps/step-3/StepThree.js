@@ -206,7 +206,7 @@ const StepThree = (props) => {
           alert(error)
         });
     } else {
-      if (questions) {
+      if (questions.length >= 1) {
         const key = questions[0];
         const valu = key[activeAnswer];
         console.log(activeQuestionId);

@@ -146,6 +146,7 @@ const Login = (props) => {
                 type="password"
                 placeholder="Mot de passe"
                 value={data.password}
+                autocomplete="new-password"
                 onChange={inputChange}
                 name="password"
               />

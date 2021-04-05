@@ -7,6 +7,10 @@ import { GiHamburgerMenu } from "react-icons/all";
 
 const navlinks = [
     {
+        path: "/mes-diagnostics",
+        text: "Mes Diagnostics"
+    },
+    {
         path: "/discover",
         text: "Discover"
     },

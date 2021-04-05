@@ -250,6 +250,7 @@ const Register = () => {
               <Input
                 type="password"
                 placeholder="Mot de passe"
+                autocomplete="new-password"
                 value={data.password}
                 onChange={inputChange}
                 name="password"
