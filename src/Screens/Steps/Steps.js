@@ -95,7 +95,7 @@ class Steps extends Component {
                 <StepThree changeStepper={this.changeStepper} now={now} data={this.props.location.state} />
               ) 
               : 
-              now >= 79 && now < 99 ? 
+              now >= 80 && now < 99 ? 
               (
                 <StepFour changeStepper={this.changeStepper} data={this.props.location.state} />
               ) 

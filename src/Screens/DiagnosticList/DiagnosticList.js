@@ -161,7 +161,10 @@ const Diagnostic = (props) => {
 
   async function getAllDiagnostics() {
     const token = sessionStorage.getItem("token");
-    await fetch(endPoints.GET_DIAGNOSTICS, {
+    var decoded = jwt_decode(token);
+    const id = parseInt(decoded.Id);
+    console.log(id);
+    await fetch(`${endPoints.GET_FILTER_DIAGNOSTICS}/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

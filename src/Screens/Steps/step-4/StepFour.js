@@ -23,7 +23,7 @@ class StepFour extends Component {
       color: "#fff",
       data: {},
       spinner: true,
-      score: "",
+      score: null,
       probability: 0,
     };
   }
@@ -138,7 +138,7 @@ class StepFour extends Component {
             >
               <div className="step-four-card2-header">Cartographie</div>
 
-              <TableChart />
+              <TableChart score={score} />
             </Card>
           </div>
           <div style={{ flexBasis: "20%" }}>

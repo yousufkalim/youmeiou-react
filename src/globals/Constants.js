@@ -12,6 +12,7 @@ const endPoints = {
     LOGIN: BASE_URL_V1 + "/Login",
     SIGNUP: BASE_URL_V1 + "/resgiter",
     GET_DIAGNOSTICS: BASE_URL_V1 + "/diagnostic/getall",
+    GET_FILTER_DIAGNOSTICS : BASE_URL_V1 + "/diagnostic/get",
     GET_QUESTIONS : BASE_URL_V1 + "/risk/get",
     CREATE_DIAGNOSTIC: BASE_URL_V1 + "/diagnostic/create",
     SUBMIT_ANSWER: BASE_URL_V1 + "/risk/create",

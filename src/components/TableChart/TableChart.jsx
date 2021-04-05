@@ -36,6 +36,9 @@ const items = ["Non significatif", "Mineur", "Moderé", "Majeur", "Critique"];
 
 export class TableChart extends Component {
   render() {
+    const ismatch = nums.map((num) => num === this.props.score ? true : false );
+    console.log(this.props.score);
+    console.log(ismatch);
     return (
       <div className="chart">
         <div className="chart-table-container">
@@ -55,6 +58,7 @@ export class TableChart extends Component {
                 <div className="chart-table-box">
                   <Box
                     num={num}
+                    score={this.props.score}
                     style={
                       num < 5
                         ? { border: "0.3rem solid #5AC9D5" }

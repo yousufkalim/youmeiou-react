@@ -7,4 +7,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+
+.box-circle{
+    height: 3rem;
+    width: 3rem;
+    border: 4px solid green;
+    border-radius: 50%;
+    position: absolute;
+    right: 5%;
+    top: 5%;
 }
