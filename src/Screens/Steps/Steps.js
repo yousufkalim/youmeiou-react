@@ -17,7 +17,7 @@ class Steps extends Component {
     super(props);
 
     this.state = {
-      now: 10,
+      now: 5,
       toggle: false,
       name: "",
       serialNo: "",
@@ -85,13 +85,13 @@ class Steps extends Component {
             </div>
             <div className="steps-content">
               {
-              now >= 10 && now < 20 ? (
+              now >= 5 && now < 6 ? (
                 <StepOne changeStepper={this.changeStepper} data={this.props.location.state} />
               ) 
-              : now >= 20 && now < 30 ? (
+              : now >= 6 && now < 7 ? (
                 <StepTwo changeStepper={this.changeStepper} />
               ) 
-              : now >= 30 && now < 80 ? (
+              : now >= 7 && now <= 79 ? (
                 <StepThree changeStepper={this.changeStepper} now={now} data={this.props.location.state} />
               ) 
               : 

@@ -42,7 +42,7 @@ const Register = () => {
       }
     }
     if(e.target.name === "phoneNo"){
-      if(e.target.value.length !== 13){
+      if(e.target.value.length >= 13){
         setError({...error, phoneNo: "Le numéro de téléphone n'est pas valide"})
       }
       else{

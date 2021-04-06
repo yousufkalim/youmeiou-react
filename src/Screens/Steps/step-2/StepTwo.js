@@ -30,7 +30,7 @@ class StepTwo extends Component {
                   d’accord ».
                 </p>
                 <div className="text-center pt-5">
-                  <Button onClick={() => this.props.changeStepper(30)} secondary>Lancer</Button>
+                  <Button onClick={() => this.props.changeStepper(7)} secondary>Lancer</Button>
                 </div>
               </Card>
             </div>

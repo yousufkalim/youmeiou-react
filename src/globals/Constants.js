@@ -17,7 +17,8 @@ const endPoints = {
     GET_QUESTIONS : BASE_URL_V1 + "/risk/get",
     CREATE_DIAGNOSTIC: BASE_URL_V1 + "/diagnostic/create",
     SUBMIT_ANSWER: BASE_URL_V1 + "/risk/create",
-    GET_SCORE : BASE_URL_V1 + "/diagnostic/create/CalculateScore"
+    GET_SCORE : BASE_URL_V1 + "/diagnostic/create/CalculateScore",
+    UPDATE_TREATMENT : BASE_URL_V1 + "/diagnostic/update/treatmentOfRisk"
 
 }
 

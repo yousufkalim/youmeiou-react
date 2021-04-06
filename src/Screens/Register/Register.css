@@ -54,3 +54,9 @@
 .register-text{
    color: var(--yellow_color);
 }
+
+@media (max-width: 1367px) {
+   .register-bottom{
+       font-size: 2rem;
+   }
+ }

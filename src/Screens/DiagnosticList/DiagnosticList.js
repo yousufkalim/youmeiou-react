@@ -241,7 +241,7 @@ const Diagnostic = (props) => {
         </div>
         <div className="diagnostic-container">
           <div className="diagnostic-header">
-            <div className="diagnostic-dropdown">
+            {/* <div className="diagnostic-dropdown">
               <Dropdown>
                 <option>Risques signatures</option>
                 <option>2</option>
@@ -249,44 +249,30 @@ const Diagnostic = (props) => {
                 <option>4</option>
                 <option>5</option>
               </Dropdown>
-            </div>
-            <div className="diagnostic-dropdown">
+            </div> */}
+            {/* <div className="diagnostic-dropdown">
               <Dropdown onChange={handleCategory} value={selectedCategory}>
                 {
                   categories.map((item,index) => (
                     <option key={index} value={item.catId} >{item.text}</option>
                   ))
                 }
-                {/* <option>Catégorie</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option> */}
+               
               </Dropdown>
-            </div>
-            <div className="diagnostic-dropdown">
+            </div> */}
+            {/* <div className="diagnostic-dropdown">
               <Dropdown value={selectedFamily} onChange={handleChange}>
                 {families.map((item, index) => (
                   <option value={item.familyId} key={index}>
                     {item.text}
                   </option>
                 ))}
-                {/* <option>Famille de diagnostics</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option> */}
+                
               </Dropdown>
-            </div>
+            </div> */}
             <div className="diagnostic-list-search">
               <SearchInput className="search-input" onChange={searchUpdated} />
-              {/* <Dropdown>
-                  <option>Rechercher</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </Dropdown> */}
+            
             </div>
           </div>
 
@@ -332,8 +318,6 @@ const Diagnostic = (props) => {
                   })} */}
 
                 {filteredEmails.map((item) => {
-                  
-                  
                   if (selectedFamily !== "" || selectedCategory !== "") {
                     if (selectedFamily.match(item.familyId) && selectedCategory.match(item.categoryId)) {
                       return (

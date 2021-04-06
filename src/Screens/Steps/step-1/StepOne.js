@@ -38,7 +38,7 @@ const StepOne = (props) => {
                   {data.explanation}
                 </p>
                 <div className="text-center pt-5">
-                  <Button onClick={() => props.changeStepper(20)} secondary>Lancer</Button>
+                  <Button onClick={() => props.changeStepper(6)} secondary>Lancer</Button>
                 </div>
               </Card>
             </Col>

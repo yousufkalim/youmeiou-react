@@ -4,6 +4,35 @@ import "./TableChart.css";
 import Box from "../Box/Box";
 import { Images } from "../../assets/Assets";
 
+const numbers = [
+  [5],
+  [10, 4],
+  [16],
+  [15, 15],
+  [12, 12],
+  [9],
+  [10, 10],
+  [8, 8],
+  [6, 6],
+  [4],
+  [5, 5],
+  [4, 4],
+  [3, 3],
+  [2, 2],
+  [1],
+  
+ 
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+];
+
 const nums = [
   5,
   10,
@@ -36,25 +65,27 @@ const items = ["Non significatif", "Mineur", "Moderé", "Majeur", "Critique"];
 
 export class TableChart extends Component {
   render() {
-    const ismatch = nums.map((num) => num === this.props.score ? true : false );
+    const ismatch = nums.map((num) =>
+      num === this.props.score ? true : false
+    );
     console.log(this.props.score);
     console.log(ismatch);
     return (
       <div className="chart">
         <div className="chart-table-container">
           <div className="chart-table-left">
-              <div className="chart-table-left-container">
-                  <div className="chart-table-left-content">Critique</div>
-                  <div className="chart-table-left-content">Majeur</div>
-                  <div className="chart-table-left-content">Possible</div>
-                  <div className="chart-table-left-content">Peu probable</div>
-                  <div className="chart-table-left-content">Improbable</div>
-              </div>
-              <img src={Images.arrowup} className="img-fluid" alt="arrow" />
+            <div className="chart-table-left-container">
+              <div className="chart-table-left-content">Critique</div>
+              <div className="chart-table-left-content">Majeur</div>
+              <div className="chart-table-left-content">Possible</div>
+              <div className="chart-table-left-content">Peu probable</div>
+              <div className="chart-table-left-content">Improbable</div>
+            </div>
+            <img src={Images.arrowup} className="img-fluid" alt="arrow" />
           </div>
           <div className="chart-table-right">
             <div className="chart-table">
-              {nums.map((num) => (
+              {/* {nums.map((num) => (
                 <div className="chart-table-box">
                   <Box
                     num={num}
@@ -68,6 +99,24 @@ export class TableChart extends Component {
                     }
                   />
                 </div>
+              ))} */}
+
+              {numbers.map((num) => (
+                num.map((item) => (
+                  <div className="chart-table-box">
+                  <Box
+                    num={item}
+                    score={this.props.score}
+                    style={
+                      item < 5
+                        ? { border: "0.3rem solid #5AC9D5" }
+                        : item < 10
+                        ? { border: "0.3rem solid #F2E207" }
+                        : { border: "0.3rem solid #F2072B" }
+                    }
+                  />
+                </div>
+                ))
               ))}
             </div>
           </div>

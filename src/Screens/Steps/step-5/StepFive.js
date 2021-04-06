@@ -3,7 +3,11 @@ import "./StepFive.css";
 
 import Card from "../../../components/Card/Card";
 import Button from "../../../components/Button/Button";
-import {NavLink ,Link} from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import endPoints from "../../../globals/Constants";
+import jwt_decode from "jwt-decode";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 //  Components
 // import { Images } from "../../../assets/Assets";
@@ -12,19 +16,74 @@ import {NavLink ,Link} from "react-router-dom";
 // import Button from "../../../components/Button/Button";
 // // import {Col, Row} from "react-bootstrap";
 
-class StepOne extends Component {
-  state = {};
+class StepFive extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       spinner: false,
+       show: false
+    }
+  }
+  
 
-  componentDidMount(){
+
+  componentDidMount() {
     // this.navigateBack();
   }
-  navigateBack = () => {
-    console.log(this.props.routerInfo);
-    this.props.routerInfo.history.push("/mes-diagnostics")
-  }
+  navigateBack = (e) => {
+    // console.log(this.props.routerInfo);
+    this.setState({spinner: true});
+    const token = sessionStorage.getItem('token');
+    var decoded = jwt_decode(token);
+    const userid = parseInt(decoded.Id);
+    const diagnosticId = this.props.state.diagnosticId;
+    const treatment = e.target.value;
+    console.log(treatment);
+    fetch(endPoints.UPDATE_TREATMENT, {
+      method: "POST",
+      headers : {
+        "Content-Type" : "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        diagnosticId : diagnosticId,
+        userInfoId : userid,
+        treatmentOfRisk : treatment
+      })
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        this.setState({spinner: false});
+        result.errorMessage ? 
+        alert(result.errorMessage)
+        :
+        this.props.routerInfo.history.push("/mes-diagnostics")
+        
+      })
+      .catch((error) => {
+        this.setState({spinner: false});
+        console.log(error)
+      })
+  };
+
+  onClick = (e) => {
+    // console.log(e.target.value);
+  };
+
+  handleClose = () => {
+    this.setState({show: false});
+  };
+
   render() {
+    const {spinner} = this.state;
     return (
       <div className="step-five-container">
+         {spinner && (
+                  <div className="spinner">
+                    <CircularProgress className="circular-spinner-blue" />
+                  </div>
+                )}
         <div className="step-five-header">
           <div style={{ flexBasis: "45%" }}>
             <Card
@@ -43,8 +102,9 @@ class StepOne extends Component {
                   éventuelles, malgré vos conseils.
                 </div>
                 <div className="text-center pt-5">
-                  
-                  <Button secondary><Link onClick={this.navigateBack}>Accepter</Link></Button>
+                  <Button secondary onClick={this.navigateBack} value="Accepté">
+                    Accepté
+                  </Button>
                 </div>
               </div>
             </Card>
@@ -69,8 +129,8 @@ class StepOne extends Component {
                 </div>
 
                 <div className="text-center pt-4">
-                  <Button secondary>
-                    <Link onClick={this.navigateBack}>Réduire</Link>
+                  <Button secondary onClick={this.navigateBack} value="Réduit">
+                    Réduit
                   </Button>
                 </div>
               </div>
@@ -96,7 +156,9 @@ class StepOne extends Component {
                   m'est offerte.
                 </div>
                 <div className="text-center pt-5">
-                  <Button secondary><Link onClick={this.navigateBack}>Éviter</Link></Button>
+                  <Button secondary onClick={this.navigateBack} value="Evité">
+                    Evité
+                  </Button>
                 </div>
               </div>
             </Card>
@@ -123,7 +185,9 @@ class StepOne extends Component {
                 </div>
 
                 <div className="text-center pt-4">
-                  <Button secondary><Link onClick={this.navigateBack}>Partager</Link></Button>
+                  <Button secondary onClick={this.navigateBack} value="Partagé">
+                    Partagé
+                  </Button>
                 </div>
               </div>
             </Card>
@@ -134,4 +198,4 @@ class StepOne extends Component {
   }
 }
 
-export default StepOne;
+export default StepFive;

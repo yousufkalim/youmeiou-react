@@ -6,6 +6,7 @@
   height: 100%;
   padding: 0rem 10rem;
   overflow-y: auto;
+  position: relative;
 }
 .step-five-content-container{
   display: flex;

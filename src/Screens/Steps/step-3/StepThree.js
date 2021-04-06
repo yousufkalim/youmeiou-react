@@ -69,7 +69,7 @@ const StepThree = (props) => {
   const [spinner, setSpinner] = useState(true);
 
   // var activeProgress = props.now;
-  var progressPerQuestion = 50 / totalQuestions;
+  var progressPerQuestion = 73 / totalQuestions;
   console.log("divide", progressPerQuestion);
   console.log("total", totalQuestions);
 
@@ -145,7 +145,7 @@ const StepThree = (props) => {
     const diagnosticsId = props.data.diagnosticId;
     const id = decoded.Id;
     console.log(id);
-    if (props.now === 30) {
+    if (props.now === 7) {
       await fetch(endPoints.CREATE_DIAGNOSTIC, {
         method: "POST",
         headers: {
@@ -159,7 +159,7 @@ const StepThree = (props) => {
         }),
       })
         .then((res) => {
-          if (res.status === 200) {
+          if (res.status === 200 && questions.length >= 1) {
             console.log("successful");
             const key = questions[0];
             const valu = key[activeAnswer];
@@ -211,7 +211,7 @@ const StepThree = (props) => {
         const valu = key[activeAnswer];
         console.log(activeQuestionId);
 
-        await fetch(endPoints.SUBMIT_ANSWER, {
+        fetch(endPoints.SUBMIT_ANSWER, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

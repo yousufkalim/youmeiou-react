@@ -9,7 +9,8 @@ import Progressbar from "../../components/Progressbar/Progressbar";
 import endPoints from "../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import moment from 'moment'
+import moment from 'moment';
+import {NavLink} from "react-router-dom";
 
 // import { GiHamburgerMenu } from "react-icons/all";
 // import { Images } from "../../assets/Assets";
@@ -112,8 +113,9 @@ const Inprogress = (props) => {
   console.log("incompleted ==> ",incompletedRisks);
 
   const cdate = moment(totalRisks.createdDate).format("DD-MM-YYYY");
+  console.log(props);
   console.log("date is ==> ", cdate);
-
+  
   return (
     <div className="inprogress">
       {/* <div
@@ -162,9 +164,14 @@ const Inprogress = (props) => {
                         />
                       </div>
                       <div style={{ width: "30%" }}>
+                        <NavLink to={{
+                          pathname : `diagnostic-list/${item.diagnosticId}`,
+                          state : {...item}
+                        }}>
                         <Button className="inprogress-btn" secondary>
                           Continuer le diagnostic
                         </Button>
+                        </NavLink>
                       </div>
                     </List>
                 
@@ -194,10 +201,10 @@ const Inprogress = (props) => {
                       <div style={{ width: "10%" }}>{item.serialNo}</div>
                       <div style={{ width: "20%" }}>{item.name}</div>
                       <div style={{ width: "10%" }}>{moment(item.createdDate).format("DD-MM-YYYY")}</div>
-                      <div style={{ width: "20%" }}>Acceptation</div>
+                      <div style={{ width: "20%" }}>{item.treatmentOfRisk}</div>
                       <div style={{ width: "30%" }}>
                         <Button secondary className="inprogress-btn">
-                          test
+                        Modifier mon choix
                         </Button>
                       </div>
                     </List>
