@@ -48,7 +48,7 @@ class StepFour extends Component {
     }).then((res) => res.json())
       .then((result) => {
         this.setState({data: result, spinner: false});
-        const score = result.evalGravity * result.evalProbability;
+        const score = result.score;
         const prob = result.evalGravity;
         this.setState({probability: prob});
         this.setState({score: score});
@@ -138,7 +138,8 @@ class StepFour extends Component {
             >
               <div className="step-four-card2-header">Cartographie</div>
 
-              <TableChart score={score} />
+              {/* <TableChart score={score} /> */}
+              <TableChart score="20" />
             </Card>
           </div>
           <div style={{ flexBasis: "20%" }}>

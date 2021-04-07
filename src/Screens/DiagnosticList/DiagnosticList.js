@@ -92,24 +92,24 @@ const lists = [
   },
 ];
 
-const families = [
-  {
-    familyId: "",
-    text: "Famille de diagnostics",
-  },
-  {
-    familyId: 22,
-    text: "abc",
-  },
-  {
-    familyId: 25,
-    text: "john",
-  },
-  {
-    familyId: 27,
-    text: "wick",
-  },
-];
+// const families = [
+//   {
+//     familyId: "",
+//     text: "Famille de diagnostics",
+//   },
+//   {
+//     familyId: 22,
+//     text: "abc",
+//   },
+//   {
+//     familyId: 25,
+//     text: "john",
+//   },
+//   {
+//     familyId: 27,
+//     text: "wick",
+//   },
+// ];
 
 const categories = [
   {
@@ -136,6 +136,15 @@ const Diagnostic = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [diagnostics, setDiagnostics] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [families, setFamilies] = useState([{
+    created_at: "",
+    deleted_at: null,
+    diagnostics: [],
+    explaination: "",
+    family_Id: "",
+    name: "Famille de diagnostics",
+    updated_at: ""
+  }]);
   const [spinner, setSpinner] = useState(true);
 
   // const [list, setList] = useState([]);
@@ -152,6 +161,7 @@ const Diagnostic = (props) => {
   useEffect(() => {
     dispatch({ type: actionTypes.GET_DIAGNOSTICS });
     getAllDiagnostics();
+    getFamily();
     var token = sessionStorage.getItem("token");
     console.log(token);
     var decoded = jwt_decode(token);
@@ -189,6 +199,36 @@ const Diagnostic = (props) => {
     console.log(token);
   }
 
+  async function getFamily() {
+    const token = sessionStorage.getItem("token");
+    await fetch(`${endPoints.GET_FAMILY}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => res.json())
+      .then((result) => {
+        if(result){
+            const obj = {
+              created_at: "",
+              deleted_at: null,
+              diagnostics: [],
+              explaination: "",
+              family_Id: "",
+              name: "Famille de diagnostics",
+              updated_at: ""
+            }
+
+            setFamilies([...families,...result]);
+            console.log(result);
+        }
+        else{
+          alert(result.errorMessage);
+        }
+      });
+  }
+
   const sidebarToggle = (btn) => {
     setToggle(btn);
   };
@@ -213,6 +253,7 @@ const Diagnostic = (props) => {
 
   const items = useSelector((state) => state);
   console.log("diagnostics =>>", selectedCategory);
+  console.log("result families ==> ", families);
 
   return (
     <div className="diagnostic">
@@ -260,16 +301,16 @@ const Diagnostic = (props) => {
                
               </Dropdown>
             </div> */}
-            {/* <div className="diagnostic-dropdown">
+            <div className="diagnostic-dropdown">
               <Dropdown value={selectedFamily} onChange={handleChange}>
                 {families.map((item, index) => (
-                  <option value={item.familyId} key={index}>
-                    {item.text}
+                  <option value={item.family_Id} key={index}>
+                    {item.name}
                   </option>
                 ))}
                 
               </Dropdown>
-            </div> */}
+            </div>
             <div className="diagnostic-list-search">
               <SearchInput className="search-input" onChange={searchUpdated} />
             
@@ -318,8 +359,8 @@ const Diagnostic = (props) => {
                   })} */}
 
                 {filteredEmails.map((item) => {
-                  if (selectedFamily !== "" || selectedCategory !== "") {
-                    if (selectedFamily.match(item.familyId) && selectedCategory.match(item.categoryId)) {
+                  if (selectedFamily !== "") {
+                    if (selectedFamily.match(item.familyId)) {
                       return (
                         <NavLink
                           to={{
