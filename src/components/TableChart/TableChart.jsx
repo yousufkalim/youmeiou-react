@@ -3,6 +3,7 @@ import "./TableChart.css";
 
 import Box from "../Box/Box";
 import { Images } from "../../assets/Assets";
+// import { debugger } from "fusioncharts";
 //import { debugger } from "fusioncharts";
 
 // Resolves charts dependancy
@@ -47,8 +48,8 @@ const items = ["Non significatif", "Mineur", "Moderé", "Majeur", "Critique"];
 
 var x_y_axis = new Array();
 var y_axis = new Array();
-var valueToFind_x = 3;
-var valueToFind_y = 2;
+// var valueToFind_y;
+// var valueToFind_x;
 x_y_axis[0] = new Array(1, 2, 3, 4, 5);
 x_y_axis[1] = new Array(2, 4, 6, 8, 10);
 x_y_axis[2] = new Array(3, 6, 9, 12, 15);
@@ -63,40 +64,118 @@ x_y_axis2[3] = new Array(2, 4, 6, 8, 10);
 x_y_axis2[4] = new Array(1, 2, 3, 4, 5);
 
 var x_y_axis3 = new Array();
-x_y_axis3[0] = new Array(5, 10, 15, 20, 25);
+x_y_axis3[4] = new Array(5, 4,3, 2, 1);
+x_y_axis3[3] = new Array(10, 8, 6,4, 2);
+x_y_axis3[2] = new Array(15, 12, 9, 6, 3);
 x_y_axis3[1] = new Array(4, 8, 12, 16, 20);
-x_y_axis3[2] = new Array(3, 6, 9, 12, 15);
-x_y_axis3[3] = new Array(2, 4, 6, 8, 10);
-x_y_axis3[4] = new Array(1, 2, 3, 4, 5);
-let x_axisVal = 3;
-let y_axisVal = 1;
+x_y_axis3[0] = new Array(5, 10, 15,20, 25);
+
+var x_y_axis4 = new Array();
+x_y_axis4[0] = new Array(25,20,15,10,5);
+x_y_axis4[1] = new Array(20,16,12,8,4);
+x_y_axis4[2] = new Array(15,12,9,6,3);
+x_y_axis4[3] = new Array(10,8,6,4,2);
+x_y_axis4[4] = new Array(5,4,3,2,1);
+
+var x_axisVal = 0;
+var y_axisVal = 0;
 
 // var revArray = x_y_axis.reverse();
 export class TableChart extends Component {
-  componentDidMount() {
-    console.log("this is tablechart component");
-    this.getOrigin();
+
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       test: 0,
+      //  valueToFind_x: 0,
+      //  valueToFind_y: 0,
+    }
+  }
+
+  // var valueToFind_y = 10;
+// var valueToFind_x = 5;
+  
+ async componentDidMount() {
+    // console.log("this is tablechart component");
+    await this.getOrigin();
+
+      // for(let i = 0; i< 3; i++){
+      //   this.setState({test: 1});
+      //   await this.getOrigin();
+      // }
+  
+    
+    // this.forceUpdate();
+    this.setState({test: 0})
+
+   
+    // this.setState({valueToFind_x: this.props.gravity});
+    // this.setState({valueToFind_y: this.props.probability});
+    // valueToFind_y = this.props.probability;
+    // valueToFind_x = this.props.gravity;
+
+  }
+
+  componentDidUpdate(prevProps){
+      if(prevProps.gravity !== this.props.gravity && prevProps.probability !== this.props.probability){
+        this.getOrigin();
+        // this.setState({test: 0});
+      }
   }
 
   getOrigin = () => {
-    console.log("hshdjhsdjh");
-
+    // console.log("hshdjhsdjh");
+    const {valueToFind_x, valueToFind_y} = this.state;
+    this.setState({test: 2})
     for (let i = 0; i < 5; i++) {
       // debugger;
-      console.log("for loop");
+      // console.log("for loop");
+// var valueToFind_y = 15;
+// var valueToFind_x = 16;
+// x_y_axis[0] = new Array(1, 2, 3, 4, 5);
+// x_y_axis[1] = new Array(2, 4, 6, 8, 10);
+// x_y_axis[2] = new Array(3, 6, 9, 12, 15);
+// x_y_axis[3] = new Array(4, 8, 12, 16, 20);
+// x_y_axis[4] = new Array(5, 10, 15, 20, 25);
+// var x_y_axis2 = new Array();
+// x_y_axis2[0] = new Array(5, 10, 15, 20, 25);
+// x_y_axis2[1] = new Array(4, 8, 12, 16, 20);
+// x_y_axis2[2] = new Array(3, 6, 9, 12, 15);
+// x_y_axis2[3] = new Array(2, 4, 6, 8, 10);
+// x_y_axis2[4] = new Array(1, 2, 3, 4, 5);
+// var x_y_axis4 = new Array();
+// x_y_axis2[0] = new Array(5, 10, 15, 20, 25).reverse();
+// x_y_axis2[1] = new Array(4, 8, 12, 16, 20).reverse();
+// x_y_axis2[2] = new Array(3, 6, 9, 12, 15).reverse();
+// x_y_axis2[3] = new Array(2, 4, 6, 8, 10).reverse();
+// x_y_axis2[4] = new Array(1, 2, 3, 4, 5).reverse();
       for (let j = 0; j < 5; j++) {
         if (x_axisVal === 0) {
-          if (x_y_axis[i][j] === valueToFind_x) {
+          if (x_y_axis[i][j] === this.props.gravity) {
             x_axisVal = j;
             i = 0;
             console.log("index of x is", x_axisVal);
+            this.setState({test: 2});
             break;
           }
         } else {
-          if (x_y_axis[i][j] === valueToFind_y) {
-            y_axisVal = i;
+          if (x_y_axis[i][j] === this.props.probability) {
+            //debugger;
+            if(this.props.probability < 4){
+              y_axisVal = i;
+            this.setState({test: 2});
+
+            }
+            else{
+              y_axisVal = j;
+            this.setState({test: 2});
+
+            }
+            // i = 0;
             console.log("index of y is", y_axisVal);
-            console.log("answer is ", x_y_axis[x_axisVal][y_axisVal]);
+            console.log("answer is ", x_y_axis2[y_axisVal][x_axisVal]);
+            this.setState({test: 2});
             //console.log("answer is ",x_y_axis.indexOf(6));
 
             return;
@@ -119,9 +198,13 @@ export class TableChart extends Component {
     const ismatch = nums.map((num) =>
       num === this.props.score ? true : false
     );
-    console.log(this.props.score);
-    console.log(ismatch);
-    console.log("check if run first" ,x_axisVal)
+    // console.log(this.props.score);
+    // console.log(ismatch);
+    console.log("x-index" ,x_axisVal);
+    console.log("y-index" ,y_axisVal);
+    console.log("x-value", this.props.gravity);
+    console.log("y-value", this.props.probability);
+    const {valueToFind_x, valueToFind_y} = this.state;
     return (
       <div className="chart">
         <div className="chart-table-container">
@@ -142,8 +225,19 @@ export class TableChart extends Component {
                   <div className="chart-table-box">
                     <div className="custom-box">
                         {
-
-                          (x_y_axis3.reverse()[index] === x_y_axis3.reverse()[x_axisVal] && x_y_axis3[i].reverse() === x_y_axis3[y_axisVal].reverse() ) && (
+                          this.props.probability < 6
+                          ?
+                          this.props.probability < 3
+                          ?
+                          (x_y_axis3.reverse()[index] === x_y_axis3.reverse()[y_axisVal] && x_y_axis3[i] === x_y_axis3[x_axisVal] ) && (
+                            <div className="box-circle"></div>
+                          )
+                          :
+                          (x_y_axis3[index] === x_y_axis3[y_axisVal] && x_y_axis3[i].reverse() === x_y_axis3[x_axisVal].reverse() ) && (
+                            <div className="box-circle"></div>
+                          )
+                          :
+                          (x_y_axis3.reverse()[index] === x_y_axis3.reverse()[y_axisVal] && x_y_axis3[i].reverse() === x_y_axis3[x_axisVal].reverse() ) && (
                             <div className="box-circle"></div>
                           )
                         }

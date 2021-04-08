@@ -25,12 +25,13 @@ class StepFour extends Component {
       spinner: true,
       score: null,
       probability: 0,
+      gravity: 0,
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // console.log(this.props);
-    this.getScore();
+    await this.getScore();
   }
 
   getScore = () => {
@@ -49,8 +50,10 @@ class StepFour extends Component {
       .then((result) => {
         this.setState({data: result, spinner: false});
         const score = result.score;
-        const prob = result.evalGravity;
+        const grav = result.evalGravity;
+        const prob = result.evalProbability;
         this.setState({probability: prob});
+        this.setState({gravity: grav});
         this.setState({score: score});
         console.log(result);
       })
@@ -66,7 +69,7 @@ class StepFour extends Component {
     // console.log("color is", color.hex);
   };
   render() {
-    const { color, spinner,data, score,probability } = this.state;
+    const { color, spinner,data, score,probability,gravity } = this.state;
     // const score = this.state.data.evalgravity * 
     console.log(this.state.data);
     console.log(this.state.probability);
@@ -139,7 +142,10 @@ class StepFour extends Component {
               <div className="step-four-card2-header">Cartographie</div>
 
               {/* <TableChart score={score} /> */}
-              <TableChart score="20" />
+              {console.log('inParent',gravity, probability)}
+              {
+                (probability > 0 && gravity > 0) && <TableChart gravity={gravity} probability={probability} />
+              }
             </Card>
           </div>
           <div style={{ flexBasis: "20%" }}>
@@ -160,7 +166,7 @@ class StepFour extends Component {
                   <ColorPicker
                     color={color}
                     handleChange={this.handleChangecolor}
-                    probability={probability}
+                    gravity={gravity}
                   />
                 </div>
               </div>
