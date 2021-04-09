@@ -63,6 +63,8 @@ class StepFour extends Component {
       });
   };
 
+
+
   handleChangecolor = (color) => {
     this.setState({ color: color.hex });
     // setColor(color.hex )

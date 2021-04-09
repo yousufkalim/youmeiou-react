@@ -40,8 +40,9 @@ class App extends React.Component {
             <PrivateRoute component={Steps} exact path="/diagnostic-list/:id" />
             {/* <PublicRoute component={Inprogress} exact path="/mes-diagnostics" /> */}
             <PrivateRoute component={Inprogress} exact path="/mes-diagnostics" />
+            <PrivateRoute component={Plan} exact path="/mes-diagnostics/:id" />
             <PrivateRoute component={Mapping} exact path="/mapping" />
-            <PrivateRoute component={Plan} exact path="/plan" />
+            {/* <PrivateRoute component={Plan} exact path="/plan" /> */}
             <PublicRoute component={Steps} exact path="/diagnostic-presentation" />
             <PublicRoute component={Register} path="/register" exact restricted={true} />
             <PublicRoute component={Landing} path="/" exact restricted={true} />

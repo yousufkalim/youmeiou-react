@@ -48,8 +48,8 @@ const items = ["Non significatif", "Mineur", "Moderé", "Majeur", "Critique"];
 
 var x_y_axis = new Array();
 var y_axis = new Array();
-// var valueToFind_y;
-// var valueToFind_x;
+// var valueToFind_x = 1;
+// var valueToFind_y = 2;
 x_y_axis[0] = new Array(1, 2, 3, 4, 5);
 x_y_axis[1] = new Array(2, 4, 6, 8, 10);
 x_y_axis[2] = new Array(3, 6, 9, 12, 15);
@@ -79,6 +79,7 @@ x_y_axis4[4] = new Array(5,4,3,2,1);
 
 var x_axisVal = 0;
 var y_axisVal = 0;
+var x_bool = false;
 
 // var revArray = x_y_axis.reverse();
 export class TableChart extends Component {
@@ -88,6 +89,7 @@ export class TableChart extends Component {
   
     this.state = {
        test: 0,
+       
       //  valueToFind_x: 0,
       //  valueToFind_y: 0,
     }
@@ -96,9 +98,9 @@ export class TableChart extends Component {
   // var valueToFind_y = 10;
 // var valueToFind_x = 5;
   
- async componentDidMount() {
+componentDidMount() {
     // console.log("this is tablechart component");
-    await this.getOrigin();
+    this.getOrigin();
 
       // for(let i = 0; i< 3; i++){
       //   this.setState({test: 1});
@@ -120,16 +122,17 @@ export class TableChart extends Component {
   componentDidUpdate(prevProps){
       if(prevProps.gravity !== this.props.gravity && prevProps.probability !== this.props.probability){
         this.getOrigin();
+        // console.log("did update run")
         // this.setState({test: 0});
       }
   }
 
   getOrigin = () => {
     // console.log("hshdjhsdjh");
-    const {valueToFind_x, valueToFind_y} = this.state;
+    // const {valueToFind_x, valueToFind_y} = this.state;
     this.setState({test: 2})
     for (let i = 0; i < 5; i++) {
-      // debugger;
+      debugger;
       // console.log("for loop");
 // var valueToFind_y = 15;
 // var valueToFind_x = 16;
@@ -151,10 +154,12 @@ export class TableChart extends Component {
 // x_y_axis2[3] = new Array(2, 4, 6, 8, 10).reverse();
 // x_y_axis2[4] = new Array(1, 2, 3, 4, 5).reverse();
       for (let j = 0; j < 5; j++) {
-        if (x_axisVal === 0) {
+        if (x_bool === false) {
+          
           if (x_y_axis[i][j] === this.props.gravity) {
             x_axisVal = j;
             i = 0;
+            x_bool = true
             console.log("index of x is", x_axisVal);
             this.setState({test: 2});
             break;
@@ -163,12 +168,14 @@ export class TableChart extends Component {
           if (x_y_axis[i][j] === this.props.probability) {
             //debugger;
             if(this.props.probability < 4){
+            console.log("probability props ===  ", this.props.probability );
               y_axisVal = i;
             this.setState({test: 2});
 
             }
             else{
               y_axisVal = j;
+            console.log("probability props ===  ", this.props.probability );
             this.setState({test: 2});
 
             }
@@ -190,10 +197,19 @@ export class TableChart extends Component {
         //   console.log("value is", j);
         //   break;
         // }
+        console.log("gravity props do nothing ===  ", this.props.probability );
+        console.log("probability props do nothing ===  ", this.props.gravity );
         console.log("nothing");
       }
     }
   };
+
+  componentWillUnmount() { 
+    x_axisVal = 0;
+    y_axisVal = 0;
+    x_bool = false;
+}
+
   render() {
     const ismatch = nums.map((num) =>
       num === this.props.score ? true : false
@@ -202,9 +218,9 @@ export class TableChart extends Component {
     // console.log(ismatch);
     console.log("x-index" ,x_axisVal);
     console.log("y-index" ,y_axisVal);
-    console.log("x-value", this.props.gravity);
-    console.log("y-value", this.props.probability);
-    const {valueToFind_x, valueToFind_y} = this.state;
+    // console.log("gravity value in render", this.props.gravity);
+    // console.log("probability value in render", this.props.probability);
+    const {gravity,probability} = this.props;
     return (
       <div className="chart">
         <div className="chart-table-container">

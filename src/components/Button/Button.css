@@ -5,6 +5,7 @@
     border: none !important;
     outline: none !important;
     font-size: 2.5rem;
+    /* cursor: pointer; */
     /* width: 100%; */
 }
 .button-disabled{

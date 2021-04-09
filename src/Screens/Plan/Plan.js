@@ -42,6 +42,12 @@ const lists = [
 ];
 
 export class Plan extends Component {
+
+  componentDidMount(){
+    var pathName = this.props.history.location.pathname;
+    var result = pathName.split("/mes-diagnostics/");
+    var diagnosticId = result[1];
+  }
   render() {
     return (
       <div className="plan">

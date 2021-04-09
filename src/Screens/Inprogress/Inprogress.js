@@ -9,66 +9,8 @@ import Progressbar from "../../components/Progressbar/Progressbar";
 import endPoints from "../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import moment from 'moment';
-import {NavLink} from "react-router-dom";
-
-// import { GiHamburgerMenu } from "react-icons/all";
-// import { Images } from "../../assets/Assets";
-
-const firstlist = [
-  {
-    id: "004",
-    name: "Nom du diagnostic",
-    cdate: "Date",
-    now: "20",
-    buttonText: "Continuer le diagnostic",
-  },
-  {
-    id: "004",
-    name: "Nom du diagnostic",
-    cdate: "Date",
-    now: "50",
-    buttonText: "Continuer le diagnostic",
-  },
-];
-
-const secondlist = [
-  {
-    id: "004",
-    name: "Nom du diagnostic",
-    cdate: "Date",
-    detail: "Evitement",
-    buttonText: "Modifier mon choix",
-  },
-  {
-    id: "004",
-    name: "Nom du diagnostic",
-    cdate: "Date",
-    detail: "Non traité",
-    buttonText: "Traiter le risque",
-  },
-  {
-    id: "004",
-    name: "Nom du diagnostic",
-    cdate: "Date",
-    detail: "Partage",
-    buttonText: "Plan d’action",
-  },
-  {
-    id: "004",
-    name: "Nom du diagnostic",
-    cdate: "Date",
-    detail: "Acceptation",
-    buttonText: "Modifier mon choix",
-  },
-  {
-    id: "004",
-    name: "Nom du diagnostic",
-    cdate: "Date",
-    detail: "Réduction",
-    buttonText: "Plan d’action",
-  },
-];
+import moment from "moment";
+import { NavLink } from "react-router-dom";
 
 const Inprogress = (props) => {
   const [toggle, setToggle] = useState(false);
@@ -98,8 +40,12 @@ const Inprogress = (props) => {
         console.log(result);
         setSpinner(false);
         setTotalRisks(result);
-        const incom = result.filter((item) => item.totalRisks !== item.completedRisks && item);
-        const com = result.filter((item) => item.totalRisks === item.completedRisks && item);
+        const incom = result.filter(
+          (item) => item.totalRisks !== item.completedRisks && item
+        );
+        const com = result.filter(
+          (item) => item.totalRisks === item.completedRisks && item
+        );
         setCompleteRisks(com);
         setIncompletedRisks(incom);
       })
@@ -109,13 +55,13 @@ const Inprogress = (props) => {
       });
   };
   console.log(totalRisks);
-  console.log("completed ==> ",completeRisks);
-  console.log("incompleted ==> ",incompletedRisks);
+  console.log("completed ==> ", completeRisks);
+  console.log("incompleted ==> ", incompletedRisks);
 
   const cdate = moment(totalRisks.createdDate).format("DD-MM-YYYY");
   console.log(props);
   console.log("date is ==> ", cdate);
-  
+
   return (
     <div className="inprogress">
       {/* <div
@@ -149,38 +95,38 @@ const Inprogress = (props) => {
                 <div className="spinner">
                   <CircularProgress className="circular-spinner-blue" />
                 </div>
-              )
-              :
-              incompletedRisks.length > 0 ? incompletedRisks.map(
-                (item) =>
-           
-                    <List>
-                      <div style={{ width: "10%" }}>{item.serialNo}</div>
-                      <div style={{ width: "20%" }}>{item.name}</div>
-                      <div style={{ width: "10%" }}>{moment(item.createdDate).format("DD-MM-YYYY")}</div>
-                      <div style={{ width: "20%" }}>
-                        <Progressbar
-                          now={(item.completedRisks / item.totalRisks) * 100}
-                        />
-                      </div>
-                      <div style={{ width: "30%" }}>
-                        <NavLink to={{
-                          pathname : `diagnostic-list/${item.diagnosticId}`,
-                          state : {...item}
-                        }}>
+              ) : incompletedRisks.length > 0 ? (
+                incompletedRisks.map((item) => (
+                  <List>
+                    <div style={{ width: "10%" }}>{item.serialNo}</div>
+                    <div style={{ width: "20%" }}>{item.name}</div>
+                    <div style={{ width: "10%" }}>
+                      {moment(item.createdDate).format("DD-MM-YYYY")}
+                    </div>
+                    <div style={{ width: "20%" }}>
+                      <Progressbar
+                        now={(item.completedRisks / item.totalRisks) * 100}
+                      />
+                    </div>
+                    <div style={{ width: "30%" }}>
+                      <NavLink
+                        to={{
+                          pathname: `diagnostic-list/${item.diagnosticId}`,
+                          state: { ...item },
+                        }}
+                      >
                         <Button className="inprogress-btn" secondary>
                           Continuer le diagnostic
                         </Button>
-                        </NavLink>
-                      </div>
-                    </List>
-                
-              )
-              :
-              (
-                <div className="inprogress-not-found">Aucun diagnostic en cours</div>
-              )
-            }
+                      </NavLink>
+                    </div>
+                  </List>
+                ))
+              ) : (
+                <div className="inprogress-not-found">
+                  Aucun diagnostic en cours
+                </div>
+              )}
             </div>
           </div>
 
@@ -193,28 +139,43 @@ const Inprogress = (props) => {
                 <div className="spinner">
                   <CircularProgress className="circular-spinner-blue" />
                 </div>
-              )
-              :
-              completeRisks.length > 0 ? completeRisks.map(
-                (item) =>
-                    <List>
-                      <div style={{ width: "10%" }}>{item.serialNo}</div>
-                      <div style={{ width: "20%" }}>{item.name}</div>
-                      <div style={{ width: "10%" }}>{moment(item.createdDate).format("DD-MM-YYYY")}</div>
-                      <div style={{ width: "20%" }}>{item.treatmentOfRisk}</div>
-                      <div style={{ width: "30%" }}>
+              ) : completeRisks.length > 0 ? (
+                completeRisks.map((item) => (
+                  <List>
+                    <div style={{ width: "10%" }}>{item.serialNo}</div>
+                    <div style={{ width: "20%" }}>{item.name}</div>
+                    <div style={{ width: "10%" }}>
+                      {moment(item.createdDate).format("DD-MM-YYYY")}
+                    </div>
+                    <div style={{ width: "20%" }}>{item.treatmentOfRisk}</div>
+                    <div style={{ width: "30%" }}>
+                      {item.treatmentOfRisk === "Réduit" ||
+                      item.treatmentOfRisk === "Partagé" ? (
                         <Button secondary className="inprogress-btn">
-                        Modifier mon choix
+                          Plan d’action
                         </Button>
-                      </div>
-                    </List>
-                  
-              )
-              :
-              (
-                <div className="inprogress-not-found">Aucun diagnostic effectué</div>
-              )
-            }
+                      ) : item.treatmentOfRisk === "NonTraité" ? (
+                        <NavLink to={{
+                          pathname: `diagnostic-list/${item.diagnosticId}`,
+                          state: { ...item, now: 100 },
+                        }}>
+                          <Button secondary className="inprogress-btn">
+                          Traiter le risque
+                        </Button>
+                        </NavLink>
+                      ) : (
+                        <Button secondary className="inprogress-btn">
+                          Modifier mon choix
+                        </Button>
+                      )}
+                    </div>
+                  </List>
+                ))
+              ) : (
+                <div className="inprogress-not-found">
+                  Aucun diagnostic effectué
+                </div>
+              )}
             </div>
           </div>
         </div>

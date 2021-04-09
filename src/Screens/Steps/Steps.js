@@ -31,9 +31,10 @@ class Steps extends Component {
     const state = this.props.location.state;
     var pathName = this.props.history.location.pathname;
     this.setState({name: state.name});
+    this.props.location.state.now && this.setState({now: this.props.location.state.now})
     var result = pathName.split("/diagnostic-list/")
     console.log(result[1]);
-    
+    // this.props.location.reload();
   }
 
   changeStepper = (btn) => {
@@ -43,6 +44,10 @@ class Steps extends Component {
   render() {
     const { now, name, serialNo, explanation,  } = this.state;
     console.log(this.props.location.state);
+
+    // if(window.location.reload() === true){
+    //   alert("reload")
+    // }   
     return (
       <div className="steps">
         {/* <div
