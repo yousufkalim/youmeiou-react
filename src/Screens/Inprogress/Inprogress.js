@@ -25,7 +25,7 @@ const Inprogress = (props) => {
 
   const getDiagnostics = () => {
     const token = sessionStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     var decoded = jwt_decode(token);
     const id = parseInt(decoded.Id);
     fetch(`${endPoints.GET_ALL_DIAGNOSTICS}/${id}`, {
@@ -37,7 +37,7 @@ const Inprogress = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         setSpinner(false);
         setTotalRisks(result);
         const incom = result.filter(
@@ -51,16 +51,16 @@ const Inprogress = (props) => {
       })
       .catch((error) => {
         setSpinner(false);
-        console.log(error);
+        // console.log(error);
       });
   };
-  console.log(totalRisks);
-  console.log("completed ==> ", completeRisks);
-  console.log("incompleted ==> ", incompletedRisks);
+  // console.log(totalRisks);
+  // console.log("completed ==> ", completeRisks);
+  // console.log("incompleted ==> ", incompletedRisks);
 
   const cdate = moment(totalRisks.createdDate).format("DD-MM-YYYY");
-  console.log(props);
-  console.log("date is ==> ", cdate);
+  // console.log(props);
+  // console.log("date is ==> ", cdate);
 
   return (
     <div className="inprogress">
@@ -151,17 +151,26 @@ const Inprogress = (props) => {
                     <div style={{ width: "30%" }}>
                       {item.treatmentOfRisk === "Réduit" ||
                       item.treatmentOfRisk === "Partagé" ? (
-                        <Button secondary className="inprogress-btn">
-                          Plan d’action
-                        </Button>
-                      ) : item.treatmentOfRisk === "NonTraité" ? (
-                        <NavLink to={{
-                          pathname: `diagnostic-list/${item.diagnosticId}`,
-                          state: { ...item, now: 100 },
-                        }}>
+                        <NavLink
+                          to={{
+                            pathname: `mes-diagnostics/${item.diagnosticId}`,
+                            state: { ...item, now: 100 },
+                          }}
+                        >
                           <Button secondary className="inprogress-btn">
-                          Traiter le risque
-                        </Button>
+                            Plan d’action
+                          </Button>
+                        </NavLink>
+                      ) : item.treatmentOfRisk === "NonTraité" ? (
+                        <NavLink
+                          to={{
+                            pathname: `diagnostic-list/${item.diagnosticId}`,
+                            state: { ...item, now: 100 },
+                          }}
+                        >
+                          <Button secondary className="inprogress-btn">
+                            Traiter le risque
+                          </Button>
                         </NavLink>
                       ) : (
                         <Button secondary className="inprogress-btn">

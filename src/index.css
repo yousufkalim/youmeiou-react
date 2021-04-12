@@ -14,7 +14,7 @@
 }
 
 html {
-  font-size: 100%;
+  font-size: 62.5%;
   line-height: 1.4;
 }
 
@@ -46,8 +46,141 @@ select:focus{
 
 }
 
-@media (max-width: 1367px) {
+/* @media (max-width: 2500px) {
+  html{
+    font-size: 65%;  
+  }
+} */
+
+@media (min-width: 350px) and (max-width: 499px) {
+  html{
+    font-size: 25%;  
+  }
+}
+
+@media (min-width: 500px) and (max-width: 699px) {
+  html{
+    font-size: 30%;  
+  }
+}
+
+@media (min-width: 700px) and (max-width: 899px) {
+  html{
+    font-size: 35%;  
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1099px) {
+  html{
+    font-size: 40%;  
+  }
+}
+
+@media (min-width: 1100px) and (max-width: 1399px) {
   html{
     font-size: 45%;  
   }
 }
+
+@media (min-width: 1400px) and (max-width: 1599px) {
+  html{
+    font-size: 47.5%;  
+  }
+}
+@media (min-width: 1600px) and (max-width: 1799px) {
+  html{
+    font-size: 51.5%;  
+  }
+}
+@media (min-width: 1800px) and (max-width: 2199px) {
+  html{
+    font-size: 55.5%;  
+  }
+}
+@media (min-width: 2100px) and (max-width: 2500px) {
+  html{
+    font-size: 60.5%;  
+  }
+}
+
+
+
+
+
+
+
+/* @media only screen and (max-width: 1800px) {
+  html{
+    font-size: 60%;  
+  }
+} */
+
+/* @media only screen and (max-width: 1600px) {
+  html{
+    font-size: 55%;  
+  }
+} */
+/* @media only screen and (max-width: 1500px) {
+  html{
+    font-size: 50%;  
+  }
+} */
+/* @media only screen and (max-width: 1400px) {
+  html{
+    font-size: 48%;  
+  }
+} */
+/* @media only screen and (max-width: 1367px) {
+  html{
+    font-size: 45%;  
+  }
+}
+@media only screen and (max-width: 1200px) {
+  html{
+    font-size: 42%;  
+  }
+}
+@media only screen and (max-width: 1100px) {
+  html{
+    font-size: 40%;  
+  }
+} */
+/* @media only screen and (max-width: 1000px) {
+  html{
+    font-size: 35%;  
+  }
+} */
+
+
+
+
+/* @media only screen and (max-width: 1320px) {
+  html{
+    font-size: 40%;  
+  }
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* @media only screen and (max-width: 2000px) {
+  html{
+    font-size: 60%;  
+  }
+} */

@@ -254,7 +254,7 @@ const Discover = () => {
               placeholder="Code APE"
               value={data.codeApe}
               onChange={changeHandler}
-              onblur={console.log("hello")}
+              // onblur={console.log("hello")}
               name="codeApe"
             />
             {errors.codeApeError !== "" && (

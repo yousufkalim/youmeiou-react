@@ -34,10 +34,12 @@ const navlinks = [
     //     path: "/diagnostic-presentation",
     //     text: "Traitement des risques",
     //   },
-    {
-        path: "/plan",
-        text: "Gestion des plans d’action"
-    },
+
+    
+    // {
+    //     path: "/plan",
+    //     text: "Gestion des plans d’action"
+    // },
     {
         path: "/mes-informations",
         text: "Gestion du compte"
@@ -56,7 +58,7 @@ export class Sidebar extends Component {
         return (
             <div className="sidebar">
                 <div className="p-2">
-                <GiHamburgerMenu size={30} onClick={() =>this.props.sidebarToggle(false)} className="sidebar-toggler mr-4" />
+                <GiHamburgerMenu onClick={() =>this.props.sidebarToggle(false)} className="sidebar-toggler mr-4" />
                 </div>
                 <div className="links-container">
                    {

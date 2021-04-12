@@ -155,7 +155,7 @@ const Diagnostic = (props) => {
     exit: false,
   });
 
-  console.log(props);
+  // console.log(props);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -163,9 +163,9 @@ const Diagnostic = (props) => {
     getAllDiagnostics();
     getFamily();
     var token = sessionStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     var decoded = jwt_decode(token);
-    console.log("User data is =>>> ",decoded.email);
+    // console.log("User data is =>>> ",decoded.email);
 
   }, [dispatch]);
 
@@ -186,7 +186,7 @@ const Diagnostic = (props) => {
         if (result) {
           setDiagnostics(result);
           setSpinner(false);
-          console.log(result);
+          // console.log(result);
         } else {
           setSpinner(false);
           alert("something went wrong");
@@ -196,7 +196,7 @@ const Diagnostic = (props) => {
         setSpinner(false);
         alert("something went wrong");
       });
-    console.log(token);
+    // console.log(token);
   }
 
   async function getFamily() {
@@ -221,7 +221,7 @@ const Diagnostic = (props) => {
             }
 
             setFamilies([...families,...result]);
-            console.log(result);
+            // console.log(result);
         }
         else{
           alert(result.errorMessage);
@@ -252,8 +252,8 @@ const Diagnostic = (props) => {
   }
 
   const items = useSelector((state) => state);
-  console.log("diagnostics =>>", selectedCategory);
-  console.log("result families ==> ", families);
+  // console.log("diagnostics =>>", selectedCategory);
+  // console.log("result families ==> ", families);
 
   return (
     <div className="diagnostic">

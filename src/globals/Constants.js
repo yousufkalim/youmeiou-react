@@ -20,6 +20,7 @@ const endPoints = {
     GET_SCORE : BASE_URL_V1 + "/diagnostic/create/CalculateScore",
     UPDATE_TREATMENT : BASE_URL_V1 + "/diagnostic/update/treatmentOfRisk",
     GET_FAMILY : BASE_URL_V1 + "/family/getall",
+    GET_ACTIONS: BASE_URL_V1 + "/actionPlan​/get​",
 
 }
 

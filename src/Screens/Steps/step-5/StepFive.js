@@ -39,7 +39,7 @@ class StepFive extends Component {
     const userid = parseInt(decoded.Id);
     const diagnosticId = this.props.state.diagnosticId;
     const treatment = e.target.value;
-    console.log(treatment);
+    // console.log(treatment);
     fetch(endPoints.UPDATE_TREATMENT, {
       method: "POST",
       headers : {
@@ -63,7 +63,7 @@ class StepFive extends Component {
       })
       .catch((error) => {
         this.setState({spinner: false});
-        console.log(error)
+        // console.log(error)
       })
   };
 

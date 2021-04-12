@@ -1,6 +1,7 @@
 .chart{
-    height: 60rem;
+    height: 55rem;
     width: 100%;
+    /* padding: 5rem 0; */
 }
 .chart-table-container{
     /* margin-top: 5rem; */
@@ -63,7 +64,7 @@
 
 .chart-table-left{
     width: 20%;
-    height: 42rem;
+    height: 45rem;
     display: flex;
     justify-content: center;
 }

@@ -55,7 +55,7 @@ class StepFour extends Component {
         this.setState({probability: prob});
         this.setState({gravity: grav});
         this.setState({score: score});
-        console.log(result);
+        // console.log(result);
       })
       .catch((error) => {
         this.setState({spinner: false});
@@ -73,8 +73,8 @@ class StepFour extends Component {
   render() {
     const { color, spinner,data, score,probability,gravity } = this.state;
     // const score = this.state.data.evalgravity * 
-    console.log(this.state.data);
-    console.log(this.state.probability);
+    // console.log(this.state.data);
+    // console.log(this.state.probability);
     // console.log(this.props.data);
     return (
       <div className="step-four-container">
@@ -130,23 +130,23 @@ class StepFour extends Component {
 
         <div
           className="step-four-header-2"
-          style={{ marginBottom: "10rem", marginTop: "5rem" }}
+          style={{ marginBottom: "20rem", marginTop: "5rem" }}
         >
           <div style={{ flexBasis: "80%" }}>
             <Card
               style={{
                 padding: "1.5rem 1.5rem 4rem 1.5rem",
                 borderRadius: "3.5rem",
-                height: "65rem",
+                height: "67rem",
                 overflow: "hidden"
               }}
             >
-              <div className="step-four-card2-header">Cartographie</div>
+              <div className="step-four-card2-header mb-5">Cartographie</div>
 
               {/* <TableChart score={score} /> */}
-              {console.log('inParent',gravity, probability)}
+              {/* {console.log('inParent',gravity, probability)} */}
               {
-                (probability > 0 && gravity > 0) && <TableChart gravity={gravity} probability={probability} />
+                 <TableChart gravity={gravity} probability={probability} />
               }
             </Card>
           </div>

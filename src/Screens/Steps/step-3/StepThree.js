@@ -5,6 +5,7 @@ import "./StepThree.css";
 import endPoints from "../../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
+//import { debugger } from "fusioncharts";
 
 // const questions = [
 //   {
@@ -70,13 +71,13 @@ const StepThree = (props) => {
 
   // var activeProgress = props.now;
   var progressPerQuestion = 73 / totalQuestions;
-  console.log("divide", progressPerQuestion);
-  console.log("total", totalQuestions);
+  // console.log("divide", progressPerQuestion);
+  // console.log("total", totalQuestions);
 
   useEffect(() => {
     setActiveQuestion(0);
-    console.log("active", questions[0]);
-    console.log(props.data);
+    // console.log("active", questions[0]);
+    // console.log(props.data);
     getAllQuestions();
   }, []);
 
@@ -144,7 +145,7 @@ const StepThree = (props) => {
     // console.log(token);
     const diagnosticsId = props.data.diagnosticId;
     const id = decoded.Id;
-    console.log(id);
+    // console.log(id);
     if (props.now === 7) {
       await fetch(endPoints.CREATE_DIAGNOSTIC, {
         method: "POST",
@@ -158,11 +159,20 @@ const StepThree = (props) => {
           isDiagnosticComplete: false,
         }),
       })
+        // .then((result) => {
+        //   result.json()
+        //   console.log(result);
+        // })
         .then((res) => {
+          debugger;
           if (res.status === 200 && questions.length >= 1) {
             console.log("successful");
             const key = questions[0];
             const valu = key[activeAnswer];
+            console.log("riskid", activeQuestionId);
+            console.log("score", valu);
+            console.log("userid", id);
+            console.log(diagnosticsId);
 
              fetch(endPoints.SUBMIT_ANSWER, {
               method: "POST",
@@ -183,7 +193,7 @@ const StepThree = (props) => {
                   setActiveIndex("");
                   questions.shift();
                   // setTotalQuestions(totalQuestions + 1);
-                  console.log(activeQuestionId);
+                  // console.log(activeQuestionId);
                   setActiveQuestionId(questions[0].id);
                   // setActiveQuestion(activeQuestion + 1);
                   setSpinner(false);
@@ -194,22 +204,25 @@ const StepThree = (props) => {
               })
               .catch((error) => {
                 setSpinner(false);
+                console.log("answer");
                 alert(error)
               });
           } else {
             setSpinner(false);
+            console.log(res);
             alert("Something went wrong");
           }
         })
         .catch((error) => {
           setSpinner(false);
+          console.log("catch error", error);
           alert(error)
         });
     } else {
       if (questions.length >= 1) {
         const key = questions[0];
         const valu = key[activeAnswer];
-        console.log(activeQuestionId);
+        // console.log(activeQuestionId);
 
         fetch(endPoints.SUBMIT_ANSWER, {
           method: "POST",
@@ -231,21 +244,21 @@ const StepThree = (props) => {
               questions.shift();
               // setTotalQuestions(totalQuestions + 1);
               questions ? setActiveQuestionId(questions[0]?.id) : setActiveQuestionId("");
-              console.log("remianing question => ", questions);
-              console.log("first question index => ", questions[0].id);
-              console.log(props.now);
+              // console.log("remianing question => ", questions);
+              // console.log("first question index => ", questions[0].id);
+              // console.log(props.now);
               setSpinner(false);
               // setActiveQuestion(activeQuestion + 1);
             } else {
               // console.log(res);
               setSpinner(false);
-              console.log("answer not submitted without first request");
+              // console.log("answer not submitted without first request");
             }
           })
           .catch((error) => {
             setSpinner(false);
             // alert("",error)
-            console.log(error);
+            // console.log(error);
           });
       } else {
         setSpinner(false);
@@ -265,8 +278,8 @@ const StepThree = (props) => {
   // console.log("submit answer", activeIndex);
   // console.log("active question id ==> ", activeQuestionId);
 
-  console.log("errorrrr", questions);
-  console.log("progress now => ", props.now);
+  // console.log("errorrrr", questions);
+  // console.log("progress now => ", props.now);
 
   return (
     <div className="steps-three-content">

@@ -5,6 +5,9 @@ import "./Plan.css";
 import Card from "../../components/Card/Card";
 import Heading from "../../components/Heading/Heading";
 import List from "../../components/List/List";
+import jwt_decode from "jwt-decode";
+import endPoints from "../../globals/Constants";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const lists = [
   {
@@ -43,15 +46,73 @@ const lists = [
 
 export class Plan extends Component {
 
-  componentDidMount(){
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       data: [],
+       spinner: true,
+       error: "",
+       score: null,
+       diagnosticName: "",
+       actionList: [],
+    }
+  }
+  
+
+  async componentDidMount(){
+    await this.getActionPlan();
+  }
+
+  getActionPlan = () => {
     var pathName = this.props.history.location.pathname;
     var result = pathName.split("/mes-diagnostics/");
     var diagnosticId = result[1];
+    console.log(diagnosticId);
+    const token = sessionStorage.getItem("token");
+    var decoded = jwt_decode(token);
+    const id = parseInt(decoded.Id);
+    console.log(id);
+
+  
+    // console.log(endPoints.GET_ACTIONS)
+    // http://160.153.249.64:5059/api/v1/actionPlan/get
+    // http://160.153.249.64:5059/api/v1/actionPlan​/get​
+    console.log(`${endPoints.GET_ACTIONS}/${diagnosticId},${id}`);
+    fetch(`http://160.153.249.64:5059/api/v1/actionPlan/get/${diagnosticId},${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+       
+          this.setState({spinner: false});
+          console.log(result);
+          this.setState({data: result});
+          this.setState({actionList: result.actionPlanList});
+      })
+      .catch((error) => {
+        // this.setState({spinner: false});
+        console.log(error);
+        this.setState({error: error});
+
+      })
   }
   render() {
+    const {spinner, data, error,actionList} = this.state;
     return (
       <div className="plan">
-        <div className="plan-container">
+        {spinner && (
+                  <div className="spinner">
+                    <CircularProgress className="circular-spinner-blue" />
+                  </div>
+                )}
+        {
+          (data) ? (
+            <div className="plan-container">
           <div className="plan-header"></div>
           <div className="plan-container-first">
             <div className="d-flex justify-content-end w-100">
@@ -78,8 +139,8 @@ export class Plan extends Component {
                   }}
                 >
                   <div className="plan-card-heading">
-                    <div>Le risque encouru</div>
-                    <div className="plan-card-heading-score">score : 70</div>
+                    <div>{data.diagnosticName}</div>
+                    <div className="plan-card-heading-score">score : {data.score}</div>
                   </div>
                   <div className="plan-card-detail">
                     <div>-Probabilité</div>
@@ -151,22 +212,31 @@ export class Plan extends Component {
                   Tarif
                 </div>
               </List>
-              {lists.map((item, index) => (
+              {actionList.length >= 1 ? data.actionPlanList.map((item, index) => (
                 <List>
                   <div style={{ width: "25%" }} className="plan-list-item">
-                    {item.name}
+                    {item.actionName}
                   </div>
                   <div style={{ width: "40%" }} className="plan-list-item">
-                    {item.description}
+                    {item.actionDescription}
                   </div>
                   <div style={{ width: "15%" }} className="plan-list-item">
-                    {item.detail}
+                    {item.order}
                   </div>
                   <div style={{ width: "15%" }} className="plan-list-item">
-                    {item.price}
+                    {item.tarif}
                   </div>
                 </List>
-              ))}
+              ))
+              :
+              (
+                <div className="data-error">
+                 
+                    <div>No data found</div>
+                
+              </div>
+              )
+            }
             </div>
 
           {/* 
@@ -239,6 +309,14 @@ export class Plan extends Component {
             </div>
           </div> */}
         </div>
+          )
+          :
+          (
+            <div className="data-error">
+              <div>something went wrong</div>
+            </div>
+          )
+        }
       </div>
     );
   }

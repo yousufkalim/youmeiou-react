@@ -24,6 +24,7 @@
 }
 .sidebar-toggler{
     cursor: pointer;
+    font-size: 3.5rem;
 }
 .custom-navlink{
     color: #fff !important;

@@ -34,7 +34,7 @@ export class Layout extends Component {
                 <div className="sidebar-drawer">
                 {
                   this.state.toggle === false && (
-                    <GiHamburgerMenu size={30} onClick={() =>this.sidebarToggle(true)} className="sidebar-toggler mr-4" />
+                    <GiHamburgerMenu onClick={() =>this.sidebarToggle(true)} className="sidebar-toggler mr-4" />
                   )
                 }
                 </div>

@@ -160,7 +160,7 @@ componentDidMount() {
             x_axisVal = j;
             i = 0;
             x_bool = true
-            console.log("index of x is", x_axisVal);
+            // console.log("index of x is", x_axisVal);
             this.setState({test: 2});
             break;
           }
@@ -168,20 +168,20 @@ componentDidMount() {
           if (x_y_axis[i][j] === this.props.probability) {
             //debugger;
             if(this.props.probability < 4){
-            console.log("probability props ===  ", this.props.probability );
+            // console.log("probability props ===  ", this.props.probability );
               y_axisVal = i;
             this.setState({test: 2});
 
             }
             else{
               y_axisVal = j;
-            console.log("probability props ===  ", this.props.probability );
+            // console.log("probability props ===  ", this.props.probability );
             this.setState({test: 2});
 
             }
             // i = 0;
-            console.log("index of y is", y_axisVal);
-            console.log("answer is ", x_y_axis2[y_axisVal][x_axisVal]);
+            // console.log("index of y is", y_axisVal);
+            // console.log("answer is ", x_y_axis2[y_axisVal][x_axisVal]);
             this.setState({test: 2});
             //console.log("answer is ",x_y_axis.indexOf(6));
 
@@ -197,9 +197,9 @@ componentDidMount() {
         //   console.log("value is", j);
         //   break;
         // }
-        console.log("gravity props do nothing ===  ", this.props.probability );
-        console.log("probability props do nothing ===  ", this.props.gravity );
-        console.log("nothing");
+        // console.log("gravity props do nothing ===  ", this.props.probability );
+        // console.log("probability props do nothing ===  ", this.props.gravity );
+        // console.log("nothing");
       }
     }
   };
@@ -216,8 +216,8 @@ componentDidMount() {
     );
     // console.log(this.props.score);
     // console.log(ismatch);
-    console.log("x-index" ,x_axisVal);
-    console.log("y-index" ,y_axisVal);
+    // console.log("x-index" ,x_axisVal);
+    // console.log("y-index" ,y_axisVal);
     // console.log("gravity value in render", this.props.gravity);
     // console.log("probability value in render", this.props.probability);
     const {gravity,probability} = this.props;
@@ -238,9 +238,11 @@ componentDidMount() {
             <div className="chart-table">
               {x_y_axis2.map((item, index) =>
                 item.map((numb, i) => (
+                  
                   <div className="chart-table-box">
-                    <div className="custom-box">
+                    <div className="custom-box" style={ numb > 10 ? {border: "2px solid #F2072B"}: numb > 6 ? {border: "2px solid #F2E207"} : numb > 3 ? {border: "2px solid #ACACAC"} : numb > 1 ? {border: "2px solid #5AC9D5"} : {border: "2px solid #8EC98B"}} >
                         {
+                          console.log("fff", numb),
                           this.props.probability < 6
                           ?
                           this.props.probability < 3
