@@ -3,8 +3,6 @@ import "./TableChart.css";
 
 import Box from "../Box/Box";
 import { Images } from "../../assets/Assets";
-// import { debugger } from "fusioncharts";
-//import { debugger } from "fusioncharts";
 
 // Resolves charts dependancy
 
@@ -132,8 +130,7 @@ componentDidMount() {
     // const {valueToFind_x, valueToFind_y} = this.state;
     this.setState({test: 2})
     for (let i = 0; i < 5; i++) {
-      debugger;
-      // console.log("for loop");
+// console.log("for loop");
 // var valueToFind_y = 15;
 // var valueToFind_x = 16;
 // x_y_axis[0] = new Array(1, 2, 3, 4, 5);
@@ -166,7 +163,7 @@ componentDidMount() {
           }
         } else {
           if (x_y_axis[i][j] === this.props.probability) {
-            //debugger;
+
             if(this.props.probability < 4){
             // console.log("probability props ===  ", this.props.probability );
               y_axisVal = i;

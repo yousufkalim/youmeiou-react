@@ -21,6 +21,7 @@ const endPoints = {
     UPDATE_TREATMENT : BASE_URL_V1 + "/diagnostic/update/treatmentOfRisk",
     GET_FAMILY : BASE_URL_V1 + "/family/getall",
     GET_ACTIONS: BASE_URL_V1 + "/actionPlan​/get​",
+    GET_PROFILE: BASE_URL_V1 + "/get/userprofile",
 
 }
 

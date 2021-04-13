@@ -32,7 +32,8 @@ class Steps extends Component {
     var pathName = this.props.history.location.pathname;
     this.setState({name: state.name});
     this.props.location.state.now && this.setState({now: this.props.location.state.now})
-    var result = pathName.split("/diagnostic-list/")
+    var result = pathName.split("/diagnostic-list/");
+    // this.changeStepper();
     // console.log(result[1]);
     // this.props.location.reload();
   }

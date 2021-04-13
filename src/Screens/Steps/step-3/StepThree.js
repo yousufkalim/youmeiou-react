@@ -68,6 +68,7 @@ const StepThree = (props) => {
   const [activeQuestionId, setActiveQuestionId] = useState(null);
   const [activeAnswer, setActiveAnswer] = useState("");
   const [spinner, setSpinner] = useState(true);
+  const [totalCount, setTotalCount] = useState(null);
 
   // var activeProgress = props.now;
   var progressPerQuestion = 73 / totalQuestions;
@@ -79,6 +80,7 @@ const StepThree = (props) => {
     // console.log("active", questions[0]);
     // console.log(props.data);
     getAllQuestions();
+   
   }, []);
 
   async function getAllQuestions() {
@@ -97,14 +99,30 @@ const StepThree = (props) => {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-        setQuestions(result);
-        setTotalQuestions(result.length);
-        setActiveQuestionId(result[0].id);
+        setQuestions(result.riskList);
+        setTotalCount(result.totalQuestions);
+        setTotalQuestions(result.totalQuestions);
+        
         setSpinner(false);
+        if(result.riskList.length === 0){
+            props.changeStepper(80);
+            console.log("error");
+        }
+        else if(result.totalQuestions > result.riskList.length){
+          var count = 73 / result.totalQuestions;
+          console.log(count);
+          var remaining = result.totalQuestions - result.riskList.length;
+          console.log(remaining);
+          var progress = (remaining * count) + props.now;
+          console.log("useffect progress",progress);
+          props.changeStepper(progress);
+        }
+        setActiveQuestionId(result.riskList[0].id);
       })
       .catch((error) => {
         setSpinner(false);
-        alert(error);
+        console.log(error)
+        // alert(error);
       });
   }
 
@@ -164,7 +182,6 @@ const StepThree = (props) => {
         //   console.log(result);
         // })
         .then((res) => {
-          debugger;
           if (res.status === 200 && questions.length >= 1) {
             console.log("successful");
             const key = questions[0];
@@ -244,9 +261,9 @@ const StepThree = (props) => {
               questions.shift();
               // setTotalQuestions(totalQuestions + 1);
               questions ? setActiveQuestionId(questions[0]?.id) : setActiveQuestionId("");
-              // console.log("remianing question => ", questions);
+              console.log("remianing question => ", questions);
               // console.log("first question index => ", questions[0].id);
-              // console.log(props.now);
+              console.log(props.now);
               setSpinner(false);
               // setActiveQuestion(activeQuestion + 1);
             } else {
@@ -279,7 +296,7 @@ const StepThree = (props) => {
   // console.log("active question id ==> ", activeQuestionId);
 
   // console.log("errorrrr", questions);
-  // console.log("progress now => ", props.now);
+  console.log("progress now => ", props.now);
 
   return (
     <div className="steps-three-content">

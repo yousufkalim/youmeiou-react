@@ -80,11 +80,11 @@ const Mapping = () => {
               <div className="mapping-color-card">
               <img src={Images.color} alt="color" />
               <div className="mapping-colors">
-                <div>Non significatif</div>
+                <div>Critique</div>
+                <div>Élevé</div>
                 <div>Mineur</div>
                 <div>Modéré</div>
-                <div>Élevé</div>
-                <div>Critique</div>
+                <div>Non significatif</div>
               </div>
               </div>
               

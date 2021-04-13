@@ -5,9 +5,12 @@ import "./MyInformation.css";
 import Heading from "../../components/Heading/Heading";
 import Card from "../../components/Card/Card";
 import { Images } from "../../assets/Assets";
-import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import FileUploader from "../../components/FileUploader/FileUploader";
+import endPoints from "../../globals/Constants";
+import jwt_decode from "jwt-decode";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 async function readDataUrl(file) {
  return new Promise((resolve, reject) => {
@@ -19,7 +22,7 @@ async function readDataUrl(file) {
  });
 }
 
-const AccountManagement = (props) => {
+const MyInformation = (props) => {
   const [data, setData] = useState({
     fname: "",
     lname: "",
@@ -28,87 +31,38 @@ const AccountManagement = (props) => {
     function:"",
     profile: "",
     linkedin: "",
-    file: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',imagePreviewUrl: ''
+    file: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',imagePreviewUrl: '',
+    
   });
+  const [spinner, setSpinner] = useState(true);
+  const [error, setError] = useState("");
 
-  const [errors, setErrors] = useState({
-    fnameError: "",
-    lnameError: "",
-    phoneError: "",
-    emailError: "",
-    codePostalError: "",
-    dateError: "",
-  });
 
   useEffect(() => {
-    setData({...data, fname: "Damien", lname: "LAURENT", phone: "1103132424244", email: "damien@gmail.com", linkedin: " http://linkedin.com"})
+    getProfile();
   },[])
 
-  const changeHandler = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-    if (e.target.name === "fname") {
-      if (e.target.value.length > 30) {
-        setErrors({
-          ...errors,
-          fnameError: "first name de caractères 30",
-        });
-      } else {
-        setErrors({ ...errors, fnameError: "" });
+  async function getProfile(){
+    const token = sessionStorage.getItem("token");
+    var decoded = jwt_decode(token);
+    const id = parseInt(decoded.Id);
+    await fetch(`${endPoints.GET_PROFILE}/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
       }
-    }
-    if (e.target.name === "lname") {
-      if (e.target.value.length > 30) {
-        setErrors({ ...errors, lnameError: "last name de caractères 30" });
-      } else {
-        setErrors({ ...errors, lnameError: "" });
-      }
-    }
-    if (e.target.name === "phone") {
-      if (e.target.value.length !== 13) {
-        setErrors({ ...errors, phoneError: "phone number should br 13 digits" });
-      } else {
-        setErrors({ ...errors, phoneError: "" });
-      }
-    }
-    if (e.target.name === "function") {
-      if (e.target.value === "") {
-        setData({ ...data, profile: "", function: "" });
-      }
-    }
-    
-    // if (e.target.name === "email") {
-    //   var mailformat = /^(([^<>()[]\.,;:s@"]+(.[^<>()[]\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
-    //   if (!e.target.value.match(mailformat)) {
-    //     setErrors({ ...errors, codeApeError: "Code APE must have 5 digits" });
-    //   } else {
-    //     setErrors({ ...errors, codeApeError: "" });
-    //   }
-    // }
-  };
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    
-     if(data.fname !== ""){
-      if (data.fname === "") {
-        setErrors({
-          ...errors,
-          fnameError: "first name de caractères 30",
-        });
-      } else {
-        setErrors({ ...errors, fnameError: "" });
-      }
-     }
-     if(data.lname !== ""){
-      if (data.lname === "") {
-        setErrors({
-          ...errors,
-          lnameError: "last name de caractères 30" ,
-        });
-      } else {
-        setErrors({ ...errors, lnameError: "" });
-      }
-     }
+    }).then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        setData({...data, fname: result.firstName, lname: result.lastName, phone: result.phoneNo, email: result.email, linkedin: " http://linkedin.com"})
+        setSpinner(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setSpinner(false);
+        setError("something went wrong")
+      });
   }
 
   return (
@@ -116,7 +70,14 @@ const AccountManagement = (props) => {
       <div style={{ height: "10%", paddingTop: "1.4rem" }}>
         <Heading>Mes informations</Heading>
         {/* <FileUploader  /> */}
-        <form className="account-container" onSubmit={submitHandler}>
+        {spinner ? (
+          <div className="spinner">
+            <CircularProgress className="circular-spinner-blue" />
+          </div>
+        )
+        :
+        !error ?
+        <form className="account-container">
           <div className="account-cards">
             <div className="account-card">
               <Card style={{ borderRadius: "3.5rem" }}>
@@ -130,23 +91,19 @@ const AccountManagement = (props) => {
                       type="text"
                       placeholder="First name"
                       value={data.fname}
-                      onChange={changeHandler}
+                      disabled
                       name="fname"
                     />
-                    {errors.fnameError !== "" && (
-                      <div className="custom-error">{errors.fnameError}</div>
-                    )}
+                   
 
                     <Input
                       type="text"
                       placeholder="Last name"
                       value={data.lname}
-                      onChange={changeHandler}
+                      disabled
                       name="lname"
                     />
-                    {errors.lnameError !== "" && (
-                      <div className="custom-error">{errors.lnameError}</div>
-                    )}
+                   
 
                     <Input
                       type="number"
@@ -154,17 +111,15 @@ const AccountManagement = (props) => {
                       maxlength="13"
                       minlength="13"
                       value={data.phone}
-                      onChange={changeHandler}
+                      disabled
                       name="phone"
                     />
-                    {errors.phoneError !== "" && (
-                      <div className="custom-error">{errors.phoneError}</div>
-                    )}
+                   
                      <Input
                       type="text"
                       placeholder="Email"
                       value={data.email}
-                      onChange={changeHandler}
+                    
                       disabled
                       name="email"
                     />
@@ -186,7 +141,7 @@ const AccountManagement = (props) => {
                   </h1>
                   <div className="account-card-dropdown">
                     <select
-                      onChange={changeHandler}
+                     disabled
                       name="function"
                       id="function"
                       value={data.function}
@@ -216,8 +171,7 @@ const AccountManagement = (props) => {
                       type="text"
                       placeholder="linkedin"
                       value={data.linkedin}
-                      onChange={changeHandler}
-                    
+                      disabled
                       name="linkedin"
                     />
                  
@@ -242,10 +196,10 @@ const AccountManagement = (props) => {
                   <div className="d-flex w-100 justify-content-center">
                     <div className="account-card-dropdown">
                       <select 
-                        onChange={changeHandler}
+                       
                         name="profile"
                         id="profile"
-                        disabled={data.function === "" || data.function === null ? true :  false}
+                        disabled
                         value={data.profile}
                         className="custom-dropdown"
                       >
@@ -264,25 +218,16 @@ const AccountManagement = (props) => {
               </Card>
             </div>
           </div>
-          <div className="mt-5 text-center w-100">
-            <div className="w-25 mx-auto pb-5">
-              <Button 
-              disabled={
-                  data.fname === "" ||
-                  data.lname === "" ||
-                  data.phone === ""  ?
-                  true : 
-                  false
-              }
-              >
-                Enregistrer
-              </Button>
-            </div>
-          </div>
+          
         </form>
+        :
+        <div className="data-error">
+          <div>{error}</div>
+        </div>
+}
       </div>
     </div>
   );
 };
 
-export default AccountManagement;
+export default MyInformation;
