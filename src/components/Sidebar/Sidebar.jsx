@@ -58,7 +58,7 @@ export class Sidebar extends Component {
         return (
             <div className="sidebar">
                 <div className="p-2">
-                <GiHamburgerMenu onClick={() =>this.props.sidebarToggle(false)} className="sidebar-toggler mr-4" />
+                <GiHamburgerMenu onClick={() =>this.props.sidebarToggle(false)} className="sidebar-toggler mr-5" />
                 </div>
                 <div className="links-container">
                    {
@@ -68,7 +68,7 @@ export class Sidebar extends Component {
                    }
 
                    <div className="sidebar-logout-container">
-                   <div className="sidebar-logout" onClick={this.logout}><span><FiLogOut size={26} className="mr-3" /></span>Se déconnecter</div>
+                   <div className="sidebar-logout" onClick={this.logout}><span><FiLogOut className="sidebar-logout-icon mr-3" /></span>Se déconnecter</div>
                    </div>
                 </div>
             </div>

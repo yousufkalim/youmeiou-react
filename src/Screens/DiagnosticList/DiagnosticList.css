@@ -52,10 +52,6 @@
     left: 55%;
     transform: translate(-50%, -50%);
  } */
-.circular-spinner-blue{
-    color: var(--text_color);
-}
-
 .diagnostic-card a,
 .diagnostic-card a:hover{
     text-decoration: none !important;

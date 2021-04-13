@@ -58,7 +58,7 @@ const Landing = (props) => {
         {/* Header */}
         <div className="landing-header">
           <Row style={{ alignItems: "center" }}>
-            <Col md={6}>
+            <Col md={6} sm={12} className="text-center">
               <img
                 src={Images.landingHeader}
                 alt="header"
@@ -88,26 +88,34 @@ const Landing = (props) => {
         <div className="landing-cards-container">
           <div className="landing-content-heading">Notre méthodologie</div>
           <div className="landing-cards">
-            <LandingCard
-              heading={cards[0].heading}
-              detail={cards[0].detail}
-              image="1"
-            />
-            <LandingCard
-              heading={cards[1].heading}
-              detail={cards[1].detail}
-              image="2"
-            />
-            <LandingCard
-              heading={cards[2].heading}
-              detail={cards[2].detail}
-              image="3"
-            />
-            <LandingCard
-              heading={cards[3].heading}
-              detail={cards[3].detail}
-              image="4"
-            />
+            <div className="single-landing-card">
+              <LandingCard
+                heading={cards[0].heading}
+                detail={cards[0].detail}
+                image="1"
+              />
+            </div>
+            <div className="single-landing-card">
+              <LandingCard
+                heading={cards[1].heading}
+                detail={cards[1].detail}
+                image="2"
+              />
+            </div>
+            <div className="single-landing-card">
+              <LandingCard
+                heading={cards[2].heading}
+                detail={cards[2].detail}
+                image="3"
+              />
+            </div>
+            <div className="single-landing-card">
+              <LandingCard
+                heading={cards[3].heading}
+                detail={cards[3].detail}
+                image="4"
+              />
+            </div>
           </div>
           <div className="text-center">
             <NavLink to="/diagnostic-list">
@@ -118,80 +126,88 @@ const Landing = (props) => {
       </div>
 
       <div className="landing-slider">
-      <Carousel >
-        <Carousel.Item>
-        <div className="landing-footer">
-        <div className="landing-footer-img">
-          <img src={Images.landingFooter} alt="profile" />
-        </div>
-        <div className="landing-footer-content text-center">
-          <div className="text-center">
-            <img
-              src={Images.comma}
-              alt="comma"
-              className="landing-footer-comma"
-            />
-          </div>
-          <div>
-            <div className="landing-footer-detail">
-              Je suis prêt à parier que Riskr va dans les prochaines années
-              devenir un outil incontournable du chef d’entreprise de TPE/PME !{" "}
+        <Carousel>
+          <Carousel.Item>
+            <div className="landing-footer">
+              <div className="landing-footer-img">
+                <img src={Images.landingFooter} alt="profile" />
+              </div>
+              <div className="landing-footer-content text-center">
+                <div className="text-center">
+                  <img
+                    src={Images.comma}
+                    alt="comma"
+                    className="landing-footer-comma"
+                  />
+                </div>
+                <div>
+                  <div className="landing-footer-detail">
+                    Je suis prêt à parier que Riskr va dans les prochaines
+                    années devenir un outil incontournable du chef d’entreprise
+                    de TPE/PME !{" "}
+                  </div>
+                  <div className="landing-footer-text">
+                    Martin Cregut | CEO PicMe
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="landing-footer-text">Martin Cregut | CEO PicMe</div>
-          </div>
-        </div>
-      </div>
-        </Carousel.Item>
-        <Carousel.Item>
-        <div className="landing-footer">
-        <div className="landing-footer-img">
-          <img src={Images.landingFooter} alt="profile" />
-        </div>
-        <div className="landing-footer-content text-center">
-          <div className="text-center">
-            <img
-              src={Images.comma}
-              alt="comma"
-              className="landing-footer-comma"
-            />
-          </div>
-          <div>
-            <div className="landing-footer-detail">
-              Je suis prêt à parier que Riskr va dans les prochaines années
-              devenir un outil incontournable du chef d’entreprise de TPE/PME !{" "}
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className="landing-footer">
+              <div className="landing-footer-img">
+                <img src={Images.landingFooter} alt="profile" />
+              </div>
+              <div className="landing-footer-content text-center">
+                <div className="text-center">
+                  <img
+                    src={Images.comma}
+                    alt="comma"
+                    className="landing-footer-comma"
+                  />
+                </div>
+                <div>
+                  <div className="landing-footer-detail">
+                    Je suis prêt à parier que Riskr va dans les prochaines
+                    années devenir un outil incontournable du chef d’entreprise
+                    de TPE/PME !{" "}
+                  </div>
+                  <div className="landing-footer-text">
+                    Martin Cregut | CEO PicMe
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="landing-footer-text">Martin Cregut | CEO PicMe</div>
-          </div>
-        </div>
-      </div>
-        </Carousel.Item>
-        <Carousel.Item>
-        <div className="landing-footer">
-        <div className="landing-footer-img">
-          <img src={Images.landingFooter} alt="profile" />
-        </div>
-        <div className="landing-footer-content text-center">
-          <div className="text-center">
-            <img
-              src={Images.comma}
-              alt="comma"
-              className="landing-footer-comma"
-            />
-          </div>
-          <div>
-            <div className="landing-footer-detail">
-              Je suis prêt à parier que Riskr va dans les prochaines années
-              devenir un outil incontournable du chef d’entreprise de TPE/PME !{" "}
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className="landing-footer">
+              <div className="landing-footer-img">
+                <img src={Images.landingFooter} alt="profile" />
+              </div>
+              <div className="landing-footer-content text-center">
+                <div className="text-center">
+                  <img
+                    src={Images.comma}
+                    alt="comma"
+                    className="landing-footer-comma"
+                  />
+                </div>
+                <div>
+                  <div className="landing-footer-detail">
+                    Je suis prêt à parier que Riskr va dans les prochaines
+                    années devenir un outil incontournable du chef d’entreprise
+                    de TPE/PME !{" "}
+                  </div>
+                  <div className="landing-footer-text">
+                    Martin Cregut | CEO PicMe
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="landing-footer-text">Martin Cregut | CEO PicMe</div>
-          </div>
-        </div>
+          </Carousel.Item>
+        </Carousel>
       </div>
-        </Carousel.Item>
-      </Carousel>
 
-      </div>
-     
       {/* Footer */}
       {/* <div className="landing-footer">
         <div className="landing-footer-img">

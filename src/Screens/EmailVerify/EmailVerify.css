@@ -1,0 +1,43 @@
+.email-verify{
+    height: 100vh;
+    width: 100%;
+    background-color: wheat;
+    background: url("../../assets/images/circle2.png") no-repeat, url("../../assets/images/circle_login.png") no-repeat;
+    background-position: right -30rem bottom -35rem, left -20rem top -20rem;
+   background-size: 70rem 70rem,50rem 50rem;
+}
+.email-verify-logo{
+    display: flex;
+    justify-content: center;
+    padding-top: 5rem;
+}
+.email-verify-logo img{
+    max-width: 100%;
+    width: 15rem;
+}
+
+.email-verify-card{
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.verify-email-heading-container{
+    display: flex;
+    align-items: flex-start;
+
+}
+.verify-email-heading{
+    font-size: 4rem;
+    color: var(--text_color);
+    /* padding-top: 1rem; */
+
+}
+
+.verify-email-icon{
+    font-size: 5rem;
+    color: var(--yellow_color);
+    margin-left: 2rem;
+    /* margin-top: -1rem; */
+}

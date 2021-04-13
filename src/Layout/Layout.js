@@ -1,40 +1,63 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./Layout.css";
 
 import { Images } from "../assets/Assets";
 import Sidebar from "../components/Sidebar/Sidebar";
 import { GiHamburgerMenu } from "react-icons/all";
+import  MobileSidebar  from "../components/Sidebar/MobileSidebar";
 
-export class Layout extends Component {
-  constructor(props) {
-    super(props);
+const Layout = (props, ref) => {
+ 
+  const [toggle, setToggle] = useState(true);
+  const [mobileToggle, setMobileToggle] = useState(false);
 
-    this.state = {
-      toggle: true,
-    };
-  }
+  useEffect(() => {
 
-  sidebarToggle = (btn) => {
-    this.setState({ toggle: btn });
+  },[])
+
+  
+
+  const sidebarToggle = (btn) => {
+    setToggle(btn)
+  };
+
+
+  const mobileSidebarToggle = (b) => {
+    setMobileToggle(b)
   };
   
-  render() {
-    if (this.props.isLogin) {
-      const { toggle } = this.state;
+  
+  
+    if (props.isLogin) {
       return (
         <div className="layout">
           {toggle && (
+            <>
             <div className="layout-sidebar">
-              <Sidebar sidebarToggle={this.sidebarToggle} />
+              <Sidebar sidebarToggle={sidebarToggle} />
             </div>
+           
+            </>
           )}
+          {
+            mobileToggle && (
+              <div className="layout-mobile-sidebar">
+              <MobileSidebar sidebarToggle={mobileSidebarToggle} />
+            </div>
+            )
+          }
           <div className="layout-children">
             <div className="d-flex justify-content-between mx-3 py-1 screen-navbar" style={{borderBottom: '1px solid rgba(1,35,64, 18%)'}}>
               <div className="sidebar-drawer-container d-flex">
                 <div className="sidebar-drawer">
                 {
-                  this.state.toggle === false && (
-                    <GiHamburgerMenu onClick={() =>this.sidebarToggle(true)} className="sidebar-toggler mr-4" />
+                  toggle === false && (
+                    <GiHamburgerMenu onClick={() =>sidebarToggle(true)} className="sidebar-toggler" />
+                  )
+                }
+                {
+                  mobileToggle === false && (
+                    <GiHamburgerMenu onClick={() =>mobileSidebarToggle(true)} className="sidebar-toggler-mobile" />
                   )
                 }
                 </div>
@@ -44,14 +67,14 @@ export class Layout extends Component {
                 <img src={Images.profile} alt="profile" className="profile-img" />
               </div>
             </div>
-            {this.props.children}
+            {props.children}
           </div>
         </div>
       );
     } else {
-      return <>{this.props.children}</>;
+      return <>{props.children}</>;
     }
-  }
+
 }
 
 export default Layout;

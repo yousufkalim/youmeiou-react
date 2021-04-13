@@ -46,6 +46,16 @@ select:focus{
 
 }
 
+.circular-spinner-blue{
+  color: var(--text_color) !important;
+  /* height: 2rem !important;
+  width: 2rem !important; */
+  /* background: -webkit-linear-gradient(rgb(13, 197, 166), rgb(51, 51, 51)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color:  linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%) !important; */
+}
+
 /* @media (max-width: 2500px) {
   html{
     font-size: 65%;  

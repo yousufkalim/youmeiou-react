@@ -126,7 +126,7 @@ const Login = (props) => {
   return (
     <>
     <div className="login-container">
-      <div className="login-left" />
+      <div className="register-left" ></div>
       <div className="login">
         <div className="login-form">
           <form onSubmit={submitHandler}>

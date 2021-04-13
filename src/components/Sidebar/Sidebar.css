@@ -24,7 +24,8 @@
 }
 .sidebar-toggler{
     cursor: pointer;
-    font-size: 3.5rem;
+    font-size: 4rem;
+    margin-right: 4rem;
 }
 .custom-navlink{
     color: #fff !important;
@@ -32,8 +33,6 @@
     font-size: 2rem !important;
     font-weight: bold !important;
     padding: 1rem 5rem;
-
-
 }
 
 .active-navlink{
@@ -60,4 +59,8 @@
     padding-top: 1.5rem;
     /* background-color: antiquewhite; */
 
+}
+
+.sidebar-logout-icon{
+    font-size: 3.5rem;
 }

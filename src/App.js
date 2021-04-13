@@ -14,6 +14,7 @@ import Plan from "./Screens/Plan/Plan";
 import Mapping from "./Screens/Mapping/Mapping";
 import Steps from "./Screens/Steps/Steps";
 import Landing from "./Screens/Landing/Landing";
+import EmailVerify from "./Screens/EmailVerify/EmailVerify";
 
 class App extends React.Component {
 
@@ -47,6 +48,7 @@ class App extends React.Component {
             <PublicRoute component={Register} path="/register" exact restricted={true} />
             <PublicRoute component={Landing} path="/" exact restricted={true} />
             <PublicRoute component={Login} path="/login" exact  restricted={true} />
+            <PublicRoute component={EmailVerify} path="/email-verify/:id" exact  restricted={true} />
           </Layout>
         </Switch>
       </div>

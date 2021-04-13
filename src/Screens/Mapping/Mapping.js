@@ -8,11 +8,15 @@ import Card from "../../components/Card/Card";
 import {Images} from "../../assets/Assets";
 import Button from "../../components/Button/Button";
 
-const Mapping = () => {
+const Mapping = (props) => {
   
   const [show, setShow] = useState(true);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false)
+    props.history.push("/diagnostic-list");
+  };
 
+  console.log(props);
   return (
     <div className="mapping-container">
       <div className="mx-3 py-3 my-auto" style={{ height: "10%" }}>
@@ -82,8 +86,8 @@ const Mapping = () => {
               <div className="mapping-colors">
                 <div>Critique</div>
                 <div>Élevé</div>
-                <div>Mineur</div>
                 <div>Modéré</div>
+                <div>Mineur</div>
                 <div>Non significatif</div>
               </div>
               </div>

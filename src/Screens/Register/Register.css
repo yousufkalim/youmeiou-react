@@ -5,9 +5,7 @@
     background-color:#fff;
     display: flex;
     overflow:hidden;
-    background: url("../../assets/images/circle2.png") no-repeat, url("../../assets/images/circle_login.png") no-repeat;
-    background-position: right -25% bottom -120%, right 50% top -120%;
-    background-size: 35% 70%,35% 70%;
+   
    
 }
 .register-info{
@@ -28,8 +26,10 @@
     flex-basis: 50%;
     height: 100%;
     background: url("../../assets//images/login_bg.png");
-    background-position: center;
+    background-position: cover;
     background-size: 100% 100%;
+    background-repeat: no-repeat;
+    
 }
 
 .register{
@@ -39,6 +39,9 @@
     justify-content: center;
     align-items: center;
     padding: 7rem 0;
+    background: url("../../assets/images/circle2.png") no-repeat, url("../../assets/images/circle_login.png") no-repeat;
+    background-position: right -25rem bottom -25rem, left -12rem top -22rem;
+    background-size: 60rem 60rem,40rem 40rem;
 }
 .register-form{
    width: 75%;
@@ -64,4 +67,22 @@
    .register-bottom{
        font-size: 2rem;
    }
+ }
+ @media (max-width: 1000px) {
+   .register-form{
+      width: 85%;
+      
+   }
+}
+
+ @media (max-width: 660px) {
+   .register-form{
+      width: 90%;
+      
+   }
+   .register-left{
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      
+  }
  }

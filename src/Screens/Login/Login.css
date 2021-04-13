@@ -14,6 +14,7 @@
      background: url("../../assets//images/login_bg.png");
      background-position: center;
      background-size: 100% 100%;
+     background-repeat: no-repeat;
  }
 
  .login{
@@ -23,13 +24,11 @@
      justify-content: center;
      align-items: center;
      background: url("../../assets/images/circle2.png") no-repeat, url("../../assets/images/circle_login.png") no-repeat;
-     background-position: right -50% bottom -55%, left -25% top -30%;
-     background-size: 50% 55%,40% 40%;
+     background-position: right -30rem bottom -30rem, left -15rem top -20rem;
+    background-size: 60rem 60rem,40rem 40rem;
      padding: 10rem;
  }
- .circular-spinner{
-     color: var(--yellow_color) !important;
- }
+ 
 .login-form{
     width: 100%;
 }
@@ -112,5 +111,21 @@
 @media (max-width: 1367px) {
     .login-bottom{
         font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .login{
+        padding: 5rem;
+    }
+  }
+
+  @media (max-width: 660px) {
+    .login{
+        padding: 3rem;
+    }
+    .login-left{
+        background-size: auto 100%;
+        background-repeat: no-repeat;
     }
   }
