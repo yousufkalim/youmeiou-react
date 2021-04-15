@@ -52,6 +52,8 @@ class StepFour extends Component {
         const score = result.score;
         const grav = result.evalGravity;
         const prob = result.evalProbability;
+        console.log("gravity step four", result.evalGravity);
+        console.log("probability step four", result.evalProbability);
         this.setState({probability: prob});
         this.setState({gravity: grav});
         this.setState({score: score});
@@ -132,25 +134,27 @@ class StepFour extends Component {
           className="step-four-header-2"
           style={{ marginBottom: "20rem", marginTop: "5rem" }}
         >
-          <div style={{ flexBasis: "80%" }}>
+          <div className="step-four-table-card">
             <Card
               style={{
                 padding: "1.5rem 1.5rem 4rem 1.5rem",
                 borderRadius: "3.5rem",
-                height: "67rem",
+                height: "auto",
                 overflow: "hidden"
               }}
             >
+              <div className="step-four-table-card-content">
               <div className="step-four-card2-header mb-5">Cartographie</div>
 
-              {/* <TableChart score={score} /> */}
-              {/* {console.log('inParent',gravity, probability)} */}
-              {
-                 <TableChart gravity={gravity} probability={probability} />
-              }
+{/* <TableChart score={score} /> */}
+{/* {console.log('inParent',gravity, probability)} */}
+{
+   (probability > 0 && gravity > 0) && <TableChart gravity={gravity} probability={probability} />
+}
+              </div>
             </Card>
           </div>
-          <div style={{ flexBasis: "20%" }}>
+          <div className="step-four-color-grid">
             <Card
               heading="Criticité"
               style={{
@@ -169,6 +173,7 @@ class StepFour extends Component {
                     color={color}
                     handleChange={this.handleChangecolor}
                     gravity={gravity}
+                    probability={probability}
                   />
                 </div>
               </div>

@@ -82,6 +82,13 @@
     } */
 }
 
+@media (max-width: 1000px) {
+  .screen-navbar {
+    max-height: 10rem;
+    /* background-color: aqua; */
+}
+}
+
 @media (max-width: 600px) {
   /* .sidebar-drawer{
         display: inline-block;

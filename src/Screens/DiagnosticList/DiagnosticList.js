@@ -277,12 +277,12 @@ const Diagnostic = (props) => {
           </div>
         </div> */}
       <div className="diagnostic-wrapper">
-        <div style={{ height: "10%", paddingTop: "1.4rem" }} className="mx-3">
+        <div style={{ height: "10%", paddingTop: "1.4rem", maxHeight: "10rem" }} className="mx-3">
           <Heading>Liste de diagnostics disponibles</Heading>
         </div>
         <div className="diagnostic-container">
           <div className="diagnostic-header">
-            {/* <div className="diagnostic-dropdown">
+            <div className="diagnostic-dropdown">
               <Dropdown>
                 <option>Risques signatures</option>
                 <option>2</option>
@@ -290,8 +290,8 @@ const Diagnostic = (props) => {
                 <option>4</option>
                 <option>5</option>
               </Dropdown>
-            </div> */}
-            {/* <div className="diagnostic-dropdown">
+            </div>
+            <div className="diagnostic-dropdown">
               <Dropdown onChange={handleCategory} value={selectedCategory}>
                 {
                   categories.map((item,index) => (
@@ -300,7 +300,7 @@ const Diagnostic = (props) => {
                 }
                
               </Dropdown>
-            </div> */}
+            </div>
             <div className="diagnostic-dropdown">
               <Dropdown value={selectedFamily} onChange={handleChange}>
                 {families.map((item, index) => (

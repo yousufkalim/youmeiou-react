@@ -28,7 +28,7 @@
 }
 
 .chart-table-box{
-    width: 19.6%;
+    width: 19.3%;
     font-size: 2.5rem;
     font-weight: 500;
     color: var(--text_color);
@@ -95,4 +95,55 @@
 
 .canvasjs-chart-canvas{
     height: 300px !important;
+}
+.custom-box{
+    border-radius: 1rem;
+    width: 100%;
+    font-size: 5rem;
+    font-weight: 500;
+    color: var(--text_color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.box-circle{
+    height: 3rem;
+    width: 3rem;
+    border: 4px solid green;
+    border-radius: 50%;
+    position: absolute;
+    right: 5%;
+    top: 5%;
+}
+
+
+@media (max-width: 767px) {
+
+    .chart-table-footer-content {
+      
+        width: 80%;
+    }
+    .chart-table-container {
+        height: 75%;
+    }
+    .chart-table-left {
+        height: 40rem;
+    }
+    .custom-box{
+        font-size: 4rem;
+     }
+     .box-circle{
+      
+        border: 2px solid green;
+       
+    }
+    .chart-table-box{
+        font-size: 2.2Srem;
+      
+    }
+    .chart-table-left-content {
+        font-size: 2.2rem;
+       
+    }
 }

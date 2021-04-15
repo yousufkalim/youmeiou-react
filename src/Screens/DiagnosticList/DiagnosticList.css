@@ -19,6 +19,7 @@
     align-items: center;
     gap: 5rem;
     height: 10%;
+    max-height: 8rem;
     margin-top: 1.5rem;
     background-color: var(--text_color);
     width: 100%;

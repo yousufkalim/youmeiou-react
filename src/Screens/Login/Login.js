@@ -108,7 +108,8 @@ const Login = (props) => {
       })
       .catch((err) =>{ 
         setSpinner(false);
-        alert(err)
+        console.log(err);
+        alert(err);
       });
 
     // setTimeout(() => {

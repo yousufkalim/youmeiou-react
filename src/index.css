@@ -46,8 +46,18 @@ select:focus{
 
 }
 
+.spinner{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99999;
+}
 .circular-spinner-blue{
   color: var(--text_color) !important;
+  /* font-size: 10rem !important; */
+  width: 5rem !important;
+  height: 5rem !important;
   /* height: 2rem !important;
   width: 2rem !important; */
   /* background: -webkit-linear-gradient(rgb(13, 197, 166), rgb(51, 51, 51)) !important;

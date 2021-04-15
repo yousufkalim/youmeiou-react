@@ -301,11 +301,11 @@ const StepThree = (props) => {
   return (
     <div className="steps-three-content">
       <div
-        className="d-flex w-100 align-items-start justify-content-center"
-        style={{ padding: "10rem" }}
+        className=" step-three-content-container"
+       
       >
         
-        <div class="step-card-wrapper">
+        <div class="step-three-card-wrapper">
           <Card
             style={{
               backgroundColor: "#fff",

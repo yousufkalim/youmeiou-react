@@ -168,7 +168,7 @@ const Register = () => {
       <div className="register-left"></div>
       <div className="register">
         <div className="register-form">
-          <form onSubmit={submitHandler} className="h-100">
+          <form onSubmit={submitHandler} className="register-form-content">
             <Card heading="Inscription" style={{padding: '4rem 0rem 1rem 4rem', borderRadius: "7.7rem", overflow: "hidden"}}>
               <div className="register-form-wrapper">
                 <div className="register-info">Tous les champs sont obligatoires <span>*</span></div>

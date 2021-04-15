@@ -17,7 +17,7 @@
 }
 
 .email-verify-card{
-    height: 60%;
+    height: 45rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,4 +40,12 @@
     color: var(--yellow_color);
     margin-left: 2rem;
     /* margin-top: -1rem; */
+}
+.email-verify-success{
+    font-size: 2.5rem;
+    color: var(--text_color);
+}
+
+.email-verify-image{
+    font-size: 3rem;
 }

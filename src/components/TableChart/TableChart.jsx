@@ -239,7 +239,7 @@ componentDidMount() {
                   <div className="chart-table-box">
                     <div className="custom-box" style={ numb > 10 ? {border: "2px solid #F2072B"}: numb > 6 ? {border: "2px solid #F2E207"} : numb > 3 ? {border: "2px solid #ACACAC"} : numb > 1 ? {border: "2px solid #5AC9D5"} : {border: "2px solid #8EC98B"}} >
                         {
-                          console.log("fff", numb),
+                          // console.log("fff", numb),
                           this.props.probability < 6
                           ?
                           this.props.probability < 3

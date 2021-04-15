@@ -11,8 +11,8 @@ class StepTwo extends Component {
        
         <div className="step-two-content">
           <div
-            className="d-flex w-100 align-items-start justify-content-center"
-            style={{ padding: "10rem" }}
+            className="step-two-content-container"
+            
           > 
             <div class="step-card-wrapper">
               <Card

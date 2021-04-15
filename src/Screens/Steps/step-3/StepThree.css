@@ -2,6 +2,14 @@
   background: url("../../../../assets/images/circle.png");
 } */
 
+.step-three-content-container{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10rem 10rem;
+  /* height: 100%; */
+}
 .steps-header {
   background-color: var(--text_color);
   height: 7%;
@@ -17,7 +25,7 @@
   font-size: 2.5rem;
 }
 
-.step-card-wrapper {
+.step-three-card-wrapper {
   width: 80%;
   height: 45%;
   border-radius: 20px !important;
@@ -52,4 +60,17 @@
   display: inline-block;
   margin-top: 1rem;
   cursor: pointer;
+}
+
+
+
+@media (max-width: 767px) {
+  .step-three-content-container{
+    padding: 10rem 10rem;
+    /* height: 100%; */
+  }
+  .step-three-card-wrapper {
+    width: 100%;
+    
+  }
 }

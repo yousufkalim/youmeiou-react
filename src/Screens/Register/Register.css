@@ -47,17 +47,14 @@
    width: 75%;
    height: 100%;
 }
-.spinner{
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   z-index: 99999;
+.register-form-content{
+   height: 100%;
 }
 .register-bottom{
    color: var(--text_color);
    font-size: 1.5rem;
    font-weight: 500;
+   
 }
 .register-text{
    color: var(--yellow_color);
@@ -79,6 +76,10 @@
    .register-form{
       width: 90%;
       
+      
+   }
+   .register-form-content{
+      height: auto;
    }
    .register-left{
       background-size: auto 100%;

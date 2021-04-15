@@ -17,12 +17,14 @@
   font-size: 2.5rem;
 }
 
-.step-card-wrapper {
+.step-one-card-wrapper {
   width: 50%;
   height: 45%;
   border-radius: 20px !important;
 }
-
+.step-one-card-image{
+  text-align: end;
+}
 .step-one-content {
   display: flex;
   background: url("../../../assets/images/circle2.png") no-repeat;
@@ -32,4 +34,13 @@
   height: 100%;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 767px) {
+  .step-one-card-wrapper {
+    margin-bottom: 10rem;
+  }
+  .step-one-card-image{
+    text-align: center;
+  }
 }

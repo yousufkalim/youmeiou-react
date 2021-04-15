@@ -1,7 +1,14 @@
 /* .step-one {
   background: url("../../../../assets/images/circle.png");
 } */
-
+.step-two-content-container{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10rem 10rem;
+  /* height: 100%; */
+}
 .steps-header {
   background-color: var(--text_color);
   height: 7%;
@@ -34,5 +41,21 @@
   justify-content: center;
   align-items: center;
   padding-bottom: 5rem;
+  
+}
+
+
+@media (max-width: 1000px) {
+  .step-card-wrapper {
+    width: 80%;
+  
+  }
+  .step-two-content-container{
+    padding: 10rem 5rem;
+    /* height: 100%; */
+  }
+}
+
+@media (max-width: 660px) {
   
 }

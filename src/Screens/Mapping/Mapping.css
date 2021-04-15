@@ -32,6 +32,9 @@
     justify-content: center;
     padding: 3rem;
 }
+.mapping-color-card img{
+    max-height: 80rem;
+}
 .mapping-colors{
     display: flex;
     flex-direction: column;
@@ -80,4 +83,10 @@
 
 .mapping-modal-content{
     padding: 2rem 5rem;
+}
+
+@media (max-width: 767px) {
+    .mapping-color-card img{
+        max-height: 50rem;
+    }
 }

@@ -29,3 +29,17 @@
     width: 75%;
     /* width: 100%; */
 }
+
+@media (max-width: 767px) {
+    .step-four-color-image {
+        height: 100%;
+    }
+    .step-four-color-line-container {
+    
+    left: 34%;
+
+}
+.step-four-color-line-container img {
+    width: 4rem;
+}
+  }

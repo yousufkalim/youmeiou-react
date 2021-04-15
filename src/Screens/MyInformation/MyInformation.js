@@ -83,7 +83,15 @@ const MyInformation = (props) => {
               <Card style={{ borderRadius: "3.5rem" }}>
                 <div className="d-flex">
                   <div className="account-card-img">
-                  <FileUploader defaultImage="account" />
+                  <div className="file-uploader-image">
+          
+          <img
+            src={Images.account}
+  
+            alt="profile"
+          />
+          </div>
+                  {/* <FileUploader defaultImage="account" /> */}
                     {/* <img src={Images.account} alt="logo"  /> */}
                   </div>
                   <div className="account-card-detail">

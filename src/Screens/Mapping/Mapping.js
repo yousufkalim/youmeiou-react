@@ -13,7 +13,7 @@ const Mapping = (props) => {
   const [show, setShow] = useState(true);
   const handleClose = () => {
     setShow(false)
-    props.history.push("/diagnostic-list");
+    // props.history.push("/diagnostic-list");
   };
 
   console.log(props);
@@ -98,6 +98,7 @@ const Mapping = (props) => {
         </div>
       </div>
 
+        <div className="custom-modal-wrapper">
       <Modal show={show} onHide={handleClose} className="custom-modal">
         <Modal.Header closeButton>
           {/* <Modal.Title>Modal heading</Modal.Title> */}
@@ -109,6 +110,7 @@ const Mapping = (props) => {
           </div>
         </Modal.Body>
       </Modal>
+        </div>
     </div>
   );
 };

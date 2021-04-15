@@ -22,7 +22,7 @@ const StepOne = (props) => {
             className="row w-100 align-items-center"s
             style={{ padding: "10rem" }}
           >
-            <Col className="step-card-wrapper" md={6}>
+            <Col className="step-one-card-wrapper" md={6}>
               <Card
                 heading={`${data.serialNo} ${data.name}  `}
                 style={{
@@ -42,7 +42,7 @@ const StepOne = (props) => {
                 </div>
               </Card>
             </Col>
-            <Col className="text-right" md={6}>
+            <Col className="step-one-card-image" md={6}>
               <img src={Images.stepOne} alt="step One" width="60%" />
             </Col>
           </Row>
