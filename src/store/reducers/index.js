@@ -2,4 +2,6 @@ import {combineReducers} from "redux";
 import user from "./user";
 import diagnosticList from "./diagnosticList";
 
-export default combineReducers({user, diagnosticList});
+const rootReducer =  combineReducers({user, diagnosticList});
+
+export default rootReducer;

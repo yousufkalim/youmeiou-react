@@ -6,3 +6,9 @@ export const login = (token) => {
         token,
     }
 }
+
+export const Logout = () => {
+    return {
+        type: actionTypes.LOGOUT
+    }
+}

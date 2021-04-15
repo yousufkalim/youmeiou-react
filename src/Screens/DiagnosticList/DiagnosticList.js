@@ -145,7 +145,7 @@ const Diagnostic = (props) => {
     name: "Famille de diagnostics",
     updated_at: ""
   }]);
-  const [spinner, setSpinner] = useState(true);
+  const [spinner, setSpinner] = useState(false);
 
   // const [list, setList] = useState([]);
   const [toggle, setToggle] = useState(false);
@@ -158,16 +158,24 @@ const Diagnostic = (props) => {
   // console.log(props);
   const dispatch = useDispatch();
 
+  const userToken = useSelector((state) => state.user.token);
+  var decToken = jwt_decode(userToken);
+  const userId = parseInt(decToken.Id);
+  console.log(userId)
+  const state = useSelector((state) => state);
+  console.log("complete state", state);
+  // console.log("token", token);
+
   useEffect(() => {
-    dispatch({ type: actionTypes.GET_DIAGNOSTICS });
-    getAllDiagnostics();
+    dispatch({ type: actionTypes.GET_DIAGNOSTICS, payload: {userToken:userToken, userId:userId} });
+    // getAllDiagnostics();
     getFamily();
     var token = sessionStorage.getItem("token");
     // console.log(token);
     var decoded = jwt_decode(token);
     // console.log("User data is =>>> ",decoded.email);
 
-  }, [dispatch]);
+  }, [dispatch,userToken]);
 
   async function getAllDiagnostics() {
     const token = sessionStorage.getItem("token");
@@ -252,6 +260,7 @@ const Diagnostic = (props) => {
   }
 
   const items = useSelector((state) => state);
+  console.log("current state", items);
   // console.log("diagnostics =>>", selectedCategory);
   // console.log("result families ==> ", families);
 

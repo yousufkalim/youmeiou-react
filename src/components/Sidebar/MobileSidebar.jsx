@@ -4,6 +4,8 @@ import "./MobileSidebar.css";
 import {FiLogOut} from "react-icons/all";
 import {NavLink, withRouter} from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/all";
+import {useDispatch} from "react-redux";
+import * as actionTypes from "../../store/actionTypes";
 
 const navlinks = [
     {
@@ -48,6 +50,8 @@ const navlinks = [
 
 const MobileSidebar = (props, ref) => {
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         function handleClickOutside(event) {
           if (ref.current && !ref.current.contains(event.target)) {
@@ -71,7 +75,7 @@ const MobileSidebar = (props, ref) => {
       }, [ref]);
 
     const logout = () => {
-        sessionStorage.clear();
+        dispatch({type: actionTypes.LOGOUT});
         props.history.push('/login');
         console.log(props);
         

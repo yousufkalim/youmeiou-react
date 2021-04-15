@@ -14,6 +14,13 @@ const authReducer = (state = initialState, action) => {
                 token: action.token,
                 isLoggedIn: true,
             }
+        case actionTypes.LOGOUT:
+            sessionStorage.clear();
+            return{
+                ...state,
+                token: "",
+                isLoggedIn: false
+            }
        default:
         return state;
     }

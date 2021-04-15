@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./App.css";
 import Layout from "./Layout/Layout";
 import { Switch, withRouter, Redirect } from "react-router-dom";
@@ -15,23 +15,32 @@ import Mapping from "./Screens/Mapping/Mapping";
 import Steps from "./Screens/Steps/Steps";
 import Landing from "./Screens/Landing/Landing";
 import EmailVerify from "./Screens/EmailVerify/EmailVerify";
+import {useSelector} from "react-redux"; 
 
-class App extends React.Component {
+const App = (props) => {
 
-  componentDidMount(){
-    // console.log("history", this.props);
-  }
-  render(){
-    // console.log(this.props);
+  const user = useSelector((state) => state);
+
+  useEffect(() => {
+    const token  = sessionStorage.getItem('token');
+    if(!token){
+      console.log(token);
+    }
+  },[user])
+
+  console.log("user in app.js",user.user.token);
+  console.log("again app.js")
+ 
+    // console.log(props);
     return (
       <div className="app">
         <Switch>
           <Layout 
-          isLogin={sessionStorage.getItem('token') ? true : false}
-          location={this.props.location}
-          history={this.props.history}
+          isLogin={sessionStorage.getItem("token") ? true : false}
+          location={props.location}
+          history={props.history}
           >
-          {/* {this.props.location.pathname === '/' && <Redirect to='/register' />} */}
+          {props.location.pathname === '/' && <Redirect to='/' />}
 
             <PrivateRoute component={Discover} exact path="/discover" />
             {/* <PrivateRoute component={Discover} exact path="/" /> */}
@@ -53,7 +62,7 @@ class App extends React.Component {
         </Switch>
       </div>
     );
-  }
+
 };
 
 export default withRouter(App);

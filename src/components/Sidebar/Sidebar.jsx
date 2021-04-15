@@ -4,6 +4,8 @@ import "./Sidebar.css";
 import {FiLogOut} from "react-icons/all";
 import {NavLink, withRouter} from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/all";
+import {useDispatch} from "react-redux";
+import * as actionTypes from "../../store/actionTypes";
 
 const navlinks = [
     {
@@ -46,19 +48,22 @@ const navlinks = [
     },
 ]
 
-export class Sidebar extends Component {
+const Sidebar = (props) => {
 
-    logout = () => {
-        sessionStorage.clear();
-        this.props.history.push('/login');
-        console.log(this.props);
-        
+
+    const dispatch = useDispatch();
+
+    const logout = () => {
+        // sessionStorage.clear();
+        dispatch({type: actionTypes.LOGOUT});
+        props.history.push('/login');
+        console.log(props);
     }
-    render() {
+
         return (
             <div className="sidebar">
                 <div className="p-2">
-                <GiHamburgerMenu onClick={() =>this.props.sidebarToggle(false)} className="sidebar-toggler mr-5" />
+                <GiHamburgerMenu onClick={() =>props.sidebarToggle(false)} className="sidebar-toggler mr-5" />
                 </div>
                 <div className="links-container">
                    {
@@ -68,12 +73,12 @@ export class Sidebar extends Component {
                    }
 
                    <div className="sidebar-logout-container">
-                   <div className="sidebar-logout" onClick={this.logout}><span><FiLogOut className="sidebar-logout-icon mr-3" /></span>Se déconnecter</div>
+                   <div className="sidebar-logout" onClick={logout}><span><FiLogOut className="sidebar-logout-icon mr-3" /></span>Se déconnecter</div>
                    </div>
                 </div>
             </div>
         )
-    }
+
 }
 
 export default withRouter(Sidebar)
