@@ -15,18 +15,25 @@ import Mapping from "./Screens/Mapping/Mapping";
 import Steps from "./Screens/Steps/Steps";
 import Landing from "./Screens/Landing/Landing";
 import EmailVerify from "./Screens/EmailVerify/EmailVerify";
-import {useSelector} from "react-redux"; 
+import {useSelector,useDispatch} from "react-redux"; 
+import * as actionTypes from "./store/actionTypes";
 
 const App = (props) => {
 
   const user = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const token  = sessionStorage.getItem('token');
-    if(!token){
-      console.log(token);
-    }
-  },[user])
+    // window.addEventListener('unload', logout)
+    // return () => {
+    //     window.removeEventListener('unload', logout)
+    // } 
+
+  },[dispatch,user])
+
+  const logout = () => {
+    dispatch({type: actionTypes.LOGOUT});
+  }
 
   console.log("user in app.js",user.user.token);
   console.log("again app.js")
@@ -36,7 +43,7 @@ const App = (props) => {
       <div className="app">
         <Switch>
           <Layout 
-          isLogin={sessionStorage.getItem("token") ? true : false}
+          isLogin={user.user.token ? true : false}
           location={props.location}
           history={props.history}
           >

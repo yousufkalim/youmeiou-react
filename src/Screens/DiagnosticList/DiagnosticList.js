@@ -136,6 +136,7 @@ const Diagnostic = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [diagnostics, setDiagnostics] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [token, setToken] = useState("");
   const [families, setFamilies] = useState([{
     created_at: "",
     deleted_at: null,
@@ -145,7 +146,7 @@ const Diagnostic = (props) => {
     name: "Famille de diagnostics",
     updated_at: ""
   }]);
-  const [spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(true);
 
   // const [list, setList] = useState([]);
   const [toggle, setToggle] = useState(false);
@@ -154,39 +155,39 @@ const Diagnostic = (props) => {
     enter: false,
     exit: false,
   });
+  const userToken = useSelector((state) => state.user.token);
 
   // console.log(props);
   const dispatch = useDispatch();
 
-  const userToken = useSelector((state) => state.user.token);
+  // console.log("userToken", userToken)
+  // setToken(userToken);
+  
   var decToken = jwt_decode(userToken);
   const userId = parseInt(decToken.Id);
   console.log(userId)
-  const state = useSelector((state) => state);
-  console.log("complete state", state);
+  // const state = useSelector((state) => state);
+  // console.log("complete state", state);
   // console.log("token", token);
 
   useEffect(() => {
-    dispatch({ type: actionTypes.GET_DIAGNOSTICS, payload: {userToken:userToken, userId:userId} });
-    // getAllDiagnostics();
+    // dispatch({ type: actionTypes.GET_DIAGNOSTICS, payload: {userToken:userToken, userId:userId} });
+    getAllDiagnostics();
     getFamily();
-    var token = sessionStorage.getItem("token");
-    // console.log(token);
-    var decoded = jwt_decode(token);
     // console.log("User data is =>>> ",decoded.email);
 
-  }, [dispatch,userToken]);
+  }, [dispatch]);
 
   async function getAllDiagnostics() {
-    const token = sessionStorage.getItem("token");
-    var decoded = jwt_decode(token);
+
+    var decoded = jwt_decode(userToken);
     const id = parseInt(decoded.Id);
     console.log(id);
     await fetch(`${endPoints.GET_FILTER_DIAGNOSTICS}/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userToken}`,
       },
     })
       .then((res) => res.json())
@@ -208,12 +209,12 @@ const Diagnostic = (props) => {
   }
 
   async function getFamily() {
-    const token = sessionStorage.getItem("token");
+    // const token = sessionStorage.getItem("token");
     await fetch(`${endPoints.GET_FAMILY}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userToken}`,
       },
     }).then((res) => res.json())
       .then((result) => {
@@ -258,9 +259,8 @@ const Diagnostic = (props) => {
   const sendData = () => {
 
   }
-
-  const items = useSelector((state) => state);
-  console.log("current state", items);
+  // const items = useSelector((state) => state);
+  // console.log("current state", items);
   // console.log("diagnostics =>>", selectedCategory);
   // console.log("result families ==> ", families);
 

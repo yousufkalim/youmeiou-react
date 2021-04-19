@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import "./Plan.css";
-
+import {useSelector} from "react-redux";
 //  COMPONENTS
 import Card from "../../components/Card/Card";
 import Heading from "../../components/Heading/Heading";
@@ -44,33 +44,30 @@ const lists = [
   },
 ];
 
-export class Plan extends Component {
+const Plan = (props) => {
 
-  constructor(props) {
-    super(props)
+  const [error,setError] = useState("");
+  const [data, setData] = useState([]);
+  const [spinner, setSpinner] = useState(true);
+  const [score , setScore] = useState(null);
+  const [actionList, setActionList] = useState([]);
+
+  const userToken = useSelector((state) => state.user.token);
+
+
+  useEffect(() => {
+    getActionPlan();
+  },[])
   
-    this.state = {
-       data: [],
-       spinner: true,
-       error: "",
-       score: null,
-       diagnosticName: "",
-       actionList: [],
-    }
-  }
-  
 
-  async componentDidMount(){
-    await this.getActionPlan();
-  }
+ 
 
-  getActionPlan = () => {
-    var pathName = this.props.history.location.pathname;
+  async function getActionPlan() {
+    var pathName = props.history.location.pathname;
     var result = pathName.split("/mes-diagnostics/");
     var diagnosticId = result[1];
     console.log(diagnosticId);
-    const token = sessionStorage.getItem("token");
-    var decoded = jwt_decode(token);
+    var decoded = jwt_decode(userToken);
     const id = parseInt(decoded.Id);
     console.log(id);
 
@@ -83,26 +80,24 @@ export class Plan extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userToken}`,
       },
     })
       .then((res) => res.json())
       .then((result) => {
-       
-          this.setState({spinner: false});
+          setSpinner(false)
           console.log(result);
-          this.setState({data: result});
-          this.setState({actionList: result.actionPlanList});
+          setData(result)
+          setActionList(result.actionPlanList)
       })
       .catch((error) => {
         // this.setState({spinner: false});
         console.log(error);
-        this.setState({error: error});
+        setError(error)
 
       })
   }
-  render() {
-    const {spinner, data, error,actionList} = this.state;
+
     return (
       <div className="plan">
         {spinner && (
@@ -319,7 +314,7 @@ export class Plan extends Component {
         }
       </div>
     );
-  }
+
 }
 
 export default Plan;

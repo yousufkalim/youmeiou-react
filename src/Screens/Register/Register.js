@@ -126,6 +126,7 @@ const Register = () => {
         email: data.email,
         isUserOwner: true,
         linkedinProfile: "",
+        siren: data.siren,
         password: data.password,
         userFunction: ''
 

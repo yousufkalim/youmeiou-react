@@ -11,6 +11,7 @@ import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const Inprogress = (props) => {
   const [toggle, setToggle] = useState(false);
@@ -19,20 +20,22 @@ const Inprogress = (props) => {
   const [completeRisks, setCompleteRisks] = useState([]);
   const [totalRisks, setTotalRisks] = useState([]);
 
+  const userToken = useSelector((state) => state.user.token);
+
   useEffect(() => {
     getDiagnostics();
   }, []);
 
   const getDiagnostics = () => {
-    const token = sessionStorage.getItem("token");
+    // const token = sessionStorage.getItem("token");
     // console.log(token);
-    var decoded = jwt_decode(token);
+    var decoded = jwt_decode(userToken);
     const id = parseInt(decoded.Id);
     fetch(`${endPoints.GET_ALL_DIAGNOSTICS}/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userToken}`,
       },
     })
       .then((res) => res.json())

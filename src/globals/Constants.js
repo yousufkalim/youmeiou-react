@@ -23,6 +23,8 @@ const endPoints = {
     GET_ACTIONS: BASE_URL_V1 + "/actionPlan​/get​",
     GET_PROFILE: BASE_URL_V1 + "/get/userprofile",
     EMAIL_VERIFY: BASE_URL_V1 + "/emailVerification",
+    GET_COMPANY: BASE_URL_V1 + "/company/get",
+    UPDATE_COMPANY: BASE_URL_V1 + "/company/create"
 
 }
 

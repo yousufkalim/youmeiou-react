@@ -1,23 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Discover.css";
 
 import Heading from "../../components/Heading/Heading";
 import Input from "../../components/Input/Input";
 import Card from "../../components/Card/Card";
 import Button from "../../components/Button/Button";
+import { useSelector } from "react-redux";
+import endPoints from "../../globals/Constants";
+import jwt_decode from "jwt-decode";
 
 const Discover = () => {
   const [data, setData] = useState({
     reason: "",
     companyName: "",
-    effectif: "",
-    turnover: "",
+    effectif:0,
+    effectifArray: [],
+    turnover: 0,
     siren: "",
     codeApe: "",
     codePostal: "",
     ville: "",
     createDate: "",
-    companyType: "",
+    companyType: 0,
+    companyTypeArray: [],
     website: "",
   });
 
@@ -29,6 +34,74 @@ const Discover = () => {
     dateError: "",
     websiteError: "",
   });
+
+  const userToken = useSelector((state) => state.user.token);
+  var decoded = jwt_decode(userToken);
+  const userId = parseInt(decoded.Id);
+
+  useEffect(() => {
+    getComapny();
+  }, []);
+
+  async function getComapny() {
+   
+    await fetch(`${endPoints.GET_COMPANY}/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log("total data",result);
+        setData({
+          ...data,
+          reason: result.socialReason,
+          companyName: result.name,
+          effectif: result.effectifId,
+          effectifArray: [{name: "Choisissez effectif", id: 0},...result.dropdown[0].values],
+          turnover: result.turnover,
+          siren: "",
+          codeApe: result.apeCode,
+          codePostal: result.postalCode,
+          ville: result.city,
+          createDate:result.dateOfCreation,
+          companyType: result.companyTypeId,
+          companyTypeArray: [{name: "Choisissez le type d'entreprise", id:0},...result.dropdown[1].values],
+          website: result.companyWebsite
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+
+  async function updateCompany(){
+    var decoded = jwt_decode(userToken);
+    const userId = parseInt(decoded.Id);
+    const date = new Date();
+    await fetch("http://160.153.249.64:5059/api/v1/company/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+      body: JSON.stringify({
+        userInfoId: 7,
+        name: data.companyName,
+        socialReason: data.reason,
+        turnover: data.turnover,
+        apeCode: data.codeApe,
+        postalCode: data.codePostal,
+        city: data.ville,
+        dateOfCreation: date,
+        companyWebsite: data.website,
+        effectifId: data.effectif,
+        companyTypeId: data.companyType
+      })
+    })
+    .then((resp) => console.log(resp))
+    .catch((error) => console.log("errorrrrrr",error));
+  }
 
   const changeHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -85,29 +158,26 @@ const Discover = () => {
   };
 
   const changeSiren = (e) => {
-    if(e.target.value.length <= 9){
-      setData({...data, siren: e.target.value});
+    if (e.target.value.length <= 9) {
+      setData({ ...data, siren: e.target.value });
       if (e.target.value.length !== 9) {
         setErrors({ ...errors, sireError: "Siren number must have 9 digits" });
       } else {
         setErrors({ ...data, siren: "" });
       }
- 
-
     }
 
-      // if (e.target.value.length !== 9) {
-      //   setErrors({ ...errors, sireError: "Siren number must have 9 digits" });
-      // } else {
-      //   setData({...data, siren: e.target.value})
-      //   setErrors({ ...data, siren: "" });
-      // }
- 
-  }
+    // if (e.target.value.length !== 9) {
+    //   setErrors({ ...errors, sireError: "Siren number must have 9 digits" });
+    // } else {
+    //   setData({...data, siren: e.target.value})
+    //   setErrors({ ...data, siren: "" });
+    // }
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (data.reason !== "") {
+    if (data.reason !== null) {
       if (data.reason.length > 70) {
         setErrors({
           ...errors,
@@ -124,14 +194,14 @@ const Discover = () => {
         setErrors({ ...errors, sireError: "" });
       }
     }
-    if (data.codeApe !== "") {
+    if (data.codeApe !== null) {
       if (data.codeApe.length !== 5) {
         setErrors({ ...errors, codeApeError: "Code APE must have 5 digits" });
       } else {
         setErrors({ ...errors, codeApeError: "" });
       }
     }
-    if (data.codePostal !== "") {
+    if (data.codePostal !== null) {
       if (data.codePostal.length !== 5) {
         setErrors({
           ...errors,
@@ -141,14 +211,14 @@ const Discover = () => {
         setErrors({ ...errors, codePostalError: "" });
       }
     }
-    if (data.createDate !== "") {
-      if (data.createDate.length !== 4) {
-        setErrors({ ...errors, dateError: "Year msut be 4 digits" });
-      } else {
-        setErrors({ ...errors, dateError: "" });
-      }
-    }
-    if (data.website !== "") {
+    // if (data.createDate !== "") {
+    //   if (data.createDate.length !== 4) {
+    //     setErrors({ ...errors, dateError: "Year msut be 4 digits" });
+    //   } else {
+    //     setErrors({ ...errors, dateError: "" });
+    //   }
+    // }
+    if (data.website !== null) {
       const web = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
       if (!data.website.match(web)) {
         setErrors({ ...errors, websiteError: "Invalid Url" });
@@ -156,6 +226,9 @@ const Discover = () => {
         setErrors({ ...errors, websiteError: "" });
       }
     }
+    
+      updateCompany();
+  
     //  if( errors.sireError === null && (errors.codeApeError === null || errors.codeApeError === undefined || errors.codeApeError === "") && (errors.codePostalError === null || errors.codePostalError === "" || errors.codePostalError === undefined ) && errors.reasonError === null && errors.dateError === null){
     //     clearInputs();
     //   }
@@ -169,6 +242,13 @@ const Discover = () => {
     setData({ ...data, siren: "", companyName: "" });
   };
 
+
+  console.log(data);
+
+  console.log(data.effectifArray);
+  var d = new Date();
+  console.log(d);
+
   return (
     <div className="discover mx-3">
       <div style={{ height: "10%", paddingTop: "1.4rem" }}>
@@ -176,184 +256,198 @@ const Discover = () => {
       </div>
       <div className="discover-container">
         <form className="dicover-form" onSubmit={submitHandler}>
-          <Card
-           
-            style={{ borderRadius: "3.5rem", overflow: "hidden" }}
-          >
+          <Card style={{ borderRadius: "3.5rem", overflow: "hidden" }}>
             <div className="discover-form-wrapper">
-              <div className="disover-form-heading">Informations de l’entreprise :</div>
-            <div className="discover-form-content">
-            <Input
-              type="text"
-              placeholder="Nom entreprise * "
-              value={data.companyName}
-              onChange={changeHandler}
-              name="companyName"
-            />
-            <Input
-              type="text"
-              placeholder="Raison Sociale"
-              value={data.reason}
-              onChange={changeHandler}
-              name="reason"
-            />
-            {errors.reasonError !== "" && (
-              <div className="custom-error">{errors.reasonError}</div>
-            )}
-            {/* <Form.Control as="select" value={data.effectif} name="effectif">
+              <div className="disover-form-heading">
+                Informations de l’entreprise :
+              </div>
+              <div className="discover-form-content">
+                <Input
+                  type="text"
+                  placeholder="Nom entreprise * "
+                  value={data.companyName}
+                  onChange={changeHandler}
+                  name="companyName"
+                />
+                <Input
+                  type="text"
+                  placeholder="Raison Sociale"
+                  value={data.reason}
+                  onChange={changeHandler}
+                  name="reason"
+                />
+                {errors.reasonError !== "" && (
+                  <div className="custom-error">{errors.reasonError}</div>
+                )}
+                {/* <Form.Control as="select" value={data.effectif} name="effectif">
       <option>1</option>
       <option>2</option>
       <option>3</option>
       <option>4</option>
       <option>5</option>
     </Form.Control> */}
-            <select
-              onChange={changeHandler}
-              name="effectif"
-              id="effectif"
-              value={data.effectif}
-              className="discover-dropdown"
-            >
-              <option value="Effectif">Effectif</option>
-              <option value="Moins de 10 employés">Moins de 10 employés</option>
-              <option value="Entre 10 et 30 employés">
-                Entre 10 et 30 employés
-              </option>
-              <option value="Entre 31 et 200 employés">
-                Entre 31 et 200 employés
-              </option>
-              <option value="Plus de 200 employés">Plus de 200 employés</option>
-            </select>
+                <select
+                  onChange={changeHandler}
+                  name="effectif"
+                  id="effectif"
+                  value={data.effectif}
+                  className="discover-dropdown"
+                >
+                  {
+                    data.effectifArray && data.effectifArray.map((item, index) => (
+                      <option value={item.id}>{item.name}</option>
+                    ))
+                  }
+                  {/* <option value="Effectif">Effectif</option>
+                  <option value="Moins de 10 employés">
+                    Moins de 10 employés
+                  </option>
+                  <option value="Entre 10 et 30 employés">
+                    Entre 10 et 30 employés
+                  </option>
+                  <option value="Entre 31 et 200 employés">
+                    Entre 31 et 200 employés
+                  </option>
+                  <option value="Plus de 200 employés">
+                    Plus de 200 employés
+                  </option> */}
+                </select>
 
-            <div className="turnover">
-              <Input
-                type="number"
-                placeholder="Chif fre d’affaires"
-                value={data.turnover}
-                onChange={changeHandler}
-                name="turnover"
-              />
-              <div className="turnover-euro">€</div>
-            </div>
+                <div className="turnover">
+                  <Input
+                    type="number"
+                    placeholder="Chif fre d’affaires"
+                    value={data.turnover}
+                    onChange={changeHandler}
+                    name="turnover"
+                  />
+                  <div className="turnover-euro">€</div>
+                </div>
 
-            <Input
-              type="number"
-              placeholder="Numéro SIREN * "
-              maxlength="9"
-              minlength="9"
-              value={data.siren}
-              onChange={changeSiren}
-              max="9"
-              name="siren"
-            />
-            {errors.sireError !== "" && (
-              <div className="custom-error">{errors.sireError}</div>
-            )}
-            <Input
-              type="text"
-              placeholder="Code APE"
-              value={data.codeApe}
-              onChange={changeHandler}
-              // onblur={console.log("hello")}
-              name="codeApe"
-            />
-            {errors.codeApeError !== "" && (
-              <div className="custom-error">{errors.codeApeError}</div>
-            )}
-            <Input
-              type="number"
-              placeholder="Code Postal"
-              value={data.codePostal}
-              maxlength="5"
-              minlength="5"
-              onChange={changeHandler}
-              name="codePostal"
-            />
-            {errors.codePostalError !== "" && (
-              <div className="custom-error">{errors.codePostalError}</div>
-            )}
-            <Input
-              type="text"
-              placeholder="Ville"
-              value={data.ville}
-              onChange={changeHandler}
-              name="ville"
-            />
-            <Input
-              type="number"
-              placeholder="date de création de l'entreprise"
-              maxlength="4"
-              minlength="4"
-              value={data.creationDate}
-              onChange={changeHandler}
-              name="creationDate"
-            />
-            {errors.dateError !== "" && (
-              <div className="custom-error">{errors.dateError}</div>
-            )}
-            <select
-              onChange={changeHandler}
-              name="companyType"
-              id="effectif"
-              value={data.companyType}
-              className="discover-dropdown"
-            >
-              <option value="">Type d'entreprise</option>
-              <option value="Familiale">Familiale</option>
-              <option value="Actionnaire unique">Actionnaire unique</option>
-              <option value="Avec des investisseurs">
-                Avec des investisseurs
-              </option>
-            </select>
+                <Input
+                  type="number"
+                  placeholder="Numéro SIREN * "
+                  maxlength="9"
+                  minlength="9"
+                  value={data.siren}
+                  onChange={changeSiren}
+                
+                  name="siren"
+                />
+                {errors.sireError !== "" && (
+                  <div className="custom-error">{errors.sireError}</div>
+                )}
+                <Input
+                  type="text"
+                  placeholder="Code APE"
+                  value={data.codeApe}
+                  onChange={changeHandler}
+                  // onblur={console.log("hello")}
+                  name="codeApe"
+                />
+                {errors.codeApeError !== "" && (
+                  <div className="custom-error">{errors.codeApeError}</div>
+                )}
+                <Input
+                  type="number"
+                  placeholder="Code Postal"
+                  value={data.codePostal}
+                  maxlength="5"
+                  minlength="5"
+                  onChange={changeHandler}
+                  name="codePostal"
+                />
+                {errors.codePostalError !== "" && (
+                  <div className="custom-error">{errors.codePostalError}</div>
+                )}
+                <Input
+                  type="text"
+                  placeholder="Ville"
+                  value={data.ville}
+                  onChange={changeHandler}
+                  name="ville"
+                />
+                <Input
+                  type="number"
+                  placeholder="date de création de l'entreprise"
+                  maxlength="4"
+                  minlength="4"
+                  value={data.creationDate}
+                  onChange={changeHandler}
+                  name="creationDate"
+                />
+                {errors.dateError !== "" && (
+                  <div className="custom-error">{errors.dateError}</div>
+                )}
+                <select
+                  onChange={changeHandler}
+                  name="companyType"
+                  id="effectif"
+                  value={data.companyType}
+                  className="discover-dropdown"
+                >
+                  {
+                    data.companyTypeArray && data.companyTypeArray.map((item, index) => (
+                      <option value={item.id}>{item.name}</option>
+                    ))
+                  }
+                  {/* <option value="">Type d'entreprise</option>
+                  <option value="Familiale">Familiale</option>
+                  <option value="Actionnaire unique">Actionnaire unique</option>
+                  <option value="Avec des investisseurs">
+                    Avec des investisseurs
+                  </option> */}
+                </select>
 
-            {/* <Input
+                {/* <Input
                 type="text"
                 placeholder="Vous êtes classifiée ICPE ? Oui / Non"
                 // value={data.password}
                 // onChange={inputChange}
                 name="password"
               /> */}
-            {/* <Input
+                {/* <Input
                 type="text"
                 placeholder="Type d’entreprise (Familiale, Associé unique, Avec investisseurs)"
                 // value={data.password}
                 // onChange={inputChange}
                 name="password"
               /> */}
-            {/* <Input
+                {/* <Input
                 type="text"
                 placeholder="Trois derniers CA (CA1, CA2, CA3)"
                 // value={data.password}
                 // onChange={inputChange}
                 name="password"
               /> */}
-            <Input
-              type="text"
-              placeholder="Site web de l’entreprise"
-              value={data.website}
-              onChange={changeHandler}
-              name="website"
-            />
-            {errors.websiteError !== "" && (
-              <div className="custom-error">{errors.websiteError}</div>
-            )}
-            <div className="mt-5 text-left">
-              <Button
-                secondary
-                disabled={
-                  !data.companyName || data.siren.length !== 9 ||
-                  errors.reasonError || 
-                   errors.websiteError ||
-                   errors.codeApeError ||
-                   errors.codePostalError ||
-                   errors.dateError ||
-                   errors.sireError
-                }
-              >
-                Enregistrer
-              </Button>{" "}
-            </div>
-            </div>
+                <Input
+                  type="text"
+                  placeholder="Site web de l’entreprise"
+                  value={data.website}
+                  onChange={changeHandler}
+                  name="website"
+                />
+                {errors.websiteError !== "" && (
+                  <div className="custom-error">{errors.websiteError}</div>
+                )}
+                <div className="mt-5 text-left">
+                  <Button
+                    secondary
+                    disabled={
+                      !data.companyName ||
+                      data.siren.length !== 9 ||
+                      errors.reasonError ||
+                      errors.websiteError ||
+                      errors.codeApeError ||
+                      errors.codePostalError ||
+                      errors.dateError ||
+                      errors.sireError
+                    }
+                  >
+                    Enregistrer
+                  </Button>{" "}
+                </div>
+              </div>
             </div>
           </Card>
         </form>

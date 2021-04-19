@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./StepFive.css";
 
 import Card from "../../../components/Card/Card";
@@ -7,6 +7,8 @@ import { NavLink, Link } from "react-router-dom";
 import endPoints from "../../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {useSelector} from "react-redux";
+
 
 
 //  Components
@@ -16,35 +18,28 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 // import Button from "../../../components/Button/Button";
 // // import {Col, Row} from "react-bootstrap";
 
-class StepFive extends Component {
-  constructor(props) {
-    super(props)
-  
-    this.state = {
-       spinner: false,
-       show: false
-    }
-  }
-  
+const StepFive = (props) => {
+
+  const [spinner, setSpinner] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const userToken = useSelector((state) => state.user.token);
 
 
-  componentDidMount() {
-    // this.navigateBack();
-  }
-  navigateBack = (e) => {
+
+  const navigateBack = (e) => {
     // console.log(this.props.routerInfo);
-    this.setState({spinner: true});
-    const token = sessionStorage.getItem('token');
-    var decoded = jwt_decode(token);
+    setSpinner(true);
+    var decoded = jwt_decode(userToken);
     const userid = parseInt(decoded.Id);
-    const diagnosticId = this.props.state.diagnosticId;
+    const diagnosticId = props.state.diagnosticId;
     const treatment = e.target.value;
     // console.log(treatment);
     fetch(endPoints.UPDATE_TREATMENT, {
       method: "POST",
       headers : {
         "Content-Type" : "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${userToken}`
       },
       body: JSON.stringify({
         diagnosticId : diagnosticId,
@@ -54,29 +49,28 @@ class StepFive extends Component {
     })
       .then((res) => res.json())
       .then((result) => {
-        this.setState({spinner: false});
+        setSpinner(false);
         result.errorMessage ? 
         alert(result.errorMessage)
         :
-        this.props.routerInfo.history.push("/mes-diagnostics")
+        props.routerInfo.history.push("/mes-diagnostics")
         
       })
       .catch((error) => {
-        this.setState({spinner: false});
+        setSpinner(false);
         // console.log(error)
       })
   };
 
-  onClick = (e) => {
+  const onClick = (e) => {
     // console.log(e.target.value);
   };
 
-  handleClose = () => {
-    this.setState({show: false});
+  const handleClose = () => {
+    setShow(false)
+
   };
 
-  render() {
-    const {spinner} = this.state;
     return (
       <div className="step-five-container">
          {spinner && (
@@ -102,7 +96,7 @@ class StepFive extends Component {
                   éventuelles, malgré vos conseils.
                 </div>
                 <div className="text-center pt-5">
-                  <Button secondary onClick={this.navigateBack} value="Accepté">
+                  <Button secondary onClick={navigateBack} value="Accepté">
                     Accepté
                   </Button>
                 </div>
@@ -129,7 +123,7 @@ class StepFive extends Component {
                 </div>
 
                 <div className="text-center pt-4">
-                  <Button secondary onClick={this.navigateBack} value="Réduit">
+                  <Button secondary onClick={navigateBack} value="Réduit">
                     Réduit
                   </Button>
                 </div>
@@ -156,7 +150,7 @@ class StepFive extends Component {
                   m'est offerte.
                 </div>
                 <div className="text-center pt-5">
-                  <Button secondary onClick={this.navigateBack} value="Evité">
+                  <Button secondary onClick={navigateBack} value="Evité">
                     Evité
                   </Button>
                 </div>
@@ -185,7 +179,7 @@ class StepFive extends Component {
                 </div>
 
                 <div className="text-center pt-4">
-                  <Button secondary onClick={this.navigateBack} value="Partagé">
+                  <Button secondary onClick={navigateBack} value="Partagé">
                     Partagé
                   </Button>
                 </div>
@@ -195,7 +189,7 @@ class StepFive extends Component {
         </div>
       </div>
     );
-  }
+
 }
 
 export default StepFive;

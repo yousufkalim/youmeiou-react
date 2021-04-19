@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import "./StepFour.css";
 
 //  Components
@@ -14,33 +14,30 @@ import Button from "../../../components/Button/Button";
 import endPoints from "../../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {useSelector, useDispatch} from "react-redux";
 
-class StepFour extends Component {
-  constructor(props) {
-    super(props);
+const StepFour = (props) => {
 
-    this.state = {
-      color: "#fff",
-      data: {},
-      spinner: true,
-      score: null,
-      probability: 0,
-      gravity: 0,
-    };
-  }
+  const [color,setColor] = useState("#fff");
+  const [data, setData] = useState([]);
+  const [spinner, setSpinner] = useState(true);
+  const [score , setScore] = useState(null);
+  const [probability, setProbability] = useState(0);
+  const [gravity, setGravity] = useState(0);
 
-  async componentDidMount() {
-    // console.log(this.props);
-    await this.getScore();
-  }
 
-  getScore = () => {
+  useEffect(() => {
+    getScore();
+  },[])
+  
+
+  async function getScore(){
     const token = sessionStorage.getItem("token");
     const decoded = jwt_decode(token);
     const id = parseInt(decoded.Id);
     // console.log("user id ==> ", id);
-    const diagnosticId = this.props.data.diagnosticId;
-    fetch(`${endPoints.GET_SCORE}/${diagnosticId}, ${id}`, {
+    const diagnosticId = props.data.diagnosticId;
+    await fetch(`${endPoints.GET_SCORE}/${diagnosticId}, ${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,32 +45,31 @@ class StepFour extends Component {
       },
     }).then((res) => res.json())
       .then((result) => {
-        this.setState({data: result, spinner: false});
+        setData(result);
+        setSpinner(false);
         const score = result.score;
         const grav = result.evalGravity;
         const prob = result.evalProbability;
         console.log("gravity step four", result.evalGravity);
         console.log("probability step four", result.evalProbability);
-        this.setState({probability: prob});
-        this.setState({gravity: grav});
-        this.setState({score: score});
+        setProbability(prob);
+        setGravity(grav);
+        setScore(score);
         // console.log(result);
       })
       .catch((error) => {
-        this.setState({spinner: false});
+        setSpinner(false);
         alert(error);
       });
   };
 
 
 
-  handleChangecolor = (color) => {
-    this.setState({ color: color.hex });
-    // setColor(color.hex )
-    // console.log("color is", color.hex);
+  const handleChangecolor = (color) => {
+    setColor(color.hex);
+  
   };
-  render() {
-    const { color, spinner,data, score,probability,gravity } = this.state;
+
     // const score = this.state.data.evalgravity * 
     // console.log(this.state.data);
     // console.log(this.state.probability);
@@ -171,7 +167,7 @@ class StepFour extends Component {
                 <div className="step-four-color">
                   <ColorPicker
                     color={color}
-                    handleChange={this.handleChangecolor}
+                    handleChange={handleChangecolor}
                     gravity={gravity}
                     probability={probability}
                   />
@@ -179,7 +175,7 @@ class StepFour extends Component {
               </div>
             </Card>
             <div className="step-four-card-btn text-center mt-5 pt-4">
-              <Button secondary onClick={() => this.props.changeStepper(100)}>
+              <Button secondary onClick={() => props.changeStepper(100)}>
                 Traitement du risque
               </Button>
             </div>
@@ -187,7 +183,7 @@ class StepFour extends Component {
         </div>
       </div>
     );
-  }
+
 }
 
 export default StepFour;

@@ -5,6 +5,7 @@ import "./StepThree.css";
 import endPoints from "../../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {useSelector} from "react-redux";
 //import { debugger } from "fusioncharts";
 
 // const questions = [
@@ -70,6 +71,8 @@ const StepThree = (props) => {
   const [spinner, setSpinner] = useState(true);
   const [totalCount, setTotalCount] = useState(null);
 
+  const userToken = useSelector((state) => state.user.token);
+
   // var activeProgress = props.now;
   var progressPerQuestion = 73 / totalQuestions;
   // console.log("divide", progressPerQuestion);
@@ -85,15 +88,14 @@ const StepThree = (props) => {
 
   async function getAllQuestions() {
     const { diagnosticId } = props.data;
-    const token = sessionStorage.getItem("token");
-    var decoded = jwt_decode(token);
+    var decoded = jwt_decode(userToken);
     const id = parseInt(decoded.Id);
     // console.log(token);
     await fetch(`${endPoints.GET_QUESTIONS}/${diagnosticId},${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userToken}`,
       },
     })
       .then((res) => res.json())
@@ -153,9 +155,9 @@ const StepThree = (props) => {
   }
 
   async function updateQuestion() {
-    const token = sessionStorage.getItem("token");
+
     // console.log(token);
-    var decoded = jwt_decode(token);
+    var decoded = jwt_decode(userToken);
     setSpinner(true);
     // console.log(decoded);
     // console.log(props.data.diagnosticId);
@@ -163,13 +165,14 @@ const StepThree = (props) => {
     // console.log(token);
     const diagnosticsId = props.data.diagnosticId;
     const id = decoded.Id;
-    // console.log(id);
+
+    console.log(id);
     if (props.now === 7) {
       await fetch(endPoints.CREATE_DIAGNOSTIC, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userToken}`,
         },
         body: JSON.stringify({
           diagnosticId: diagnosticsId,
@@ -195,7 +198,7 @@ const StepThree = (props) => {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${userToken}`,
               },
               body: JSON.stringify({
                 riskId: activeQuestionId,
@@ -245,7 +248,7 @@ const StepThree = (props) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${userToken}`,
           },
           body: JSON.stringify({
             riskId: activeQuestionId,

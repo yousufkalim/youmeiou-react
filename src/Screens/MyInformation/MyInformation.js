@@ -10,6 +10,7 @@ import FileUploader from "../../components/FileUploader/FileUploader";
 import endPoints from "../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { useDispatch, useSelector } from "react-redux";
 
 
 async function readDataUrl(file) {
@@ -36,6 +37,7 @@ const MyInformation = (props) => {
   });
   const [spinner, setSpinner] = useState(true);
   const [error, setError] = useState("");
+  const userToken = useSelector((state) => state.user.token);
 
 
   useEffect(() => {
@@ -43,14 +45,13 @@ const MyInformation = (props) => {
   },[])
 
   async function getProfile(){
-    const token = sessionStorage.getItem("token");
-    var decoded = jwt_decode(token);
+    var decoded = jwt_decode(userToken);
     const id = parseInt(decoded.Id);
     await fetch(`${endPoints.GET_PROFILE}/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${userToken}`
       }
     }).then((res) => res.json())
       .then((result) => {
