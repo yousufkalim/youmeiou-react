@@ -8,20 +8,25 @@ import Button from "../../components/Button/Button";
 import { useSelector } from "react-redux";
 import endPoints from "../../globals/Constants";
 import jwt_decode from "jwt-decode";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
+import { withSnackbar } from "notistack";
 
-const Discover = () => {
+const Discover = (props) => {
   const [data, setData] = useState({
     reason: "",
     companyName: "",
-    effectif:0,
+    effectif: "",
     effectifArray: [],
-    turnover: 0,
+    turnover: "",
     siren: "",
-    codeApe: "",
-    codePostal: "",
+    codeApe: null,
+    codePostal: null,
     ville: "",
     createDate: "",
-    companyType: 0,
+    companyType: "",
     companyTypeArray: [],
     website: "",
   });
@@ -34,6 +39,9 @@ const Discover = () => {
     dateError: "",
     websiteError: "",
   });
+  const [spinner, setSpinner] = useState(true);
+  const [spinner2, setSpinner2] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
 
   const userToken = useSelector((state) => state.user.token);
   var decoded = jwt_decode(userToken);
@@ -44,7 +52,6 @@ const Discover = () => {
   }, []);
 
   async function getComapny() {
-   
     await fetch(`${endPoints.GET_COMPANY}/${userId}`, {
       method: "GET",
       headers: {
@@ -54,53 +61,91 @@ const Discover = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("total data",result);
+        console.log(result.dateOfCreation);
+        var newFormat = new Date(result.dateOfCreation);
+        // var formatDate = moment(result.dateOfCreation,"YYYY-MM-DDThh:mm:ss").format("YYYY")
+        // console.log(formatDate);
+        console.log("date formatn we send", startDate);
+        console.log("date format from api", result);
         setData({
           ...data,
           reason: result.socialReason,
           companyName: result.name,
           effectif: result.effectifId,
-          effectifArray: [{name: "Choisissez effectif", id: 0},...result.dropdown[0].values],
+          effectifArray: [
+            { name: "Choisissez effectif", id: null },
+            ...result.dropdown[0].values,
+          ],
           turnover: result.turnover,
-          siren: "",
+          siren: result.siren,
           codeApe: result.apeCode,
           codePostal: result.postalCode,
           ville: result.city,
-          createDate:result.dateOfCreation,
           companyType: result.companyTypeId,
-          companyTypeArray: [{name: "Choisissez le type d'entreprise", id:0},...result.dropdown[1].values],
-          website: result.companyWebsite
+          companyTypeArray: [
+            { name: "Choisissez le type d'entreprise", id: null },
+            ...result.dropdown[1].values,
+          ],
+          website: result.companyWebsite,
         });
+        setStartDate(newFormat);
+        props.enqueueSnackbar("Successfully fetched the data.", {
+          variant: "success",
+        });
+        setSpinner(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        props.enqueueSnackbar("Failed fetching data.", {
+          variant: "error",
+        });
+        console.log(error);
+        setSpinner(false);
+      });
   }
 
-  async function updateCompany(){
+  async function updateCompany() {
+    setSpinner2(true);
     var decoded = jwt_decode(userToken);
     const userId = parseInt(decoded.Id);
     const date = new Date();
-    await fetch("http://160.153.249.64:5059/api/v1/company/create", {
+    var formatted = moment(startDate, "YYYY-MM-DD").toDate();
+    // var formatted = moment(startDate).format('DD MMMM YYYY');
+    console.log(startDate);
+    console.log(formatted);
+    await fetch(endPoints.UPDATE_COMPANY, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userToken}`,
       },
       body: JSON.stringify({
-        userInfoId: 7,
+        userInfoId: userId,
         name: data.companyName,
         socialReason: data.reason,
-        turnover: data.turnover,
+        turnover: parseInt(data.turnover),
         apeCode: data.codeApe,
         postalCode: data.codePostal,
         city: data.ville,
-        dateOfCreation: date,
+        dateOfCreation: formatted,
         companyWebsite: data.website,
-        effectifId: data.effectif,
-        companyTypeId: data.companyType
-      })
+        effectifId: parseInt(data.effectif),
+        companyTypeId: parseInt(data.companyType),
+      }),
     })
-    .then((resp) => console.log(resp))
-    .catch((error) => console.log("errorrrrrr",error));
+      .then((resp) => {
+        console.log(resp);
+        setSpinner2(false);
+        props.enqueueSnackbar("Successfully update the data.", {
+          variant: "success",
+        });
+      })
+      .catch((error) => {
+        setSpinner2(false);
+        console.log("errorrrrrr", error);
+        props.enqueueSnackbar("Failed fetching data.", {
+          variant: "error",
+        });
+      });
   }
 
   const changeHandler = (e) => {
@@ -139,13 +184,13 @@ const Discover = () => {
         setErrors({ ...errors, codePostalError: "" });
       }
     }
-    if (e.target.name === "creationDate") {
-      if (e.target.value.length !== 4) {
-        setErrors({ ...errors, dateError: "Year msut be 4 digits" });
-      } else {
-        setErrors({ ...errors, dateError: "" });
-      }
-    }
+    // if (e.target.name === "creationDate") {
+    //   if (e.target.value.length !== 4) {
+    //     setErrors({ ...errors, dateError: "Year msut be 4 digits" });
+    //   } else {
+    //     setErrors({ ...errors, dateError: "" });
+    //   }
+    // }
     if (e.target.name === "website") {
       const web = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
       if (!e.target.value.match(web)) {
@@ -226,9 +271,9 @@ const Discover = () => {
         setErrors({ ...errors, websiteError: "" });
       }
     }
-    
-      updateCompany();
-  
+
+    updateCompany();
+
     //  if( errors.sireError === null && (errors.codeApeError === null || errors.codeApeError === undefined || errors.codeApeError === "") && (errors.codePostalError === null || errors.codePostalError === "" || errors.codePostalError === undefined ) && errors.reasonError === null && errors.dateError === null){
     //     clearInputs();
     //   }
@@ -242,8 +287,7 @@ const Discover = () => {
     setData({ ...data, siren: "", companyName: "" });
   };
 
-
-  console.log(data);
+  console.log(startDate);
 
   console.log(data.effectifArray);
   var d = new Date();
@@ -256,7 +300,24 @@ const Discover = () => {
       </div>
       <div className="discover-container">
         <form className="dicover-form" onSubmit={submitHandler}>
-          <Card style={{ borderRadius: "3.5rem", overflow: "hidden" }}>
+          <Card
+            style={{
+              borderRadius: "3.5rem",
+              overflow: "hidden",
+              position: "relative",
+            }}
+          >
+            {spinner && (
+              <div className="spinner">
+                <CircularProgress className="circular-spinner-blue" />
+              </div>
+            )}
+
+            {spinner2 && (
+              <div className="spinner">
+                <CircularProgress className="circular-spinner-blue" />
+              </div>
+            )}
             <div className="discover-form-wrapper">
               <div className="disover-form-heading">
                 Informations de l’entreprise :
@@ -293,11 +354,10 @@ const Discover = () => {
                   value={data.effectif}
                   className="discover-dropdown"
                 >
-                  {
-                    data.effectifArray && data.effectifArray.map((item, index) => (
+                  {data.effectifArray &&
+                    data.effectifArray.map((item, index) => (
                       <option value={item.id}>{item.name}</option>
-                    ))
-                  }
+                    ))}
                   {/* <option value="Effectif">Effectif</option>
                   <option value="Moins de 10 employés">
                     Moins de 10 employés
@@ -331,7 +391,6 @@ const Discover = () => {
                   minlength="9"
                   value={data.siren}
                   onChange={changeSiren}
-                
                   name="siren"
                 />
                 {errors.sireError !== "" && (
@@ -367,7 +426,7 @@ const Discover = () => {
                   onChange={changeHandler}
                   name="ville"
                 />
-                <Input
+                {/* <Input
                   type="number"
                   placeholder="date de création de l'entreprise"
                   maxlength="4"
@@ -378,7 +437,15 @@ const Discover = () => {
                 />
                 {errors.dateError !== "" && (
                   <div className="custom-error">{errors.dateError}</div>
-                )}
+                )} */}
+                <div className="discover-date">
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    showYearPicker
+                    dateFormat="yyyy"
+                  />
+                </div>
                 <select
                   onChange={changeHandler}
                   name="companyType"
@@ -386,11 +453,10 @@ const Discover = () => {
                   value={data.companyType}
                   className="discover-dropdown"
                 >
-                  {
-                    data.companyTypeArray && data.companyTypeArray.map((item, index) => (
+                  {data.companyTypeArray &&
+                    data.companyTypeArray.map((item, index) => (
                       <option value={item.id}>{item.name}</option>
-                    ))
-                  }
+                    ))}
                   {/* <option value="">Type d'entreprise</option>
                   <option value="Familiale">Familiale</option>
                   <option value="Actionnaire unique">Actionnaire unique</option>
@@ -456,4 +522,4 @@ const Discover = () => {
   );
 };
 
-export default Discover;
+export default withSnackbar(Discover);

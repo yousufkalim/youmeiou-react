@@ -66,6 +66,10 @@ select:focus{
   color:  linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%) !important; */
 }
 
+.SnackbarItem-contentRoot-24{
+  font-size: 1.8rem !important;
+}
+
 /* @media (max-width: 2500px) {
   html{
     font-size: 65%;  

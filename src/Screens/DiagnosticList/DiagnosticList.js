@@ -291,7 +291,7 @@ const Diagnostic = (props) => {
         </div>
         <div className="diagnostic-container">
           <div className="diagnostic-header">
-            <div className="diagnostic-dropdown">
+            {/* <div className="diagnostic-dropdown">
               <Dropdown>
                 <option>Risques signatures</option>
                 <option>2</option>
@@ -299,7 +299,7 @@ const Diagnostic = (props) => {
                 <option>4</option>
                 <option>5</option>
               </Dropdown>
-            </div>
+            </div> */}
             <div className="diagnostic-dropdown">
               <Dropdown onChange={handleCategory} value={selectedCategory}>
                 {
@@ -379,13 +379,13 @@ const Diagnostic = (props) => {
                           // onClick={props.history.push()}
                         >
                           <List>
-                            <div
+                            {/* <div
                               className="diagnostic-list-id"
                               style={{ width: "10%" }}
                               className="diagnostic-list-item"
                             >
                               {item.serialNo}
-                            </div>
+                            </div> */}
                             <div
                               className="diagnostic-list-name"
                               style={{ width: "25%" }}
@@ -402,7 +402,7 @@ const Diagnostic = (props) => {
                             </div>
                             <div
                               className="diagnostic-list-id"
-                              style={{ width: "40%" }}
+                              style={{ width: "50%" }}
                               className="diagnostic-list-item"
                             >
                               {item.explanation}
@@ -421,13 +421,13 @@ const Diagnostic = (props) => {
                         }}
                       >
                         <List>
-                          <div
+                          {/* <div
                             className="diagnostic-list-id"
                             style={{ width: "10%" }}
                             className="diagnostic-list-item"
                           >
                             {item.serialNo}
-                          </div>
+                          </div> */}
                           <div
                             className="diagnostic-list-name"
                             style={{ width: "25%" }}
@@ -444,7 +444,7 @@ const Diagnostic = (props) => {
                           </div>
                           <div
                             className="diagnostic-list-id"
-                            style={{ width: "40%" }}
+                            style={{ width: "50%" }}
                             className="diagnostic-list-item"
                           >
                             {item.explanation}
