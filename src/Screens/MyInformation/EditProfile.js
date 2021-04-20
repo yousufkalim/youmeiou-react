@@ -29,13 +29,14 @@ const EditProfile = (props) => {
     lname: "",
     phone: "",
     email: "",
-    function: "",
+    function: 0,
     profile: 0,
     profileArray: [],
     linkedin: "",
     file: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
     imagePreviewUrl: "",
   });
+  const [imageUrl, setImageUrl] = useState(null);
   // const [email, setEmail] = useState("");
   // const [function, setFunction] = useState("");
   // const
@@ -57,13 +58,17 @@ const EditProfile = (props) => {
   useEffect(() => {
     const { data } = props;
     let profileId;
-    if(data.entrepreneurProfileId === 0){
-      profileId = null
-    }
-    else{
-      profileId = data.entrepreneurProfileId
-    }
+    data.entrepreneurProfileId === 0 ? profileId = null : profileId = data.entrepreneurProfileId;
+    // if(data.entrepreneurProfileId === 0){
+    //   profileId = null
+    // }
+    // else{
+    //   profileId = data.entrepreneurProfileId
+    // }
     console.log(profileId);
+    let func;
+    (data.entrepreneurProfileId === 0 || data.entrepreneurProfileId === null) ? func = 0 : func = 1
+    console.log("useeffect");
     
     setData({
       ...data,
@@ -76,8 +81,8 @@ const EditProfile = (props) => {
         { id: null, dropdownTypeId: 0, name: "" },
         ...data.dropdown.values,
       ],
-      linkedin: " http://linkedin.com",
-      function: "0",
+      linkedin: data.linkedInProfile,
+      function: func,
     });
   }, []);
 
@@ -112,6 +117,7 @@ const EditProfile = (props) => {
     }
     if (e.target.name === "function") {
       if (e.target.value === "0" || e.target.value === "2") {
+      
         setData({ ...data, profile: null, function: e.target.value });
       }
     }
@@ -125,6 +131,9 @@ const EditProfile = (props) => {
     //   }
     // }
   };
+  const getImage = (file) => {
+    setImageUrl(file)
+  }
 
   async function editProfile() {
     // let result = {};
@@ -138,15 +147,15 @@ const EditProfile = (props) => {
     //   phoneNo: data.phone,
     //   linkedInProfile: data.linkedin,
     // };
-    console.log(userId);
-    console.log(data.profile);
+    console.log("final image URL ", imageUrl);
     var formdata = new FormData();
     formdata.append("Id",userId)
     formdata.append("FirstName", data.fname);
     formdata.append("LastName", data.lname);
     formdata.append("PhoneNo", data.phone);
-    formdata.append("EntrepreneurProfileId", 1);
-    formdata.append("LinkedInProfile", data.linkedin)
+    formdata.append("EntrepreneurProfileId", parseInt(data.profile));
+    formdata.append("LinkedInProfile", data.linkedin);
+    formdata.append("UserProfileImage", imageUrl);
     // formdata.append("SerialNo", "")
     // formdata.append("Email", "")
     // formdata.append("UserProfileImage", "")
@@ -206,8 +215,8 @@ const EditProfile = (props) => {
     editProfile();
   };
 
-  console.log(data);
-
+  // console.log(data);
+  console.log("edit profile image ==> ",imageUrl);
   return (
     <div className="account-management mx-3">
       <div style={{ height: "10%", paddingTop: "1.4rem" }}>
@@ -219,7 +228,7 @@ const EditProfile = (props) => {
               <Card style={{ borderRadius: "3.5rem" }}>
                 <div className="d-flex">
                   <div className="account-card-img">
-                    <FileUploader defaultImage="account" />
+                    <FileUploader getImage={getImage} defaultImage="account" />
                     {/* <img src={Images.account} alt="logo"  /> */}
                   </div>
                   <div className="account-card-detail">
@@ -307,8 +316,9 @@ const EditProfile = (props) => {
               >
                 <div className="account-card-detail-2">
                   <img src={Images.linkedin} alt="linkedIn" />
-                  <Input
+                  <input
                     type="text"
+                    className="user-linkedin-edit"
                     placeholder="linkedin"
                     value={data.linkedin}
                     onChange={changeHandler}
@@ -345,7 +355,7 @@ const EditProfile = (props) => {
                             ? true
                             : false
                         }
-                        value={data.profile}
+                        value={data.function === "0" || data.function === "2" ? 0 : data.profile}
                         className="custom-dropdown"
                       >
                         {data.profileArray.map((item, index) => (
