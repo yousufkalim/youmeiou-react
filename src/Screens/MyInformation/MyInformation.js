@@ -11,6 +11,8 @@ import endPoints from "../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useDispatch, useSelector } from "react-redux";
+import {FaUserEdit} from "react-icons/all";
+import EditProfile from "./EditProfile";
 
 
 async function readDataUrl(file) {
@@ -28,7 +30,7 @@ const MyInformation = (props) => {
     fname: "",
     lname: "",
     phone: "",
-    email: "damien@gmail.com",
+    email: "",
     function:"",
     profile: "",
     linkedin: "",
@@ -38,6 +40,8 @@ const MyInformation = (props) => {
   const [spinner, setSpinner] = useState(true);
   const [error, setError] = useState("");
   const userToken = useSelector((state) => state.user.token);
+  const [isEdit, setIsEdit] = useState(false);
+  const [response, setResponse] = useState({});
 
 
   useEffect(() => {
@@ -56,6 +60,7 @@ const MyInformation = (props) => {
     }).then((res) => res.json())
       .then((result) => {
         console.log(result);
+        setResponse(result)
         setData({...data, fname: result.firstName, lname: result.lastName, phone: result.phoneNo, email: result.email, linkedin: " http://linkedin.com"})
         setSpinner(false);
       })
@@ -66,10 +71,25 @@ const MyInformation = (props) => {
       });
   }
 
+  const toggleEdit = () => {
+    setIsEdit(true);
+  }
+
   return (
-    <div className="account-management mx-3">
+    <>
+    {
+      isEdit ?
+      (
+        <EditProfile data={response} />
+      )
+      :
+      (
+        <div className="account-management mx-3">
       <div style={{ height: "10%", paddingTop: "1.4rem" }}>
+        <div className="d-flex justify-content-between w-100 pr-5">
         <Heading>Mes informations</Heading>
+        <FaUserEdit className="edit-user-profile-icon" onClick={() => setIsEdit(true)} />
+        </div>
         {/* <FileUploader  /> */}
         {spinner ? (
           <div className="spinner">
@@ -88,7 +108,6 @@ const MyInformation = (props) => {
           
           <img
             src={Images.account}
-  
             alt="profile"
           />
           </div>
@@ -236,6 +255,9 @@ const MyInformation = (props) => {
 }
       </div>
     </div>
+      )
+    }
+    </>
   );
 };
 
