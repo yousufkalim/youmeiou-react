@@ -56,16 +56,24 @@ const EditProfile = (props) => {
 
   useEffect(() => {
     const { data } = props;
-    console.log(data);
+    let profileId;
+    if(data.entrepreneurProfileId === 0){
+      profileId = null
+    }
+    else{
+      profileId = data.entrepreneurProfileId
+    }
+    console.log(profileId);
+    
     setData({
       ...data,
       fname: data.firstName,
       lname: data.lastName,
       phone: data.phoneNo,
       email: data.email,
-      profile: data.entrepreneurProfileId,
+      profile: profileId,
       profileArray: [
-        { id: 0, dropdownTypeId: 0, name: "" },
+        { id: null, dropdownTypeId: 0, name: "" },
         ...data.dropdown.values,
       ],
       linkedin: " http://linkedin.com",
@@ -104,7 +112,7 @@ const EditProfile = (props) => {
     }
     if (e.target.name === "function") {
       if (e.target.value === "0" || e.target.value === "2") {
-        setData({ ...data, profile: "0", function: e.target.value });
+        setData({ ...data, profile: null, function: e.target.value });
       }
     }
 
@@ -130,28 +138,43 @@ const EditProfile = (props) => {
     //   phoneNo: data.phone,
     //   linkedInProfile: data.linkedin,
     // };
-
+    console.log(userId);
+    console.log(data.profile);
     var formdata = new FormData();
-    formdata.append("firstName", data.fname);
-    formdata.append("lastName", data.lname);
-    formdata.append("id",7)
-    formdata.append("EntrepreneurProfileId", 1)
+    formdata.append("Id",userId)
+    formdata.append("FirstName", data.fname);
+    formdata.append("LastName", data.lname);
+    formdata.append("PhoneNo", data.phone);
+    formdata.append("EntrepreneurProfileId", 1);
+    formdata.append("LinkedInProfile", data.linkedin)
+    // formdata.append("SerialNo", "")
+    // formdata.append("Email", "")
+    // formdata.append("UserProfileImage", "")
+    // formdata.append("IsUserOwner", "")
+    // formdata.append("",)
+    // formdata.append("",)
     // formdata.append("entrepreneurProfileId", 1)
     // formdata.append("entrepreneurProfileId", 1)
     // formdata.append("entrepreneurProfileId", 1)
     console.log(formdata);
+
+    const json = {}
+    formdata.forEach(function(value, prop){
+      json[prop] = value
+    })
+    const formBody = Object.keys(json).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(json[key])).join('&')
     for(let value of formdata.entries()) {
       console.log('values', value)
     }
     await fetch("http://160.153.249.64:5059/api/v1/userInfo/update", {
       method: "PUT",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${token}`,
       },
-      body: formdata
+      body: formBody
     })
-      .then((resp) => resp.json())
+      // .then((resp) => resp.json())
       .then((res) => console.log(res))
       .catch((error) => console.log(error));
   }
