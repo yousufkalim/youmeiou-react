@@ -14,6 +14,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import jwt_decode from "jwt-decode";
 import Skeleton from '@material-ui/lab/Skeleton';
 import endPoints from "../../globals/Constants";
+import { withSnackbar } from "notistack";
+
 
 // import { GiHamburgerMenu } from "react-icons/all";
 // import { Images } from "../../assets/Assets";
@@ -118,15 +120,35 @@ const categories = [
   },
   {
     catId: 14,
-    text: "xyz",
+    text: "test14",
+  },
+  {
+    catId: 7,
+    text: "test7",
   },
   {
     catId: 12,
-    text: "test",
+    text: "test12",
+  },
+  {
+    catId: 17,
+    text: "test17",
   },
   {
     catId: 15,
-    text: "wicky",
+    text: "test15",
+  },
+  {
+    catId: 13,
+    text: "test13",
+  },
+  {
+    catId: 16,
+    text: "test3",
+  },
+  {
+    catId: 18,
+    text: "test18",
   },
 ];
 const KEYS_TO_FILTERS = ["serialNo", "explanation", "shortExplanation", "name"];
@@ -193,17 +215,22 @@ const Diagnostic = (props) => {
       .then((res) => res.json())
       .then((result) => {
         if (result) {
+          console.log(result);
           setDiagnostics(result);
           setSpinner(false);
           // console.log(result);
         } else {
           setSpinner(false);
-          alert("something went wrong");
+          props.enqueueSnackbar("Un problème est survenu", {
+            variant: "error",
+          });
         }
       })
       .catch((error) => {
         setSpinner(false);
-        alert("something went wrong");
+        props.enqueueSnackbar("Un problème est survenu", {
+          variant: "error",
+        });
       });
     // console.log(token);
   }
@@ -233,7 +260,9 @@ const Diagnostic = (props) => {
             // console.log(result);
         }
         else{
-          alert(result.errorMessage);
+          props.enqueueSnackbar(result.errorMessage, {
+            variant: "error",
+          });
         }
       });
   }
@@ -242,12 +271,26 @@ const Diagnostic = (props) => {
     setToggle(btn);
   };
 
-  const handleChange = (e) => {
-    setSelectedFamily(e.target.value);
+  const changeFamily = (e) => {
+    if(selectedCategory !== ""){
+      setSelectedCategory("");
+      setSelectedFamily(e.target.value);
+    }
+    else{
+      setSelectedFamily(e.target.value);
+    }
   };
-  const handleCategory = (e) => {
-    setSelectedCategory(e.target.value);
+
+  const changeCategory = (e) => {
+    if(selectedFamily !== ""){
+      setSelectedFamily("");
+      setSelectedCategory(e.target.value);
+    }
+    else{
+      setSelectedCategory(e.target.value);
+    }
   }
+
   const searchUpdated = (term) => {
     setSearchTerm(term);
   };
@@ -301,7 +344,7 @@ const Diagnostic = (props) => {
               </Dropdown>
             </div> */}
             <div className="diagnostic-dropdown">
-              <Dropdown onChange={handleCategory} value={selectedCategory}>
+              <Dropdown onChange={changeCategory} value={selectedCategory} disabled={selectedFamily !== "" ? true : false}>
                 {
                   categories.map((item,index) => (
                     <option key={index} value={item.catId} >{item.text}</option>
@@ -311,7 +354,7 @@ const Diagnostic = (props) => {
               </Dropdown>
             </div>
             <div className="diagnostic-dropdown">
-              <Dropdown value={selectedFamily} onChange={handleChange}>
+              <Dropdown value={selectedFamily} onChange={changeFamily} disabled={selectedCategory !== "" ? true : false}>
                 {families.map((item, index) => (
                   <option value={item.family_Id} key={index}>
                     {item.name}
@@ -411,7 +454,52 @@ const Diagnostic = (props) => {
                         </NavLink>
                       );
                     }
-                  } else {
+                  }
+                  else if(selectedCategory !== ""){
+                    if (selectedCategory.match(item.categoryId)) {
+                      return (
+                        <NavLink
+                          to={{
+                            pathname: props.match.url + "/" + decodeURIComponent(item.diagnosticId),
+                            state: {id: item.diagnosticId, name: item.name, explanation: item.explanation }
+                          }}
+                          // onClick={props.history.push()}
+                        >
+                          <List>
+                            {/* <div
+                              className="diagnostic-list-id"
+                              style={{ width: "10%" }}
+                              className="diagnostic-list-item"
+                            >
+                              {item.serialNo}
+                            </div> */}
+                            <div
+                              className="diagnostic-list-name"
+                              style={{ width: "25%" }}
+                              className="diagnostic-list-item"
+                            >
+                              {item.name}
+                            </div>
+                            <div
+                              className="diagnostic-list-id"
+                              style={{ width: "20%" }}
+                              className="diagnostic-list-item"
+                            >
+                              {item.shortExplanation}{" "}
+                            </div>
+                            <div
+                              className="diagnostic-list-id"
+                              style={{ width: "50%" }}
+                              className="diagnostic-list-item"
+                            >
+                              {item.explanation}
+                            </div>
+                          </List>
+                        </NavLink>
+                      );
+                    }
+                  }
+                  else {
                     return (
                       <NavLink
                       onClick={sendData}
@@ -463,4 +551,4 @@ const Diagnostic = (props) => {
   );
 };
 
-export default Diagnostic;
+export default withSnackbar(Diagnostic);

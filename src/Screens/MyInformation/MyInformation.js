@@ -102,7 +102,7 @@ const MyInformation = (props) => {
       ) : (
         <div className="account-management mx-3">
           <div style={{ height: "10%", paddingTop: "1.4rem" }}>
-            <div className="d-flex justify-content-between w-100 pr-5">
+            <div className="d-flex justify-content-between align-items-center w-100 pr-5">
               <Heading>Mes informations</Heading>
               <FaUserEdit
                 className="edit-user-profile-icon"

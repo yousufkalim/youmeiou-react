@@ -89,17 +89,17 @@ const Discover = (props) => {
           website: result.companyWebsite,
         });
         setStartDate(newFormat);
-        props.enqueueSnackbar("Successfully fetched the data.", {
-          variant: "success",
-        });
+        // props.enqueueSnackbar("Successfully fetched the data.", {
+        //   variant: "success",
+        // });
         setSpinner(false);
       })
       .catch((error) => {
-        props.enqueueSnackbar("Failed fetching data.", {
-          variant: "error",
-        });
         console.log(error);
         setSpinner(false);
+        props.enqueueSnackbar("Un problème est survenu", {
+          variant: "error",
+        });
       });
   }
 
@@ -142,7 +142,7 @@ const Discover = (props) => {
       .catch((error) => {
         setSpinner2(false);
         console.log("errorrrrrr", error);
-        props.enqueueSnackbar("Failed fetching data.", {
+        props.enqueueSnackbar("Un problème est survenu", {
           variant: "error",
         });
       });

@@ -12,6 +12,9 @@ import endPoints from "../../globals/Constants";
 import { useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 import { GiLetterBomb } from "react-icons/gi";
+import { withSnackbar } from "notistack";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 async function readDataUrl(file) {
   return new Promise((resolve, reject) => {
@@ -37,6 +40,7 @@ const EditProfile = (props) => {
     imagePreviewUrl: "",
   });
   const [imageUrl, setImageUrl] = useState(null);
+  const [spinner, setSpinner] = useState(false);
   // const [email, setEmail] = useState("");
   // const [function, setFunction] = useState("");
   // const
@@ -147,6 +151,7 @@ const EditProfile = (props) => {
     //   phoneNo: data.phone,
     //   linkedInProfile: data.linkedin,
     // };
+    setSpinner(true);
     console.log("final image URL ", imageUrl);
     var formdata = new FormData();
     formdata.append("Id",userId)
@@ -175,6 +180,7 @@ const EditProfile = (props) => {
     for(let value of formdata.entries()) {
       console.log('values', value)
     }
+    console.log(formBody);
     await fetch("http://160.153.249.64:5059/api/v1/userInfo/update", {
       method: "PUT",
       headers: {
@@ -183,9 +189,20 @@ const EditProfile = (props) => {
       },
       body: formBody
     })
-      // .then((resp) => resp.json())
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
+      .then((res) => {
+        console.log(res);
+        setSpinner(false);
+        props.enqueueSnackbar("Le profil utilisateur a bien été mis à jour", {
+          variant: "success",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        setSpinner(false);
+        props.enqueueSnackbar("Un problème est survenu", {
+          variant: "error",
+        });
+      });
   }
 
   const submitHandler = (e) => {
@@ -219,6 +236,11 @@ const EditProfile = (props) => {
   console.log("edit profile image ==> ",imageUrl);
   return (
     <div className="account-management mx-3">
+      {spinner && (
+              <div className="spinner">
+                <CircularProgress className="circular-spinner-blue" />
+              </div>
+            )}
       <div style={{ height: "10%", paddingTop: "1.4rem" }}>
         <Heading>Mes informations</Heading>
         {/* <FileUploader  /> */}
@@ -397,4 +419,4 @@ const EditProfile = (props) => {
   );
 };
 
-export default EditProfile;
+export default withSnackbar(EditProfile);

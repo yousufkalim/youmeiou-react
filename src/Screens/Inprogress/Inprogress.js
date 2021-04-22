@@ -12,6 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { withSnackbar } from "notistack";
 
 const Inprogress = (props) => {
   const [toggle, setToggle] = useState(false);
@@ -40,7 +41,7 @@ const Inprogress = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         setSpinner(false);
         setTotalRisks(result);
         const incom = result.filter(
@@ -54,6 +55,9 @@ const Inprogress = (props) => {
       })
       .catch((error) => {
         setSpinner(false);
+        props.enqueueSnackbar("Un problème est survenu", {
+          variant: "error",
+        });
         // console.log(error);
       });
   };
@@ -196,4 +200,4 @@ const Inprogress = (props) => {
   );
 };
 
-export default Inprogress;
+export default withSnackbar(Inprogress);

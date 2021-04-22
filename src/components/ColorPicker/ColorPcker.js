@@ -29,7 +29,7 @@ class ColorPicker extends React.Component {
   
   render() {
     const value = this.props.gravity * this.props.probability;
-    const prob = ((value/25)*90) + 3;
+    const prob = ((value/25)*90) + 1;
     const val = Math.round(prob);
     // console.log(val);
     // const val = 100 - prob;
