@@ -113,44 +113,44 @@ const lists = [
 //   },
 // ];
 
-const categories = [
-  {
-    catId: "",
-    text: "Catégorie",
-  },
-  {
-    catId: 14,
-    text: "test14",
-  },
-  {
-    catId: 7,
-    text: "test7",
-  },
-  {
-    catId: 12,
-    text: "test12",
-  },
-  {
-    catId: 17,
-    text: "test17",
-  },
-  {
-    catId: 15,
-    text: "test15",
-  },
-  {
-    catId: 13,
-    text: "test13",
-  },
-  {
-    catId: 16,
-    text: "test3",
-  },
-  {
-    catId: 18,
-    text: "test18",
-  },
-];
+// const categories = [
+//   {
+//     catId: "",
+//     text: "Catégorie",
+//   },
+//   {
+//     catId: 14,
+//     text: "test14",
+//   },
+//   {
+//     catId: 7,
+//     text: "test7",
+//   },
+//   {
+//     catId: 12,
+//     text: "test12",
+//   },
+//   {
+//     catId: 17,
+//     text: "test17",
+//   },
+//   {
+//     catId: 15,
+//     text: "test15",
+//   },
+//   {
+//     catId: 13,
+//     text: "test13",
+//   },
+//   {
+//     catId: 16,
+//     text: "test3",
+//   },
+//   {
+//     catId: 18,
+//     text: "test18",
+//   },
+// ];
 const KEYS_TO_FILTERS = ["serialNo", "explanation", "shortExplanation", "name"];
 
 const Diagnostic = (props) => {
@@ -168,6 +168,11 @@ const Diagnostic = (props) => {
     name: "Famille de diagnostics",
     updated_at: ""
   }]);
+  const [categories, setCategories] = useState([{
+    explaination: "",
+    id: "",
+    name: "Catégorie"
+  }])
   const [spinner, setSpinner] = useState(true);
 
   // const [list, setList] = useState([]);
@@ -196,6 +201,7 @@ const Diagnostic = (props) => {
     // dispatch({ type: actionTypes.GET_DIAGNOSTICS, payload: {userToken:userToken, userId:userId} });
     getAllDiagnostics();
     getFamily();
+    getCategory();
     // console.log("User data is =>>> ",decoded.email);
 
   }, [dispatch]);
@@ -266,7 +272,10 @@ const Diagnostic = (props) => {
             variant: "error",
           });
         }
-      });
+      })
+      .catch((error) => {
+
+      })
   }
 
   const sidebarToggle = (btn) => {
@@ -278,9 +287,20 @@ const Diagnostic = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer, `
-      }
-    })
+        Authorization: `Bearer ${userToken}`,
+      },
+    }).then((res) => res.json())
+      .then((result) => {
+        if(result){
+            setCategories([...categories,...result.diagCategoryContract]);
+            // console.log(result.diagCategoryContract);
+        }
+        else{
+          props.enqueueSnackbar(result.errorMessage, {
+            variant: "error",
+          });
+        }
+      })
   }
 
   const changeFamily = (e) => {
@@ -319,6 +339,7 @@ const Diagnostic = (props) => {
   // console.log("diagnostics =>>", selectedCategory);
   // console.log("result families ==> ", families);
 
+  console.log("categories ",categories);
   return (
     <div className="diagnostic">
       {/* <div
@@ -359,7 +380,7 @@ const Diagnostic = (props) => {
               <Dropdown onChange={changeCategory} value={selectedCategory} disabled={selectedFamily !== "" ? true : false}>
                 {
                   categories.map((item,index) => (
-                    <option key={index} value={item.catId} >{item.text}</option>
+                    <option key={index} value={item.id} >{item.name}</option>
                   ))
                 }
                

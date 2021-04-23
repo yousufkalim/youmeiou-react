@@ -160,7 +160,7 @@ const EditProfile = (props) => {
     formdata.append("PhoneNo", data.phone);
     formdata.append("EntrepreneurProfileId", parseInt(data.profile));
     formdata.append("LinkedInProfile", data.linkedin);
-    formdata.append("UserProfileImage", imageUrl);
+    formdata.append("ProfileImage", imageUrl);
     // formdata.append("SerialNo", "")
     // formdata.append("Email", "")
     // formdata.append("UserProfileImage", "")
@@ -172,22 +172,22 @@ const EditProfile = (props) => {
     // formdata.append("entrepreneurProfileId", 1)
     console.log(formdata);
 
-    const json = {}
-    formdata.forEach(function(value, prop){
-      json[prop] = value
-    })
-    const formBody = Object.keys(json).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(json[key])).join('&')
+    // const json = {}
+    // formdata.forEach(function(value, prop){
+    //   json[prop] = value
+    // })
+    // const formBody = Object.keys(json).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(json[key])).join('&')
     for(let value of formdata.entries()) {
       console.log('values', value)
     }
-    console.log(formBody);
+    console.log(formdata);
     await fetch("http://160.153.249.64:5059/api/v1/userInfo/update", {
       method: "PUT",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        // "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${token}`,
       },
-      body: formBody
+      body: formdata
     })
       .then((res) => {
         console.log(res);
