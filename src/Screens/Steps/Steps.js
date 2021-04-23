@@ -97,11 +97,11 @@ class Steps extends Component {
               : now >= 6 && now < 7 ? (
                 <StepTwo changeStepper={this.changeStepper} />
               ) 
-              : now >= 7 && now <= 79 ? (
-                <StepThree changeStepper={this.changeStepper} now={now} data={this.props.location.state} />
-              ) 
+              // : now >= 7 && now <= 79 ? (
+              //   <StepThree changeStepper={this.changeStepper} now={now} data={this.props.location.state} />
+              // ) 
               : 
-              now >= 79 && now < 99 ? 
+              now >= 7 && now < 99 ? 
               (
                 <StepFour changeStepper={this.changeStepper} data={this.props.location.state} />
               ) 

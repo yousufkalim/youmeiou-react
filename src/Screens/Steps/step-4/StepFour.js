@@ -140,9 +140,9 @@ const StepFour = (props) => {
           >
             <div className="step-four-table-card-content">
               <div className="step-four-card2-header mb-5">Cartographie</div>
-              {probability > 0 && gravity > 0 && (
-                <TableChart gravity={gravity} probability={probability} />
-              )}
+              
+                <TableChart gravity={1} probability={1} />
+            
             </div>
           </Card>
         </div>

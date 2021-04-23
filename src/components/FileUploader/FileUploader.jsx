@@ -52,7 +52,7 @@ class FileUploader extends Component {
         base64: dataUrl,
         // objectUrl: URL.createObjectURL(file)
       });
-      this.props.getImage(dataUrl);
+      this.props.getImage(file);
       console.log("url", dataUrl);
       console.log("file", file);
     });

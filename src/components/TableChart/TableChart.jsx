@@ -130,6 +130,7 @@ componentDidMount() {
     // const {valueToFind_x, valueToFind_y} = this.state;
     this.setState({test: 2})
     for (let i = 0; i < 5; i++) {
+      // debugger;
 // console.log("for loop");
 // var valueToFind_y = 15;
 // var valueToFind_x = 16;
@@ -213,8 +214,8 @@ componentDidMount() {
     );
     // console.log(this.props.score);
     // console.log(ismatch);
-    // console.log("x-index" ,x_axisVal);
-    // console.log("y-index" ,y_axisVal);
+    console.log("x-index" ,x_axisVal);
+    console.log("y-index" ,y_axisVal);
     // console.log("gravity value in render", this.props.gravity);
     // console.log("probability value in render", this.props.probability);
     const {gravity,probability} = this.props;

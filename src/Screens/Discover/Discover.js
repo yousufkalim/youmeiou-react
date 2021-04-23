@@ -61,12 +61,12 @@ const Discover = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result.dateOfCreation);
+        // console.log(result);
         var newFormat = new Date(result.dateOfCreation);
         // var formatDate = moment(result.dateOfCreation,"YYYY-MM-DDThh:mm:ss").format("YYYY")
         // console.log(formatDate);
         console.log("date formatn we send", startDate);
-        console.log("date format from api", result);
+        console.log("result", result);
         setData({
           ...data,
           reason: result.socialReason,
@@ -287,11 +287,7 @@ const Discover = (props) => {
     setData({ ...data, siren: "", companyName: "" });
   };
 
-  console.log(startDate);
-
-  console.log(data.effectifArray);
-  var d = new Date();
-  console.log(d);
+  console.log(data);
 
   return (
     <div className="discover mx-3">
@@ -501,7 +497,7 @@ const Discover = (props) => {
                     secondary
                     disabled={
                       !data.companyName ||
-                      data.siren.length !== 9 ||
+                      errors.sireError ||
                       errors.reasonError ||
                       errors.websiteError ||
                       errors.codeApeError ||

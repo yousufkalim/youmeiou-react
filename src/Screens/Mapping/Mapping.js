@@ -12,28 +12,32 @@ import { useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 import TableChart2 from "../../components/TableChart2/TableChart2";
 
-const gravityArr = [5, 4, 3, 5];
+const probabilityArr = [1, 2, 3, 12];
 
-const probabilityArr = [3, 5, 1, 5];
+const gravityArr = [1, 2, 10, 4];
+
+var newArr = [];
+
+
+// const gravity = 4;
+// const probability = 5;
 
 const Mapping = (props) => {
   const [show, setShow] = useState(false);
   const [values, setValues] = useState([]);
+  const [plotArr, setPlotArr] = useState([]);
+
   const token = useSelector((state) => state.user.token);
 
   var decToken = jwt_decode(token);
   const userId = parseInt(decToken.Id);
-  console.log(userId);
 
   const handleClose = () => {
     setShow(false);
     // props.history.push("/diagnostic-list");
   };
 
-  useEffect(() => {
-    getData();
-    calculateValue();
-  }, []);
+ 
 
   async function getData() {
     await fetch(`${endPoints.CARTOGRAPHY}/${userId}`, {
@@ -47,26 +51,65 @@ const Mapping = (props) => {
       .catch((error) => console.log(error));
   }
 
-  const calculateValue = () => {
-    // console.log("function");
-    for (let i = 0; i < probabilityArr.length; i++) {
-      const value = gravityArr[i] * probabilityArr[i];
-      console.log(value);
-      // console.log(this.props.gravity[i]);
-      // console.log(this.props.probability[i]);
-      const prob = (value / 25) * 90 + 1;
-      const valu = Math.round(prob);
-      setValues((state) => [...state, valu]);
-      console.log(values);
+  const getPlotValues = (val) =>{
+    console.log("Plotted value is ==> ",val);
+    console.log("value return from => ",val)
+    // setPlotArr(result => [...plotArr, val]);
+    val !== undefined && newArr.push(val);
+    console.log(newArr);
+    if(newArr.length === gravityArr.length){
+      for (let i = 0; i < 4; i++) {
+        // const value = gravityArr[i] * probabilityArr[i];
+        console.log("function run **************************** ");
+        // console.log(this.props.gravity[i]);
+        // console.log(this.props.probability[i]);
+        const prob = (newArr[i] / 25) * 90 + 1;
+        const valu = Math.round(prob);
+        setValues((state) => [...state, valu]);
+        console.log(valu);
+  
+        // this.setState(prevState => ({
+        //   values: [...prevState.values, valu]
+        // }));
+      }
+    }
+    // setPlotArr([...plotArr,val ]);
+  }
 
-      // this.setState(prevState => ({
-      //   values: [...prevState.values, valu]
-      // }));
+ 
+
+  const calculateValue = () => {
+
+    // console.log("function");
+    if(newArr.length === gravityArr.length){
+      for (let i = 0; i < 4; i++) {
+        // const value = gravityArr[i] * probabilityArr[i];
+        console.log("function not run **************************** ");
+        // console.log(this.props.gravity[i]);
+        // console.log(this.props.probability[i]);
+        const prob = (newArr[i] / 25) * 90 + 1;
+        const valu = Math.round(prob);
+        setValues((state) => [...state, valu]);
+        console.log(valu);
+  
+        // this.setState(prevState => ({
+        //   values: [...prevState.values, valu]
+        // }));
+      }
+    }
+    else{
+      console.log("function not run **************************** ");
     }
     // setShow(true);
   };
 
-  console.log(values);
+  useEffect(() => {
+    getData();
+    // calculateValue();
+    getPlotValues()
+  }, [getPlotValues]);
+  console.log("points ==> ",newArr);
+  // console.log(values);
 
   return (
     <div className="mapping-container">
@@ -119,7 +162,7 @@ const Mapping = (props) => {
                 borderRadius: "5.4rem",
               }}
             > */}
-            
+
             {/* <img
               src={Images.mapping1}
               alt="mapping"
@@ -128,19 +171,20 @@ const Mapping = (props) => {
             {/* </Card> */}
 
             <Card
-            style={{
-              padding: "1.5rem 1.5rem 4rem 1.5rem",
-              borderRadius: "3.5rem",
-              height: "auto",
-              overflow: "hidden",
-            }}
-          >
-            <div className="step-four-table-card-content">
-              <div className="step-four-card2-header mb-5">Cartographie</div>
-                             <TableChart2  />
-              
-            </div>
-          </Card>
+              style={{
+                padding: "1.5rem 1.5rem 4rem 1.5rem",
+                borderRadius: "3.5rem",
+                height: "auto",
+                overflow: "hidden",
+              }}
+            >
+              <div className="step-four-table-card-content">
+                <div className="step-four-card2-header mb-5">Cartographie</div>
+               
+                  <TableChart2 getPlotValues={getPlotValues} gravity={gravityArr} probability={probabilityArr} />
+             
+              </div>
+            </Card>
           </div>
           <div style={{ flexBasis: "23%" }}>
             <Card
@@ -148,7 +192,7 @@ const Mapping = (props) => {
                 padding: "1rem 1rem 2rem 3rem",
                 borderRadius: "5.4rem",
                 backgroundColor: "#EBEBEB",
-                overflow: "hidden"
+                overflow: "hidden",
               }}
             >
               <div className="mapping-color-card">
@@ -161,9 +205,9 @@ const Mapping = (props) => {
                     <div>Mineur</div>
                     <div>Non significatif</div>
                   </div>
-
-                  {values &&
-                    values.map((item, index) => (
+                {console.log("valuessss =======================================> ",newArr)};
+                  {newArr.length > 0 &&
+                    newArr.map((item, index) => (
                       <div
                         className="mapping-color-line-container"
                         key={index}

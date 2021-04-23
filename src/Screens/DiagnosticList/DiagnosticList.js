@@ -221,6 +221,7 @@ const Diagnostic = (props) => {
           // console.log(result);
         } else {
           setSpinner(false);
+          console.log("not result");
           props.enqueueSnackbar("Un problème est survenu", {
             variant: "error",
           });
@@ -228,6 +229,7 @@ const Diagnostic = (props) => {
       })
       .catch((error) => {
         setSpinner(false);
+        console.log(error);
         props.enqueueSnackbar("Un problème est survenu", {
           variant: "error",
         });
@@ -270,6 +272,16 @@ const Diagnostic = (props) => {
   const sidebarToggle = (btn) => {
     setToggle(btn);
   };
+
+  async function getCategory(){
+    await fetch(endPoints.GET_CATEGORY, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer, `
+      }
+    })
+  }
 
   const changeFamily = (e) => {
     if(selectedCategory !== ""){
