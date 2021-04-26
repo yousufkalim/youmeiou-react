@@ -13,6 +13,9 @@ import moment from "moment";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { withSnackbar } from "notistack";
+import { Modal} from "react-bootstrap";
+import {BiError} from "react-icons/all";
+
 
 const Inprogress = (props) => {
   const [toggle, setToggle] = useState(false);
@@ -22,6 +25,7 @@ const Inprogress = (props) => {
   const [totalRisks, setTotalRisks] = useState([]);
 
   const userToken = useSelector((state) => state.user.token);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     getDiagnostics();
@@ -33,7 +37,7 @@ const Inprogress = (props) => {
     var decoded = jwt_decode(userToken);
     const id = parseInt(decoded.Id);
     fetch(`${endPoints.GET_ALL_DIAGNOSTICS}/${id}`, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userToken}`,
@@ -61,15 +65,29 @@ const Inprogress = (props) => {
         // console.log(error);
       });
   };
+
+  const checkPaid = (risk,id, paid) => {
+    if(paid){
+      // console.log(risk);
+      props.history.push(`mes-diagnostics/${id}`)
+    }
+    else{
+      setShow(true);
+    }
+  }
   // console.log(totalRisks);
   // console.log("completed ==> ", completeRisks);
   // console.log("incompleted ==> ", incompletedRisks);
 
   const cdate = moment(totalRisks.createdDate).format("DD-MM-YYYY");
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   // console.log(props);
   // console.log("date is ==> ", cdate);
 
   return (
+    <>
     <div className="inprogress">
       {/* <div
           className="d-flex justify-content-between mx-3 py-1 screen-navbar"
@@ -158,17 +176,17 @@ const Inprogress = (props) => {
                     <div style={{ width: "30%" }}>
                       {item.treatmentOfRisk === "Réduit" ||
                       item.treatmentOfRisk === "Partagé" ? (
-                        <NavLink
-                          to={{
-                            pathname: `mes-diagnostics/${item.diagnosticId}`,
-                            state: { ...item, now: 100 },
-                          }}
-                        >
-                          <Button secondary className="inprogress-btn">
+                        // <NavLink
+                        //   to={{
+                        //     pathname: `mes-diagnostics/${item.diagnosticId}`,
+                        //     state: { ...item, now: 100 },
+                        //   }}
+                        // >
+                          <Button secondary className="inprogress-btn" onClick={() =>checkPaid(item.treatmentOfRisk,item.diagnosticId, item.paid )}>
                             Plan d’action
                           </Button>
-                        </NavLink>
-                      ) : item.treatmentOfRisk === "NonTraité" ? (
+                        // </NavLink>
+                      ) : item.treatmentOfRisk === "NonTraité" && (
                         <NavLink
                           to={{
                             pathname: `diagnostic-list/${item.diagnosticId}`,
@@ -179,11 +197,13 @@ const Inprogress = (props) => {
                             Traiter le risque
                           </Button>
                         </NavLink>
-                      ) : (
-                        <Button secondary className="inprogress-btn">
-                          Modifier mon choix
-                        </Button>
-                      )}
+                      ) 
+                      // : (
+                      //   <Button secondary className="inprogress-btn">
+                      //     Modifier mon choix
+                      //   </Button>
+                      // )
+                      }
                     </div>
                   </List>
                 ))
@@ -197,6 +217,26 @@ const Inprogress = (props) => {
         </div>
       </div>
     </div>
+    <Modal show={show} onHide={handleClose} className="custom-modal-2">
+    <Modal.Header closeButton>
+    </Modal.Header>
+    <Modal.Body>
+      <div className="text-center"><BiError size={40} /></div>
+      <div className="py-2 text-center">veuillez prendre rendez-vous au <span><a  target="_blank" href="https://calendly.com/">calendly</a></span></div>
+    </Modal.Body>
+    <Modal.Footer>
+      <div className="text-center w-100">
+      <div className="login-modal-btn">
+      <Button variant="secondary" onClick={handleClose}>
+        Close
+      </Button>
+      </div>
+      </div>
+     
+    </Modal.Footer>
+  </Modal>
+
+  </>
   );
 };
 

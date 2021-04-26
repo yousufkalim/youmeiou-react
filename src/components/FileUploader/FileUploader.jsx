@@ -60,9 +60,9 @@ class FileUploader extends Component {
 
   render() {
     const { base64} = this.state;
-    console.log(this.state.file);
+    console.log("fileuploader",this.props.data);
     // const defaultImage = "http://via.placeholder.com/300";
-
+    const {data} = this.props;
     return (
       <div className="grid-container">
         <div className="grid-x grid-padding-x grid-padding-y">
@@ -78,7 +78,7 @@ class FileUploader extends Component {
         <div className="file-uploader-image">
           
                 <img
-                  src={base64 || Images.account}
+                  src={base64 || (data ? `data:image/jpeg;base64,${data}` : Images.account)}
                   ref={img => (this.imgRef = img)}
                   alt="profile"
                 />

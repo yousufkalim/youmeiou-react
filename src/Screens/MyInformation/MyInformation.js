@@ -25,12 +25,14 @@ async function readDataUrl(file) {
 }
 
 const MyInformation = (props) => {
+  const [showEdit, setShowEdit] = useState(false);
   const [data, setData] = useState({
     fname: "",
     lname: "",
     phone: "",
     email: "",
     function: "",
+    profileImage: "",
     profile: 0,
     profileArray: [],
     linkedin: "",
@@ -59,7 +61,7 @@ const MyInformation = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
+        console.log("result from api ",result);
         setResponse(result);
         let func;
         result.entrepreneurProfileId === 0 ||
@@ -72,6 +74,7 @@ const MyInformation = (props) => {
           lname: result.lastName,
           phone: result.phoneNo,
           email: result.email,
+          profileImage: result.userProfileImage,
           function: func,
           profile: result.entrepreneurProfileId,
           profileArray: [
@@ -80,11 +83,13 @@ const MyInformation = (props) => {
           ],
           linkedin: result.linkedInProfile,
         });
+        setShowEdit(true);
         setSpinner(false);
       })
       .catch((error) => {
         console.log(error);
         setSpinner(false);
+        setShowEdit(false);
         setError("something went wrong");
       });
   }
@@ -93,7 +98,7 @@ const MyInformation = (props) => {
     setIsEdit(true);
   };
 
-  console.log(data);
+  console.log(data.profileImage);
 
   return (
     <>
@@ -104,10 +109,14 @@ const MyInformation = (props) => {
           <div style={{ height: "10%", paddingTop: "1.4rem" }}>
             <div className="d-flex justify-content-between align-items-center w-100 pr-5">
               <Heading>Mes informations</Heading>
-              <FaUserEdit
+              {
+                showEdit && (
+                  <FaUserEdit
                 className="edit-user-profile-icon"
                 onClick={() => setIsEdit(true)}
               />
+                )
+              }
             </div>
             {/* <FileUploader  /> */}
             {spinner ? (
@@ -122,7 +131,15 @@ const MyInformation = (props) => {
                       <div className="d-flex">
                         <div className="account-card-img">
                           <div className="file-uploader-image">
-                            <img src={Images.account} alt="profile" />
+                            {
+                              data.profileImage ? (
+                                <img src={`data:image/jpeg;base64,${data.profileImage}`} alt="profile" />
+                              )
+                              : 
+                              (
+                                <img src={Images.account} alt="profile" />
+                              )
+                            }
                           </div>
                           {/* <FileUploader defaultImage="account" /> */}
                           {/* <img src={Images.account} alt="logo"  /> */}

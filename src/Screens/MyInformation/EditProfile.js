@@ -11,7 +11,6 @@ import FileUploader from "../../components/FileUploader/FileUploader";
 import endPoints from "../../globals/Constants";
 import { useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
-import { GiLetterBomb } from "react-icons/gi";
 import { withSnackbar } from "notistack";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -73,7 +72,7 @@ const EditProfile = (props) => {
     let func;
     (data.entrepreneurProfileId === 0 || data.entrepreneurProfileId === null) ? func = 0 : func = 1
     console.log("useeffect");
-    
+
     setData({
       ...data,
       fname: data.firstName,
@@ -250,7 +249,7 @@ const EditProfile = (props) => {
               <Card style={{ borderRadius: "3.5rem" }}>
                 <div className="d-flex">
                   <div className="account-card-img">
-                    <FileUploader getImage={getImage} defaultImage="account" />
+                    <FileUploader getImage={getImage} data={props.data.userProfileImage} />
                     {/* <img src={Images.account} alt="logo"  /> */}
                   </div>
                   <div className="account-card-detail">

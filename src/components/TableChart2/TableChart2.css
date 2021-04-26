@@ -106,6 +106,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    cursor: pointer;
 }
 .box-circle{
     height: 3rem;
@@ -116,6 +117,39 @@
     right: 5%;
     top: 5%;
 }
+
+/* ========== TOOLTIP ============ */
+.custom-box .mapping-popover {
+    visibility: hidden;
+    width: 20rem !important;
+    background-color: #fff;
+    color: var(--text_color);
+    text-align: center;
+    font-size: 2rem;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    top: -100%;
+    left: -20%;
+    z-index: 99999999;
+  }
+  
+  .custom-box:hover .mapping-popover {
+    visibility: visible;
+    z-index: 99999999;
+  }
+
+  .mapping-popover-title{
+    font-size: 2.4rem !important;
+    background-color: var(--text_color) !important;
+    color: #fff !important;
+    border-radius: 1rem;
+  }
+
+  .custom-box .mapping-popover .popover-body{
+    background-color: #fff;
+  }
+
 
 
 @media (max-width: 767px) {

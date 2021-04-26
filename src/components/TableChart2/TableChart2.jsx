@@ -3,6 +3,7 @@ import "./TableChart2.css";
 
 import Box from "../Box/Box";
 import { Images } from "../../assets/Assets";
+import { Popover } from "react-bootstrap";
 
 // Resolves charts dependancy
 
@@ -78,7 +79,7 @@ x_y_axis4[4] = new Array(5,4,3,2,1);
 var x_axisVal = [];
 var y_axisVal = [];
 var x_bool = false;
-console.log("boolean",x_bool);
+// console.log("boolean",x_bool);
 
 // var revArray = x_y_axis.reverse();
 export class TableChart2 extends Component {
@@ -114,15 +115,16 @@ componentDidMount() {
     this.setState({test: 0})
 
    
-    // this.setState({valueToFind_x: this.props.gravity});
-    // this.setState({valueToFind_y: this.props.probability});
+    // this.setState({valueToFind_x: data.evalGravity});
+    // this.setState({valueToFind_y: data.evalProbability});
     // valueToFind_y = this.props.probability;
     // valueToFind_x = this.props.gravity;
 
   }
 
   componentDidUpdate(prevProps){
-      if(prevProps.gravity !== this.props.gravity && prevProps.probability !== this.props.probability){
+    const {result} = this.props;
+      if(prevProps.result.evalProbability !== result.evalGravity && prevProps.probability !== this.props.probability){
         this.getOrigin();
         // console.log("did update run")
         // this.setState({test: 0});
@@ -130,29 +132,31 @@ componentDidMount() {
   }
 
   getOrigin = () => {
+    const {result} = this.props;
+    // console.log("tablechart2 ==> ",result);
     // console.log("hshdjhsdjh");
     // const {valueToFind_x, valueToFind_y} = this.state;
     // const {x_axisVal, y_axisVal} = this.state;
     this.setState({test: 2})
-    for(let a = 0; a < 4; a++){
-      console.log("value of x_bool ---- ",x_bool);
+    for(let a = 0; a < result.length; a++){
+      // console.log("value of x_bool ---- ",x_bool);
     // debugger;
-    console.log(a);
+    // console.log(a);
     for (let i = 0; i < 5; i++) {
-      console.log("x-axis array", x_axisVal);
-      console.log("y-axis array", y_axisVal);
-      console.log("y-axis value array", x_axisVal[a]);
-      console.log("y-axis value array", y_axisVal[a]);
+      // console.log("x-axis array", x_axisVal);
+      // console.log("y-axis array", y_axisVal);
+      // console.log("y-axis value array", x_axisVal[a]);
+      // console.log("y-axis value array", y_axisVal[a]);
       if(x_axisVal[a] === undefined || y_axisVal[a] === undefined){
         for (let j = 0; j < 5; j++) {
           if (x_bool === false) {
             // console.log("if x_bool undefined");
-            console.log("table value x(gravity) ", x_y_axis[i][j]);
-              console.log("gravity value to find ",this.props.gravity[a]);
-            if (x_y_axis[i][j] === this.props.gravity[a]) {
+            // console.log("table value x(gravity) ", x_y_axis[i][j]);
+            //   console.log("gravity value to find ",result[a].evalGravity);
+            if (x_y_axis[i][j] === result[a].evalGravity) {
               
              
-               if(this.props.probability[a] === 1 && this.props.gravity[a] === 1){
+               if(result[a].evalProbability === 1 && result[a].evalGravity === 1){
                 x_axisVal.push(0);
                 i = 0;
                 x_bool = true
@@ -168,8 +172,8 @@ componentDidMount() {
                 i = 0;
                 x_bool = true
                 // x_bool[a] = true;
-                console.log("if equal gravity", x_axisVal);
-                console.log("x_bool value => ", x_bool);
+                // console.log("if equal gravity", x_axisVal);
+                // console.log("x_bool value => ", x_bool);
                 // x_bool = true
                 // console.log("index of x is", x_axisVal);
                 this.setState({test: 2});
@@ -179,21 +183,21 @@ componentDidMount() {
              
             }
           } else {
-            console.log("table value", x_y_axis[i][j]);
-              console.log("probability value to find",this.props.probability[a]);
+            // console.log("table value", x_y_axis[i][j]);
+            //   console.log("probability value to find",result[a].evalProbability);
             // console.log(x_y_axis[i][j]);
-            // console.log(this.props.probability[a]);
-            if (x_y_axis[i][j] === this.props.probability[a]) {
-              if(this.props.probability[a] === 1 && this.props.gravity[a] === 1){
+            // console.log(data.evalProbability[a]);
+            if (x_y_axis[i][j] === result[a].evalProbability) {
+              if(result[a].evalProbability === 1 && result[a].evalGravity === 1){
                 y_axisVal.push(0);
                 x_bool = false
               }
               else{
-                if(this.props.probability[a] < 4){
-                  // console.log("probability props ===  ", this.props.probability );
+                if(result[a].evalProbability < 4){
+                  // console.log("probability props ===  ", data.evalProbability );
                   // eslint-disable-next-line no-loop-func
-                  console.log("table value", x_y_axis[i][j]);
-                  console.log("probability lessthan 4",this.props.probability[a]);
+                  // console.log("table value", x_y_axis[i][j]);
+                  // console.log("probability lessthan 4",result[a].evalProbability);
                   y_axisVal.push(i);
                   // this.setState(prevState => ({
                   //   y_axisVal: [...prevState.y_axisVal, i]
@@ -202,12 +206,12 @@ componentDidMount() {
                   x_bool = false
                     // y_axisVal = i;
                   this.setState({test: 2});
-                  console.log("if equal probability less than 4", y_axisVal);
+                  // console.log("if equal probability less than 4", y_axisVal);
       
                   }
                   else{
-                    console.log("table value", x_y_axis[i][j]);
-                    console.log("probability greater than 4",this.props.probability[a]);
+                    // console.log("table value", x_y_axis[i][j]);
+                    // console.log("probability greater than 4",result[a].evalProbability);
                   y_axisVal.push(j);
     
                     // this.setState(prevState => ({
@@ -215,11 +219,11 @@ componentDidMount() {
                     // }))
                     // i = -1;
                     x_bool = false
-                  console.log("if equal probability greater than 4", y_axisVal);
+                  // console.log("if equal probability greater than 4", y_axisVal);
                   
       
                     // y_axisVal = j;
-                  // console.log("probability props ===  ", this.props.probability );
+                  // console.log("probability props ===  ", data.evalProbability );
                   this.setState({test: 2});
                   }
               }
@@ -229,7 +233,7 @@ componentDidMount() {
               // console.log("index of y is", y_axisVal);
               // console.log("answer is ", x_y_axis2[y_axisVal][x_axisVal]);
               this.setState({test: 2});
-              console.log("if equal probability outside");
+              // console.log("if equal probability outside");
               //console.log("answer is ",x_y_axis.indexOf(6));
   
               // return;
@@ -246,8 +250,8 @@ componentDidMount() {
           //   console.log("value is", j);
           //   break;
           // }
-          // console.log("gravity props do nothing ===  ", this.props.probability );
-          // console.log("probability props do nothing ===  ", this.props.gravity );
+          // console.log("gravity props do nothing ===  ", data.evalProbability );
+          // console.log("probability props do nothing ===  ", data.evalGravity );
           // console.log("nothing");
         }
       }
@@ -293,16 +297,17 @@ componentDidMount() {
       num === this.props.score ? true : false
     );
     // const {x_axisVal, y_axisVal} = this.state;
-    console.log("x array",x_axisVal);
-    console.log("y array",y_axisVal);
+    // console.log("x array",x_axisVal);
+    // console.log("y array",y_axisVal);
+    const {result} = this.props;
     // console.log(this.props.score);
     // console.log(ismatch);
     // console.log("x-index" ,x_axisVal);
     // console.log("y-index" ,y_axisVal);
-    // console.log("gravity value in render", this.props.gravity);
-    // console.log("probability value in render", this.props.probability);
+    // console.log("gravity value in render", data.evalGravity);
+    // console.log("probability value in render", data.evalProbability);
     const {gravity,probability} = this.props;
-    console.log(x_bool);
+    // console.log(x_bool);
     return (
       <div className="chart">
         <div className="chart-table-container">
@@ -334,16 +339,32 @@ componentDidMount() {
                           // }
                           // console.log(x_axisVal),
                          
-                           x_axisVal.length === this.props.gravity.length && x_axisVal.map((val,it) => 
-                            this.props.probability[it] < 6
+                           x_axisVal.length === result.length && result.map((val,it) => 
+                           result[it].evalProbability < 6
                             ?
-                            this.props.probability[it] < 3
+                            result[it].evalProbability < 3
                             ?
                             (
                               
                               x_y_axis3.reverse()[index] === x_y_axis3.reverse()[y_axisVal[it]] && x_y_axis3[i] === x_y_axis3[x_axisVal[it]] ) && (
-                                this.props.getPlotValues(numb),
+                                // this.props.getPlotValues(numb),
+                              <>
+                              <Popover
+                            className="mapping-popover"
+                            id="popover-positioned-top"
+                          >
+                            <Popover.Title
+                              className="mapping-popover-title"
+                              as="h3"
+                            >
+                              {result.diagnosticName}
+                            </Popover.Title>
+                            <Popover.Content>
+                              {result.createdDate}
+                            </Popover.Content>
+                          </Popover>
                               <div className="box-circle"></div>
+                              </>
                             )
                             // :
                             // (x_y_axis3.reverse()[index] === x_y_axis3.reverse()[y_axisVal[it]] && x_y_axis3[i].reverse() === x_y_axis3[x_axisVal[it]].reverse() ) && (
@@ -353,15 +374,47 @@ componentDidMount() {
                             (
                               
                               x_y_axis3[index] === x_y_axis3[y_axisVal[it]] && x_y_axis3[i].reverse() === x_y_axis3[x_axisVal[it]].reverse() ) && (
-                                this.props.getPlotValues(numb),
-                              <div className="box-circle"></div>
+                                // this.props.getPlotValues(numb),
+                                <>
+                                <Popover
+                            className="mapping-popover"
+                            id="popover-positioned-top"
+                          >
+                            <Popover.Title
+                              className="mapping-popover-title"
+                              as="h3"
+                            >
+                              {result.diagnosticName}
+                            </Popover.Title>
+                            <Popover.Content>
+                            {result.createdDate}
+                            </Popover.Content>
+                          </Popover>
+                                <div className="box-circle"></div>
+                                </>
                             )
                             :
                             (
                               
                               x_y_axis3.reverse()[index] === x_y_axis3.reverse()[y_axisVal[it]] && x_y_axis3[i].reverse() === x_y_axis3[x_axisVal[it]].reverse() ) && (
-                                this.props.getPlotValues(numb),
-                              <div className="box-circle"></div>
+                                // this.props.getPlotValues(numb),
+                                <>
+                                <Popover
+                            className="mapping-popover"
+                            id="popover-positioned-top"
+                          >
+                            <Popover.Title
+                              className="mapping-popover-title"
+                              as="h3"
+                            >
+                              {result.diagnosticName}
+                            </Popover.Title>
+                            <Popover.Content>
+                            {result.createdDate}
+                            </Popover.Content>
+                          </Popover>
+                                <div className="box-circle"></div>
+                                </>
                             )
                            )
                           

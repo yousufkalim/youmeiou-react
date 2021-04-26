@@ -11,12 +11,14 @@ import endPoints from "../../globals/Constants";
 import { useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 import TableChart2 from "../../components/TableChart2/TableChart2";
+import { withSnackbar } from "notistack";
+
 
 const probabilityArr = [1, 2, 3, 12];
 
 const gravityArr = [1, 2, 10, 4];
 
-var newArr = [];
+var newArr = [1,4,16,15];
 
 
 // const gravity = 4;
@@ -25,7 +27,9 @@ var newArr = [];
 const Mapping = (props) => {
   const [show, setShow] = useState(false);
   const [values, setValues] = useState([]);
+  const [data, setData] = useState([]);
   const [plotArr, setPlotArr] = useState([]);
+  // const [newArr, setNewArr] = useState([]);
 
   const token = useSelector((state) => state.user.token);
 
@@ -37,9 +41,8 @@ const Mapping = (props) => {
     // props.history.push("/diagnostic-list");
   };
 
- 
-
   async function getData() {
+
     await fetch(`${endPoints.CARTOGRAPHY}/${userId}`, {
       method: "GET",
       headers: {
@@ -47,68 +50,71 @@ const Mapping = (props) => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((resp) => console.log(resp))
-      .catch((error) => console.log(error));
+    .then((res) => res.json())
+      .then((resp) => {
+        console.log(resp);
+        setData(resp);
+      })
+      .catch((error) => {
+        props.enqueueSnackbar("Un problème est survenu", {
+          variant: "error",
+        });
+      });
   }
 
   const getPlotValues = (val) =>{
-    console.log("Plotted value is ==> ",val);
-    console.log("value return from => ",val)
-    // setPlotArr(result => [...plotArr, val]);
-    val !== undefined && newArr.push(val);
-    console.log(newArr);
-    if(newArr.length === gravityArr.length){
-      for (let i = 0; i < 4; i++) {
-        // const value = gravityArr[i] * probabilityArr[i];
-        console.log("function run **************************** ");
-        // console.log(this.props.gravity[i]);
-        // console.log(this.props.probability[i]);
-        const prob = (newArr[i] / 25) * 90 + 1;
-        const valu = Math.round(prob);
-        setValues((state) => [...state, valu]);
-        console.log(valu);
+ 
+      // if(val !== undefined){
+      //   setNewArr([...newArr, val])
+      //   newArr.push(val);
+      // }
   
-        // this.setState(prevState => ({
-        //   values: [...prevState.values, valu]
-        // }));
-      }
-    }
-    // setPlotArr([...plotArr,val ]);
+    // if(val !== undefined){
+    //   setNewArr(prevState => ({
+    //     newArr: [...prevState.newArr, val]
+    //   }))
+    // }
+    // setNewArr(val);
   }
 
+  const getFilterValues = () => {
+
+  }
  
 
   const calculateValue = () => {
 
     // console.log("function");
-    if(newArr.length === gravityArr.length){
-      for (let i = 0; i < 4; i++) {
+
+      for (let i = 0; i < data.length; i++) {
         // const value = gravityArr[i] * probabilityArr[i];
-        console.log("function not run **************************** ");
+        // console.log("function not run **************************** ");
         // console.log(this.props.gravity[i]);
         // console.log(this.props.probability[i]);
-        const prob = (newArr[i] / 25) * 90 + 1;
+        const val = data[i].evalGravity * data[i].evalProbability;
+        const prob = (val / 25) * 90 + 1;
         const valu = Math.round(prob);
         setValues((state) => [...state, valu]);
-        console.log(valu);
+        // console.log(valu);
   
         // this.setState(prevState => ({
         //   values: [...prevState.values, valu]
         // }));
       }
-    }
-    else{
-      console.log("function not run **************************** ");
-    }
+    
     // setShow(true);
   };
 
   useEffect(() => {
     getData();
-    // calculateValue();
-    getPlotValues()
-  }, [getPlotValues]);
-  console.log("points ==> ",newArr);
+    if(data.length > 0){
+      calculateValue();
+    }
+    getPlotValues();
+    
+  }, [newArr, data]);
+  // console.log("points ==> ",values);
+  // console.log("data ==> ",data);
   // console.log(values);
 
   return (
@@ -117,7 +123,7 @@ const Mapping = (props) => {
         <Heading>Diagnostic</Heading>
       </div>
       <div className="mapping">
-        <div className="step-four-header">
+        {/* <div className="step-four-header">
           <div style={{ flexBasis: "46%" }}>
             <Card
               style={{
@@ -153,7 +159,7 @@ const Mapping = (props) => {
               </div>
             </Card>
           </div>
-        </div>
+        </div> */}
         <div className="step-four-header mt-5">
           <div style={{ flexBasis: "75%" }} className="mapping-table-container">
             {/* <Card
@@ -181,7 +187,11 @@ const Mapping = (props) => {
               <div className="step-four-table-card-content">
                 <div className="step-four-card2-header mb-5">Cartographie</div>
                
-                  <TableChart2 getPlotValues={getPlotValues} gravity={gravityArr} probability={probabilityArr} />
+                  {
+                    data.length > 0 && (
+                      <TableChart2 getPlotValues={getPlotValues} result={data} gravity={gravityArr} probability={probabilityArr} />
+                    )
+                  }
              
               </div>
             </Card>
@@ -205,9 +215,9 @@ const Mapping = (props) => {
                     <div>Mineur</div>
                     <div>Non significatif</div>
                   </div>
-                {console.log("valuessss =======================================> ",newArr)};
-                  {newArr.length > 0 &&
-                    newArr.map((item, index) => (
+                {/* {console.log("valuessss =======================================> ",newArr)}; */}
+                  {values &&
+                    values.map((item, index) => (
                       <div
                         className="mapping-color-line-container"
                         key={index}
@@ -237,9 +247,9 @@ const Mapping = (props) => {
                 </div>
               </div>
             </Card>
-            <div className="mapping-color-button">
+            {/* <div className="mapping-color-button">
               <Button secondary>Traitement du risque</Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -261,4 +271,4 @@ const Mapping = (props) => {
   );
 };
 
-export default Mapping;
+export default withSnackbar(Mapping);
