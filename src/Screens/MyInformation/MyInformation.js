@@ -223,13 +223,8 @@ const MyInformation = (props) => {
                     >
                       <div className="account-card-detail-2">
                         <img src={Images.linkedin} alt="linkedIn" />
-                        <Input
-                          type="text"
-                          placeholder="linkedin"
-                          value={data.linkedin}
-                          disabled
-                          name="linkedin"
-                        />
+                        <a href="https://twitter.com" target="_blank" rel="noreferrer">{data.linkedin}</a>
+                        
                       </div>
                     </Card>
                   </div>

@@ -12,14 +12,14 @@ import { useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 import TableChart2 from "../../components/TableChart2/TableChart2";
 import { withSnackbar } from "notistack";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 const probabilityArr = [1, 2, 3, 12];
 
 const gravityArr = [1, 2, 10, 4];
 
-var newArr = [1,4,16,15];
-
+var newArr = [1, 4, 16, 15];
 
 // const gravity = 4;
 // const probability = 5;
@@ -28,6 +28,7 @@ const Mapping = (props) => {
   const [show, setShow] = useState(false);
   const [values, setValues] = useState([]);
   const [data, setData] = useState([]);
+  const [spinner, setSpinner] = useState(true);
   const [plotArr, setPlotArr] = useState([]);
   // const [newArr, setNewArr] = useState([]);
 
@@ -42,7 +43,6 @@ const Mapping = (props) => {
   };
 
   async function getData() {
-
     await fetch(`${endPoints.CARTOGRAPHY}/${userId}`, {
       method: "GET",
       headers: {
@@ -50,68 +50,65 @@ const Mapping = (props) => {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then((res) => res.json())
+      .then((res) => res.json())
       .then((resp) => {
         console.log(resp);
         setData(resp);
       })
       .catch((error) => {
+        // alert(error);
+        setSpinner(false);
         props.enqueueSnackbar("Un problème est survenu", {
           variant: "error",
         });
       });
   }
 
-  const getPlotValues = (val) =>{
- 
-      // if(val !== undefined){
-      //   setNewArr([...newArr, val])
-      //   newArr.push(val);
-      // }
-  
+  const getPlotValues = (val) => {
+    // if(val !== undefined){
+    //   setNewArr([...newArr, val])
+    //   newArr.push(val);
+    // }
     // if(val !== undefined){
     //   setNewArr(prevState => ({
     //     newArr: [...prevState.newArr, val]
     //   }))
     // }
     // setNewArr(val);
-  }
+  };
 
-  const getFilterValues = () => {
-
-  }
- 
+  const getFilterValues = () => {};
 
   const calculateValue = () => {
-
     // console.log("function");
 
-      for (let i = 0; i < data.length; i++) {
-        // const value = gravityArr[i] * probabilityArr[i];
-        // console.log("function not run **************************** ");
-        // console.log(this.props.gravity[i]);
-        // console.log(this.props.probability[i]);
-        const val = data[i].evalGravity * data[i].evalProbability;
-        const prob = (val / 25) * 90 + 1;
-        const valu = Math.round(prob);
-        setValues((state) => [...state, valu]);
-        // console.log(valu);
-  
-        // this.setState(prevState => ({
-        //   values: [...prevState.values, valu]
-        // }));
-      }
-    
+    for (let i = 0; i < data.length; i++) {
+      // const value = gravityArr[i] * probabilityArr[i];
+      // console.log("function not run **************************** ");
+      // console.log(this.props.gravity[i]);
+      // console.log(this.props.probability[i]);
+      const val = data[i].evalGravity * data[i].evalProbability;
+      const prob = (val / 25) * 90 + 1;
+      const valu = Math.round(prob);
+      setValues((state) => [...state, valu]);
+      // console.log(valu);
+
+      // this.setState(prevState => ({
+      //   values: [...prevState.values, valu]
+      // }));
+    }
+
+    setSpinner(false);
+
     // setShow(true);
   };
 
   useEffect(() => {
     getData();
-    if(data.length > 0){
+    if (data.length > 0) {
       calculateValue();
     }
     getPlotValues();
-    
   }, [newArr, data]);
   // console.log("points ==> ",values);
   // console.log("data ==> ",data);
@@ -123,6 +120,11 @@ const Mapping = (props) => {
         <Heading>Diagnostic</Heading>
       </div>
       <div className="mapping">
+        {spinner && (
+          <div className="spinner">
+            <CircularProgress className="circular-spinner-blue" />
+          </div>
+        )}
         {/* <div className="step-four-header">
           <div style={{ flexBasis: "46%" }}>
             <Card
@@ -186,13 +188,15 @@ const Mapping = (props) => {
             >
               <div className="step-four-table-card-content">
                 <div className="step-four-card2-header mb-5">Cartographie</div>
-               
-                  {
-                    data.length > 0 && (
-                      <TableChart2 getPlotValues={getPlotValues} result={data} gravity={gravityArr} probability={probabilityArr} />
-                    )
-                  }
-             
+
+                {data.length > 0 && (
+                  <TableChart2
+                    getPlotValues={getPlotValues}
+                    result={data}
+                    gravity={gravityArr}
+                    probability={probabilityArr}
+                  />
+                )}
               </div>
             </Card>
           </div>
@@ -215,7 +219,7 @@ const Mapping = (props) => {
                     <div>Mineur</div>
                     <div>Non significatif</div>
                   </div>
-                {/* {console.log("valuessss =======================================> ",newArr)}; */}
+                  {/* {console.log("valuessss =======================================> ",newArr)}; */}
                   {values &&
                     values.map((item, index) => (
                       <div

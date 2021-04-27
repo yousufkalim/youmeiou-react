@@ -64,12 +64,14 @@ const StepThree = (props) => {
   ]);
   const [activeIndex, setActiveIndex] = useState("");
   const [activeQuestion, setActiveQuestion] = useState(0);
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [activeQuestionId, setActiveQuestionId] = useState(null);
   const [activeAnswer, setActiveAnswer] = useState("");
   const [spinner, setSpinner] = useState(true);
   const [totalCount, setTotalCount] = useState(null);
+  const [test, setTest] = useState(false);
 
   const userToken = useSelector((state) => state.user.token);
 
@@ -78,13 +80,7 @@ const StepThree = (props) => {
   // console.log("divide", progressPerQuestion);
   // console.log("total", totalQuestions);
 
-  useEffect(() => {
-    setActiveQuestion(0);
-    // console.log("active", questions[0]);
-    // console.log(props.data);
-    getAllQuestions();
-   
-  }, []);
+
 
   async function getAllQuestions() {
     const { diagnosticId } = props.data;
@@ -100,26 +96,94 @@ const StepThree = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
+        console.log("final",result);
         setQuestions(result.riskList);
         setTotalCount(result.totalQuestions);
-        setTotalQuestions(result.totalQuestions);
+        console.log(result);
+        var completeCount = 0;
+        result.riskList.map((item,i) => {
+            if(item.isCompleted === true){
+              completeCount = completeCount + 1
+            }
+        })
+        var ind;
+        // for(let i = 0; i < result.riskList.length; i++){
+        //   if(result.riskList[i].isCompleted === false){
+        //     console.log(i)
+        //     ind = i
+        //     break;
+        //   }
+        // }
+
+        for( let c = 0; c < result.riskList.length; c++){
+          if(result.riskList[c].isCompleted === false){
+            ind = c;
+            break;
+          }
+        }
         
+        // result.riskList.find((item,index) => {
+
+        //   if(item.isCompleted === false){
+        //     console.log(index)
+        //     return ind = index;
+        //   }
+         
+        // });
+
+        
+        // for(let b = 0; b < result.riskList.length; b++){
+        //   if(result.riskList[b].isCompleted === true){
+        //     completeCount = completeCount + 1;
+        //   }
+        // }
+        
+        console.log("active question index is ",ind);
+        setActiveQuestionIndex(ind);
+        setTotalQuestions(result.totalQuestions);
+        console.log("total ", result.totalQuestions);
+        console.log("remaining ", result.riskList.length );
         setSpinner(false);
+        console.log(activeQuestionIndex);
         if(result.riskList.length === 0){
             props.changeStepper(80);
             console.log("error");
         }
-        else if(result.totalQuestions > result.riskList.length){
+        else {
+         
+        console.log("complete count ", completeCount);
+        
+        var currentprogressper = 73 / result.riskList.length;
+        var currentProgress = completeCount * currentprogressper
+        console.log("curren ", currentProgress);
+
           var count = 73 / result.totalQuestions;
-          console.log(count);
-          var remaining = result.totalQuestions - result.riskList.length;
-          console.log(remaining);
-          var progress = (remaining * count) + props.now;
+          // console.log(count);
+          // var remaining = result.totalQuestions - result.riskList.length;
+          // console.log(remaining);
+          var progress = currentProgress + props.now;
           console.log("useffect progress",progress);
+          // setTest(true);
           props.changeStepper(progress);
         }
-        setActiveQuestionId(result.riskList[0].id);
+        // var i
+        // result.riskList.find((item,index) => {
+        //   if(item.id === 216){
+        //     i = index;
+        //     return i
+        //   }
+        // })
+        console.log("active index => ", ind);
+        var activeId;
+        result.riskList.find((item,index) => {
+          if(item.isCompleted === false){
+            
+            return activeId = item.id;
+          }
+         
+        });
+        console.log(activeId);
+        setActiveQuestionId(activeId);
       })
       .catch((error) => {
         setSpinner(false);
@@ -131,9 +195,11 @@ const StepThree = (props) => {
   async function selectAnswer(index, resp) {
     await setActiveIndex(index);
     setActiveAnswer(resp);
+    console.log(resp);
+    updateQuestion(resp);
 
     // console.log(index);
-    submitAnswer();
+    // submitAnswer();
   }
 
   async function submitAnswer() {
@@ -167,6 +233,10 @@ const StepThree = (props) => {
     const id = decoded.Id;
 
     console.log(id);
+    console.log("userid", id);
+
+    console.log("successful");
+   
     if (props.now === 7) {
       await fetch(endPoints.CREATE_DIAGNOSTIC, {
         method: "POST",
@@ -186,13 +256,16 @@ const StepThree = (props) => {
         // })
         .then((res) => {
           if (res.status === 200 && questions.length >= 1) {
-            console.log("successful");
-            const key = questions[0];
+           
+            console.log("hello")
+            console.log("active index ",activeQuestionIndex)
+            const key = questions[activeQuestionIndex];
             const valu = key[activeAnswer];
             console.log("riskid", activeQuestionId);
-            console.log("score", valu);
-            console.log("userid", id);
+            console.log("score", 3);
             console.log(diagnosticsId);
+            console.log(userToken);
+            console.log(id);
 
              fetch(endPoints.SUBMIT_ANSWER, {
               method: "POST",
@@ -211,14 +284,24 @@ const StepThree = (props) => {
                 if (res.status === 200) {
                   props.changeStepper(props.now + progressPerQuestion);
                   setActiveIndex("");
-                  questions.shift();
+                  // questions.shift();
                   // setTotalQuestions(totalQuestions + 1);
                   // console.log(activeQuestionId);
-                  setActiveQuestionId(questions[0].id);
+                  setActiveQuestionIndex(activeQuestionIndex + 1);
+                  // var findId;
+                  // questions.find((item,index) => {
+                  //   if(index === 0){
+                  //     a = item.id;
+                  //     return i
+                  //   }
+                   
+                  // });
+                  setActiveQuestionId(questions[activeQuestionIndex + 1].id);
                   // setActiveQuestion(activeQuestion + 1);
                   setSpinner(false);
                 } else {
                   setSpinner(false);
+                  console.log(res)
                   console.log("answer not submitted");
                 }
               })
@@ -240,9 +323,11 @@ const StepThree = (props) => {
         });
     } else {
       if (questions.length >= 1) {
-        const key = questions[0];
+        const key = questions[activeQuestionIndex];
         const valu = key[activeAnswer];
-        // console.log(activeQuestionId);
+        console.log(activeQuestionId);
+        console.log(valu);
+        console.log(diagnosticsId);
 
         fetch(endPoints.SUBMIT_ANSWER, {
           method: "POST",
@@ -261,23 +346,33 @@ const StepThree = (props) => {
             if (res.status === 200 && questions) {
               props.changeStepper(props.now + progressPerQuestion);
               setActiveIndex("");
-              questions.shift();
+              // questions.shift();
               // setTotalQuestions(totalQuestions + 1);
-              questions ? setActiveQuestionId(questions[0]?.id) : setActiveQuestionId("");
+              setActiveQuestionIndex(activeQuestionIndex + 1);
+              var qid;
+              const activeIndex = activeQuestionIndex + 1;
+              questions.find((item, i) => {
+                if(i = activeIndex){
+                  qid = item.id
+                }
+              });
+              console.log("id is => ",qid);
+              questions ? setActiveQuestionId(questions[activeQuestionIndex + 1]?.id) : setActiveQuestionId("");
               console.log("remianing question => ", questions);
               // console.log("first question index => ", questions[0].id);
               console.log(props.now);
               setSpinner(false);
               // setActiveQuestion(activeQuestion + 1);
             } else {
-              // console.log(res);
+              console.log(res.json());
               setSpinner(false);
               // console.log("answer not submitted without first request");
             }
           })
           .catch((error) => {
+            
             setSpinner(false);
-            // alert("",error)
+            alert(error)
             // console.log(error);
           });
       } else {
@@ -299,13 +394,28 @@ const StepThree = (props) => {
   // console.log("active question id ==> ", activeQuestionId);
 
   // console.log("errorrrr", questions);
+
+  const goBack = () => {
+    console.log(activeQuestionIndex);
+    setActiveQuestionId(questions[activeQuestionIndex - 1]?.id);
+    setActiveQuestionIndex(activeQuestionIndex - 1);
+
+  }
+
+  useEffect(() => {
+    // setActiveQuestion(0);
+    getAllQuestions();
+    // console.log("active", questions[0]);
+    // console.log(props.data);
+   
+  }, [test]);
   console.log("progress now => ", props.now);
+  console.log(activeQuestionId);
 
   return (
     <div className="steps-three-content">
       <div
         className=" step-three-content-container"
-       
       >
         
         <div class="step-three-card-wrapper">
@@ -323,7 +433,7 @@ const StepThree = (props) => {
           </div>
         )}
             <div className="text-center">
-              <h3>{questions[`${activeQuestion}`]?.wroding}</h3>
+              <h3>{questions[`${activeQuestionIndex}`]?.wroding}</h3>
               <p>
                 Vos réponses peuvent varier de « 0 » voulant dire « Oui ! je
                 suis absolument d’accord » à 7 voulant « Non ! je ne suis
@@ -349,11 +459,12 @@ const StepThree = (props) => {
             <div className="text-center pt-5">
               <Button
                 secondary
-                disabled={activeIndex === "" ? true : false}
-                onClick={updateQuestion}
+                // disabled={activeIndex === "" ? true : false}
+                onClick={goBack}
               >
-                Suivant
+                Back
               </Button>
+             
             </div>
           </Card>
         </div>

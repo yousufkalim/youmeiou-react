@@ -109,10 +109,10 @@ const EditProfile = (props) => {
       }
     }
     if (e.target.name === "phone") {
-      if (e.target.value.length !== 13) {
+      if (e.target.value.length > 13) {
         setErrors({
           ...errors,
-          phoneError: "phone number should br 13 digits",
+          phoneError: "should be less than 13 digits",
         });
       } else {
         setErrors({ ...errors, phoneError: "" });
@@ -278,8 +278,6 @@ const EditProfile = (props) => {
                     <Input
                       type="number"
                       placeholder="date de création de l'entreprise"
-                      maxlength="13"
-                      minlength="13"
                       value={data.phone}
                       onChange={changeHandler}
                       name="phone"
@@ -403,7 +401,7 @@ const EditProfile = (props) => {
             <div className="w-25 mx-auto pb-5">
               <Button
                 disabled={
-                  data.fname === "" || data.lname === "" || data.phone === ""
+                  data.fname === "" || data.lname === "" || data.phone === "" || errors.phoneError
                     ? true
                     : false
                 }
