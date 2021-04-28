@@ -70,8 +70,11 @@ const StepThree = (props) => {
   const [activeQuestionId, setActiveQuestionId] = useState(null);
   const [activeAnswer, setActiveAnswer] = useState("");
   const [spinner, setSpinner] = useState(true);
+  const [answerArr, setAnswerArr] = useState([]);
   const [totalCount, setTotalCount] = useState(null);
   const [test, setTest] = useState(false);
+  const [diagEvalId, setDiagEvalId] = useState(0);
+  const [isBack, setIsBack] = useState(false);
 
   const userToken = useSelector((state) => state.user.token);
 
@@ -100,6 +103,14 @@ const StepThree = (props) => {
         setQuestions(result.riskList);
         setTotalCount(result.totalQuestions);
         console.log(result);
+        setDiagEvalId(result.riskList[0].diagnosticEvaluationID);
+
+        // const activeQ = result.riskList[activeQuestionIndex];
+        // Object.keys(activeQ).filter((key) => {
+        //   if(activeQ[key].includes("resp")){
+
+        //   }
+        // })
         var completeCount = 0;
         result.riskList.map((item,i) => {
             if(item.isCompleted === true){
@@ -195,8 +206,12 @@ const StepThree = (props) => {
   async function selectAnswer(index, resp) {
     await setActiveIndex(index);
     setActiveAnswer(resp);
-    console.log(resp);
+    const key = questions[activeQuestionIndex];
+    const valu = key[resp];
+    console.log("selected string ",resp);
+    console.log("answer ", valu);
     updateQuestion(resp);
+
 
     // console.log(index);
     // submitAnswer();
@@ -220,9 +235,10 @@ const StepThree = (props) => {
     // })
   }
 
-  async function updateQuestion() {
-
+  async function updateQuestion(resp) {
+    // debugger;
     // console.log(token);
+    console.log("response ",resp);
     var decoded = jwt_decode(userToken);
     setSpinner(true);
     // console.log(decoded);
@@ -254,19 +270,21 @@ const StepThree = (props) => {
         //   result.json()
         //   console.log(result);
         // })
-        .then((res) => {
-          if (res.status === 200 && questions.length >= 1) {
-           
+        
+        .then(async (response) => {
+          if (response.status === 200 && questions.length >= 1) {
+            let data = await response.json();
+            console.log("new ",data.id);
             console.log("hello")
             console.log("active index ",activeQuestionIndex)
             const key = questions[activeQuestionIndex];
-            const valu = key[activeAnswer];
+            const valu = key[resp];
             console.log("riskid", activeQuestionId);
-            console.log("score", 3);
+            console.log("score", valu);
             console.log(diagnosticsId);
             console.log(userToken);
-            console.log(id);
-
+            console.log("return ",response);
+            console.log("again id", data.id);
              fetch(endPoints.SUBMIT_ANSWER, {
               method: "POST",
               headers: {
@@ -276,6 +294,8 @@ const StepThree = (props) => {
               body: JSON.stringify({
                 riskId: activeQuestionId,
                 score: valu,
+                selectedResponse: resp,
+                userDiagnosticEvaluationId: data.id,
                 userInfoId: parseInt(id),
                 diagnosticId: diagnosticsId,
               }),
@@ -284,19 +304,12 @@ const StepThree = (props) => {
                 if (res.status === 200) {
                   props.changeStepper(props.now + progressPerQuestion);
                   setActiveIndex("");
-                  // questions.shift();
-                  // setTotalQuestions(totalQuestions + 1);
-                  // console.log(activeQuestionId);
+                  setDiagEvalId(data.id);
                   setActiveQuestionIndex(activeQuestionIndex + 1);
-                  // var findId;
-                  // questions.find((item,index) => {
-                  //   if(index === 0){
-                  //     a = item.id;
-                  //     return i
-                  //   }
-                   
-                  // });
                   setActiveQuestionId(questions[activeQuestionIndex + 1].id);
+
+
+
                   // setActiveQuestion(activeQuestion + 1);
                   setSpinner(false);
                 } else {
@@ -308,26 +321,29 @@ const StepThree = (props) => {
               .catch((error) => {
                 setSpinner(false);
                 console.log("answer");
-                alert(error)
+                // alert(error)
               });
           } else {
             setSpinner(false);
-            console.log(res);
-            alert("Something went wrong");
+            console.log("Something went wrong", response);
+            // alert("wrong......");
           }
         })
         .catch((error) => {
           setSpinner(false);
           console.log("catch error", error);
-          alert(error)
+          // alert(error)
         });
     } else {
       if (questions.length >= 1) {
         const key = questions[activeQuestionIndex];
-        const valu = key[activeAnswer];
-        console.log(activeQuestionId);
-        console.log(valu);
-        console.log(diagnosticsId);
+        console.log("key  => ",key);
+        console.log("second response ", resp);
+        const valu = key[resp];
+        console.log("score", valu);
+        console.log("active quesion id " ,activeQuestionId);
+        // console.log(valu);
+        console.log("diagnostic id ",diagnosticsId);
 
         fetch(endPoints.SUBMIT_ANSWER, {
           method: "POST",
@@ -338,17 +354,57 @@ const StepThree = (props) => {
           body: JSON.stringify({
             riskId: activeQuestionId,
             score: valu,
+            selectedResponse: resp,
             userInfoId: parseInt(id),
             diagnosticId: diagnosticsId,
           }),
         })
-          .then((res) => {
+          .then( async (res) => {
             if (res.status === 200 && questions) {
+              let answer = await res.json();
               props.changeStepper(props.now + progressPerQuestion);
               setActiveIndex("");
               // questions.shift();
               // setTotalQuestions(totalQuestions + 1);
               setActiveQuestionIndex(activeQuestionIndex + 1);
+              const currentId = questions[activeQuestionIndex + 1].id;
+              console.log("currentid ", currentId);
+                  // agaain back api
+                  // debugger;
+                  fetch(`${endPoints.GET_PREVIOUS_ANSWER}/${currentId},${diagEvalId}`,{
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${userToken}`
+                    }
+                  }).then((response) => response.json())
+                    .then((res) => {
+                      // debugger;
+                      console.log("selected response ",res.selectedResponse);
+                      console.log(boxes[0].resp);
+                      // setIsBack(true);
+              
+                      // set Id
+                  //     setActiveQuestionId(questions[activeQuestionIndex - 1]?.id);
+                  // setActiveQuestionIndex(activeQuestionIndex - 1);
+              
+                  // set Progress
+                  // var currentprogressper = 73 / questions.length;
+                  // var remainProgress = props.now - currentprogressper;
+                  // props.changeStepper(remainProgress);
+              
+                      // console.log(boxes.indexOf(x => x.resp === res.selectedResponse))
+                      const activeInd = boxes.map(function(e) { return e.resp; }).indexOf(res.selectedResponse);
+                      setActiveIndex(activeInd);
+                      console.log(boxes.map(function(e) { return e.resp; }).indexOf(res.selectedResponse))
+                      // boxes.map(function(e) { return e.hello; }).indexOf(res.selectedResponse);
+                      const prevIndex = boxes.indexOf(x => x.resp === res.selectedResponse);
+                      console.log("answer index ",prevIndex);
+                    })
+                    .catch((error) =>  {
+                      // debugger;
+                      console.log(error)
+                    })
               var qid;
               const activeIndex = activeQuestionIndex + 1;
               questions.find((item, i) => {
@@ -356,7 +412,8 @@ const StepThree = (props) => {
                   qid = item.id
                 }
               });
-              console.log("id is => ",qid);
+              setDiagEvalId(answer.id);
+              console.log("diagnostics  => ",answer);
               questions ? setActiveQuestionId(questions[activeQuestionIndex + 1]?.id) : setActiveQuestionId("");
               console.log("remianing question => ", questions);
               // console.log("first question index => ", questions[0].id);
@@ -364,7 +421,7 @@ const StepThree = (props) => {
               setSpinner(false);
               // setActiveQuestion(activeQuestion + 1);
             } else {
-              console.log(res.json());
+              // console.log(res.json());
               setSpinner(false);
               // console.log("answer not submitted without first request");
             }
@@ -372,7 +429,7 @@ const StepThree = (props) => {
           .catch((error) => {
             
             setSpinner(false);
-            alert(error)
+            // alert(error)
             // console.log(error);
           });
       } else {
@@ -397,8 +454,42 @@ const StepThree = (props) => {
 
   const goBack = () => {
     console.log(activeQuestionIndex);
-    setActiveQuestionId(questions[activeQuestionIndex - 1]?.id);
+    
+    const prevQuestionId = parseInt(questions[activeQuestionIndex - 1]?.id);
+    console.log("prev id", prevQuestionId);
+
+    
+
+    fetch(`${endPoints.GET_PREVIOUS_ANSWER}/${prevQuestionId},${diagEvalId}`,{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`
+      }
+    }).then((response) => response.json())
+      .then((res) => {
+        console.log("selected response ",res.selectedResponse);
+        console.log(boxes[0].resp);
+        setIsBack(true);
+
+        // set Id
+        setActiveQuestionId(questions[activeQuestionIndex - 1]?.id);
     setActiveQuestionIndex(activeQuestionIndex - 1);
+
+    // set Progress
+    var currentprogressper = 73 / questions.length;
+    var remainProgress = props.now - currentprogressper;
+    props.changeStepper(remainProgress);
+
+        // console.log(boxes.indexOf(x => x.resp === res.selectedResponse))
+        const activeInd = boxes.map(function(e) { return e.resp; }).indexOf(res.selectedResponse);
+        setActiveIndex(activeInd);
+        console.log(boxes.map(function(e) { return e.resp; }).indexOf(res.selectedResponse))
+        // boxes.map(function(e) { return e.hello; }).indexOf(res.selectedResponse);
+        const prevIndex = boxes.indexOf(x => x.resp === res.selectedResponse);
+        console.log("answer index ",prevIndex);
+      })
+      .catch((error) =>  console.log(error))
 
   }
 
@@ -409,9 +500,11 @@ const StepThree = (props) => {
     // console.log(props.data);
    
   }, [test]);
-  console.log("progress now => ", props.now);
-  console.log(activeQuestionId);
+  // console.log("progress now => ", props.now);
+  // console.log(activeQuestionId);
+  // console.log("diagnostic eval id ", diagEvalId);
 
+  console.log("activate ", activeQuestionIndex);
   return (
     <div className="steps-three-content">
       <div
@@ -439,7 +532,7 @@ const StepThree = (props) => {
                 suis absolument d’accord » à 7 voulant « Non ! je ne suis
                 absolument pas d’accord ».
               </p>
-              {boxes.map((box, index) => {
+              {boxes.map((box,index) => {
                 return (
                   <span
                     style={
@@ -459,7 +552,7 @@ const StepThree = (props) => {
             <div className="text-center pt-5">
               <Button
                 secondary
-                // disabled={activeIndex === "" ? true : false}
+                disabled={activeQuestionIndex === 0 ? true :  false}
                 onClick={goBack}
               >
                 Back

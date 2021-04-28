@@ -53,6 +53,7 @@ const Mapping = (props) => {
       .then((res) => res.json())
       .then((resp) => {
         console.log(resp);
+        setSpinner(false);
         setData(resp);
       })
       .catch((error) => {
@@ -196,7 +197,9 @@ const Mapping = (props) => {
                     gravity={gravityArr}
                     probability={probabilityArr}
                   />
-                )}
+                )
+               
+              }
               </div>
             </Card>
           </div>

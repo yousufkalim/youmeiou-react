@@ -165,8 +165,8 @@ const Inprogress = (props) => {
                   <CircularProgress className="circular-spinner-blue" />
                 </div>
               ) : completeRisks.length > 0 ? (
-                completeRisks.map((item) => (
-                  <List>
+                completeRisks.map((item, index) => (
+                  <List key={index}>
                     <div style={{ width: "10%" }}>{item.serialNo}</div>
                     <div style={{ width: "20%" }}>{item.name}</div>
                     <div style={{ width: "10%" }}>

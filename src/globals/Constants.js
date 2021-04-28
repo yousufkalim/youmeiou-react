@@ -26,6 +26,7 @@ const endPoints = {
     GET_PROFILE: BASE_URL_V1 + "/get/userprofile",
     EMAIL_VERIFY: BASE_URL_V1 + "/emailVerification",
     GET_COMPANY: BASE_URL_V1 + "/company/get",
+    GET_PREVIOUS_ANSWER: BASE_URL_V1 + "/risk/get/GetRiskAnswer", 
     UPDATE_COMPANY: BASE_URL_V1 + "/company/create",
     EDIT_USER_PROFILE: BASE_URL_V1 + "/userInfo/update"
 
