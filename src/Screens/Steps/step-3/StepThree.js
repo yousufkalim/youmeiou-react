@@ -5,7 +5,7 @@ import "./StepThree.css";
 import endPoints from "../../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 //import { debugger } from "fusioncharts";
 
 // const questions = [
@@ -75,8 +75,10 @@ const StepThree = (props) => {
   const [test, setTest] = useState(false);
   const [diagEvalId, setDiagEvalId] = useState(0);
   const [isBack, setIsBack] = useState(false);
+  const [sendData, setSendData] = useState({});
 
   const userToken = useSelector((state) => state.user.token);
+  const dispatch = useDispatch();
 
   // var activeProgress = props.now;
   var progressPerQuestion = 73 / totalQuestions;
@@ -212,13 +214,12 @@ const StepThree = (props) => {
     console.log("answer ", valu);
     updateQuestion(resp);
 
-
     // console.log(index);
     // submitAnswer();
   }
 
   async function submitAnswer() {
-    const token = sessionStorage.getItem("token");
+    // const token = sessionStorage.getItem("token");
     // const index = (activeIndex + 1).toString();
     // const answer = questions[0].resp + index;
     // console.log("submit answer", answer);
@@ -250,7 +251,6 @@ const StepThree = (props) => {
 
     console.log(id);
     console.log("userid", id);
-
     console.log("successful");
    
     if (props.now === 7) {
@@ -307,8 +307,6 @@ const StepThree = (props) => {
                   setDiagEvalId(data.id);
                   setActiveQuestionIndex(activeQuestionIndex + 1);
                   setActiveQuestionId(questions[activeQuestionIndex + 1].id);
-
-
 
                   // setActiveQuestion(activeQuestion + 1);
                   setSpinner(false);
