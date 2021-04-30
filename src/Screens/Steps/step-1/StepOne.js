@@ -12,7 +12,15 @@ const StepOne = (props) => {
   const [data, setData] = useState({name: "", explanation: "", serialNo: ""});
 
   useEffect(() => {
-    setData({...data, name: props.data.name, serialNo: props.data.serialNo, explanation: props.data.explanation})
+    console.log(props);
+    // const {name, serialNo,explanation} = props.location.state.;
+    if(props.data){
+      setData({...data, name: props.data.name, serialNo: props.data.serialNo, explanation: props.data.explanation})
+    }
+    else{
+      setData({...data, name: props.location.state.data.name, serialNo: props.location.state.data.serialNo, explanation: props.location.state.data.explanation})
+      
+    }
   },[])
 
     return (

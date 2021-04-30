@@ -39,7 +39,11 @@ const Login = (props) => {
 
   // const user = useSelector((state) => state);
   // console.log("user is  => ", user);
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(props);
+    console.log(props.location);
+    console.log(props);
+  }, []);
 
   const inputChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -95,7 +99,13 @@ const Login = (props) => {
         if(res.success){
           setSpinner(false);
           console.log(res);
-          dispatch({type: actionTypes.LOGIN, token: res.token })
+          dispatch({type: actionTypes.LOGIN, token: res.token });
+          props.location.state ?
+            props.history.push({
+              pathname: `/diagnostic-list/${props.location.state.data.diagnosticId}`,
+              state: {data: props.location.state.data, now: props.location.state.now, withoutLogin :true}
+            }) 
+          :
           props.history.push("/discover");
         }
         else{

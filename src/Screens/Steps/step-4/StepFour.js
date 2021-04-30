@@ -16,6 +16,9 @@ import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { withSnackbar } from "notistack";
+import { Modal} from "react-bootstrap";
+import * as actionTypes from "../../../store/actionTypes";
+
 
 const StepFour = (props) => {
   const [color, setColor] = useState("#fff");
@@ -25,11 +28,124 @@ const StepFour = (props) => {
   const [probability, setProbability] = useState(0);
   const [gravity, setGravity] = useState(0);
 
-  const userToken = useSelector((state) => state.user.token);
+  const [show, setShow] = useState(false);
+
+
+  const tokenId = useSelector((state) => state.user.token);
+  const reduxData = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  console.log("redux data ",reduxData)
+
+  const userToken = tokenId !== "" ? tokenId : "";
+
 
   useEffect(() => {
-    getScore();
+    console.log(props);
+    isLogin();
   }, []);
+
+  const isLogin = () => {
+    if(userToken === ""){
+      setSpinner(false);
+      
+setShow(true)
+    }
+    else{
+      if(reduxData.riskReducer.length !== 0){
+        submitAnswers();
+      }
+      else{
+        getScore();
+      }
+    }
+  }
+
+
+  async function submitAnswers(){
+
+    const {name,diagnosticId} = props.data.data;
+    const decoded = jwt_decode(userToken);
+    const id = parseInt(decoded.Id);
+
+    const riskData = reduxData.riskReducer;
+    const newArr2 = riskData.map(v => Object.assign(v, {userInfoId: id}));
+    console.log(newArr2);
+    await fetch(endPoints.CREATE_DIAGNOSTIC, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+      body: JSON.stringify({
+        diagnosticId: diagnosticId,
+        userId: id,
+        isDiagnosticComplete: false,
+      }),
+    })
+    .then(async (response) => {
+      if (response.status === 200){
+        console.log(response);
+        let firstResponse = await response.json();
+        console.log(firstResponse);
+        const diagEvalId = firstResponse.id;
+        console.log("response");
+        fetch(endPoints.SUBMIT_ANSWER, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify(newArr2),
+        })
+        .then(async (res) => {
+          if (res.status === 200) {
+            let secondResponse = await res.json();
+            console.log("succe");
+
+
+            await fetch(`${endPoints.GET_SCORE}/${diagnosticId}, ${id}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${userToken}`,
+              },
+            })
+              .then((res) => res.json())
+              .then((result) => {
+                setData(result);
+                setSpinner(false);
+                const score = result.score;
+                const grav = result.evalGravity;
+                const prob = result.evalProbability;
+                // console.log("gravity step four", result.evalGravity);
+                // console.log("probability step four", result.evalProbability);
+                setProbability(prob);
+                setGravity(grav);
+                setScore(score);
+
+                dispatch({type: actionTypes.RESET_RISKS, data: []});
+                console.log("third api ",result);
+                // console.log(result);
+              })
+              .catch((error) => {
+                setSpinner(false);
+                props.enqueueSnackbar("Un problème est survenu", {
+                  variant: "error",
+                });
+              });
+          }
+        })
+      } 
+      else{
+        console.log("wrong else.....")
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log("catch run");
+    })
+  }
 
   async function getScore() {
     const decoded = jwt_decode(userToken);
@@ -69,11 +185,23 @@ const StepFour = (props) => {
     setColor(color.hex);
   };
 
+  
+  const handleClose = () => {
+    setShow(false);
+    const diagnosticId = props.data.diagnosticId || props.data.id;
+    props.history.history.push({
+      pathname: "/login",
+      state: {now: 80, data: props.data }
+    });
+  };
+  const handleShow = () => setShow(true);
+
   // const score = this.state.data.evalgravity *
   // console.log(this.state.data);
   // console.log(this.state.probability);
   // console.log(this.props.data);
   return (
+    <>
     <div className="step-four-container">
       <div className="step-four-header">
         {spinner && (
@@ -180,6 +308,25 @@ const StepFour = (props) => {
         </div>
       </div>
     </div>
+    <Modal show={show} onHide={handleClose} className="custom-modal-2">
+        <Modal.Header closeButton>
+        </Modal.Header>
+        <Modal.Body>
+          {/* <div className="text-center"><BiError size={40} /></div> */}
+          <div className="py-2 text-center">please login or signup to view score</div>
+        </Modal.Body>
+        {/* <Modal.Footer>
+          <div className="text-center w-100">
+          <div className="login-modal-btn">
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          </div>
+          </div>
+         
+        </Modal.Footer> */}
+      </Modal>
+    </>
   );
 };
 

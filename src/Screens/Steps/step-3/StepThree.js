@@ -5,7 +5,7 @@ import "./StepThree.css";
 import endPoints from "../../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as actionTypes from "../../../store/actionTypes";
 //import { debugger } from "fusioncharts";
 
@@ -78,7 +78,17 @@ const StepThree = (props) => {
   const [isBack, setIsBack] = useState(false);
   const [sendData, setSendData] = useState({});
 
-  const userToken = useSelector((state) => state.user.token);
+  const tokenId = useSelector((state) => state.user.token);
+  const userToken = tokenId ? tokenId : ""
+
+  var userId;
+  if (userToken !== "") {
+    var decToken = jwt_decode(userToken);
+    userId = parseInt(decToken.Id);
+  } else {
+    userId = 0
+  }
+
   const dispatch = useDispatch();
 
   // var activeProgress = props.now;
@@ -91,10 +101,10 @@ const StepThree = (props) => {
   async function getAllQuestions() {
     const diagnosticId = props.data.diagnosticId || props.data.id;
     console.log("new data ", props);
-    var decoded = jwt_decode(userToken);
-    const id = parseInt(decoded.Id);
+    // var decoded = jwt_decode(userToken);
+    // const id = parseInt(decoded.Id);
     // console.log(token);
-    await fetch(`${endPoints.GET_QUESTIONS}/${diagnosticId},${id}`, {
+    await fetch(`${endPoints.GET_QUESTIONS}/${diagnosticId},${userId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -103,7 +113,7 @@ const StepThree = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("final",result);
+        console.log("final", result);
         setQuestions(result.riskList);
         setTotalCount(result.totalQuestions);
         console.log(result);
@@ -116,10 +126,10 @@ const StepThree = (props) => {
         //   }
         // })
         var completeCount = 0;
-        result.riskList.map((item,i) => {
-            if(item.isCompleted === true){
-              completeCount = completeCount + 1
-            }
+        result.riskList.map((item, i) => {
+          if (item.isCompleted === true) {
+            completeCount = completeCount + 1
+          }
         })
         var ind;
         // for(let i = 0; i < result.riskList.length; i++){
@@ -130,54 +140,54 @@ const StepThree = (props) => {
         //   }
         // }
 
-        for( let c = 0; c < result.riskList.length; c++){
-          if(result.riskList[c].isCompleted === false){
+        for (let c = 0; c < result.riskList.length; c++) {
+          if (result.riskList[c].isCompleted === false) {
             ind = c;
             break;
           }
         }
-        
+
         // result.riskList.find((item,index) => {
 
         //   if(item.isCompleted === false){
         //     console.log(index)
         //     return ind = index;
         //   }
-         
+
         // });
 
-        
+
         // for(let b = 0; b < result.riskList.length; b++){
         //   if(result.riskList[b].isCompleted === true){
         //     completeCount = completeCount + 1;
         //   }
         // }
-        
-        console.log("active question index is ",ind);
+
+        console.log("active question index is ", ind);
         setActiveQuestionIndex(ind);
         setTotalQuestions(result.totalQuestions);
         console.log("total ", result.totalQuestions);
-        console.log("remaining ", result.riskList.length );
+        console.log("remaining ", result.riskList.length);
         setSpinner(false);
         console.log(activeQuestionIndex);
-        if(result.riskList.length === 0){
-            props.changeStepper(80);
-            console.log("error");
+        if (result.riskList.length === 0) {
+          props.changeStepper(80);
+          console.log("error");
         }
         else {
-         
-        console.log("complete count ", completeCount);
-        
-        var currentprogressper = 73 / result.riskList.length;
-        var currentProgress = completeCount * currentprogressper
-        console.log("curren ", currentProgress);
+
+          console.log("complete count ", completeCount);
+
+          var currentprogressper = 73 / result.riskList.length;
+          var currentProgress = completeCount * currentprogressper
+          console.log("curren ", currentProgress);
 
           var count = 73 / result.totalQuestions;
           // console.log(count);
           // var remaining = result.totalQuestions - result.riskList.length;
           // console.log(remaining);
           var progress = currentProgress + props.now;
-          console.log("useffect progress",progress);
+          console.log("useffect progress", progress);
           // setTest(true);
           props.changeStepper(progress);
         }
@@ -190,12 +200,12 @@ const StepThree = (props) => {
         // })
         console.log("active index => ", ind);
         var activeId;
-        result.riskList.find((item,index) => {
-          if(item.isCompleted === false){
-            
+        result.riskList.find((item, index) => {
+          if (item.isCompleted === false) {
+
             return activeId = item.id;
           }
-         
+
         });
         console.log(activeId);
         setActiveQuestionId(activeId);
@@ -207,14 +217,16 @@ const StepThree = (props) => {
       });
   }
 
+
+
   async function selectAnswer(index, resp) {
     await setActiveIndex(index);
     setActiveAnswer(resp);
     const key = questions[activeQuestionIndex];
     const valu = key[resp];
-    console.log("selected string ",resp);
+    console.log("selected string ", resp);
     console.log("answer ", valu);
-    updateQuestion(resp);
+    submitRisk(resp);
 
     // console.log(index);
     // submitAnswer();
@@ -238,11 +250,52 @@ const StepThree = (props) => {
     // })
   }
 
+
+  const submitRisk = (resp) => {
+    if (userToken !== "") {
+      updateQuestion(resp)
+    }
+    else {
+      updateQuestionWithoutLogin(resp)
+    }
+  }
+
+  const updateQuestionWithoutLogin = (resp) => {
+    setSpinner(true);
+    if(questions.length >= 1){
+      var datatosend = {};
+    const diagnosticsId = props.data.diagnosticId || props.data.id;
+    // const id = decoded.Id;
+    const currentQuestId2 = questions[activeQuestionIndex].id;
+    const key2 = questions[activeQuestionIndex];
+    const valu2 = key2[resp];
+
+    Object.assign(datatosend, { diagnosticId: diagnosticsId, selectedResponse: resp, score: valu2, riskId: currentQuestId2 })
+
+
+    dispatch({ type: actionTypes.SUBMIT_ANSWER, data: datatosend, });
+    setSpinner(false);
+    console.log("if run");
+    props.changeStepper(props.now + progressPerQuestion);
+              setActiveIndex("");
+              // setDiagEvalId(data.id);
+              setActiveQuestionIndex(activeQuestionIndex + 1);
+              setActiveQuestionId(questions[activeQuestionIndex + 1]?.id);
+    }
+
+
+              else{
+                console.log("else run")
+                setSpinner(false);
+        props.changeStepper(80);
+              }
+  }
+
   async function updateQuestion(resp) {
     // debugger;
     // console.log(token);
-    console.log("response ",resp);
-    var decoded = jwt_decode(userToken);
+    console.log("response ", resp);
+    // var decoded = jwt_decode(userToken);
     setSpinner(true);
     // console.log(decoded);
     // console.log(props.data.diagnosticId);
@@ -250,19 +303,19 @@ const StepThree = (props) => {
     // console.log(token);
     var datatosend = {};
     const diagnosticsId = props.data.diagnosticId || props.data.id;
-    const id = decoded.Id;
+    // const id = decoded.Id;
     const currentQuestId = questions[activeQuestionIndex].id;
     const key = questions[activeQuestionIndex];
     const valu = key[resp];
     // console.log(id);
-    console.log("userid is ", id);
+    // console.log("userid is ", id);
     console.log("question id is ", currentQuestId);
     console.log("answer is ", valu);
     console.log("diagnostic id is ", diagnosticsId);
-    Object.assign(datatosend, {diagnosticId: diagnosticsId, selectedResponse: resp, score: valu, id: currentQuestId })
+    // Object.assign(datatosend, { diagnosticId: diagnosticsId, selectedResponse: resp, score: valu, riskId: currentQuestId })
     // datatosend = {...datatosend, userId: id, }
-    console.log("complete data ", datatosend);
-   
+    // console.log("complete data ", datatosend);
+
     if (props.now === 7) {
       await fetch(endPoints.CREATE_DIAGNOSTIC, {
         method: "POST",
@@ -272,7 +325,7 @@ const StepThree = (props) => {
         },
         body: JSON.stringify({
           diagnosticId: diagnosticsId,
-          userId: parseInt(id),
+          userId: parseInt(userId),
           isDiagnosticComplete: false,
         }),
       })
@@ -280,35 +333,40 @@ const StepThree = (props) => {
         //   result.json()
         //   console.log(result);
         // })
-        
+
         .then(async (response) => {
           if (response.status === 200 && questions.length >= 1) {
             let data = await response.json();
-            console.log("new ",data.id);
+            console.log("new ", data.id);
             console.log("hello")
-            console.log("active index ",activeQuestionIndex)
+            console.log("active index ", activeQuestionIndex)
             const key = questions[activeQuestionIndex];
             const valu = key[resp];
             console.log("riskid", activeQuestionId);
             console.log("score", valu);
             console.log(diagnosticsId);
             console.log(userToken);
-            console.log("return ",response);
+            console.log("return ", response);
             console.log("again id", data.id);
-             fetch(endPoints.SUBMIT_ANSWER, {
+
+            var newArr = [];
+
+            var newObj = { riskId: activeQuestionId,
+              score: valu,
+              selectedResponse: resp,
+              userDiagnosticEvaluationId: data.id,
+              userInfoId: parseInt(userId),
+              diagnosticId: diagnosticsId}
+              
+              newArr.push(newObj);
+              console.log("newarray ", newArr);
+            fetch(endPoints.SUBMIT_ANSWER, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${userToken}`,
               },
-              body: JSON.stringify({
-                riskId: activeQuestionId,
-                score: valu,
-                selectedResponse: resp,
-                userDiagnosticEvaluationId: data.id,
-                userInfoId: parseInt(id),
-                diagnosticId: diagnosticsId,
-              }),
+              body: JSON.stringify(newArr),
             })
               .then((res) => {
                 if (res.status === 200) {
@@ -317,7 +375,6 @@ const StepThree = (props) => {
                   setDiagEvalId(data.id);
                   setActiveQuestionIndex(activeQuestionIndex + 1);
                   setActiveQuestionId(questions[activeQuestionIndex + 1].id);
-                  dispatch({type: actionTypes.SUBMIT_ANSWER, data: datatosend })
                   // setActiveQuestion(activeQuestion + 1);
                   setSpinner(false);
                 } else {
@@ -345,13 +402,25 @@ const StepThree = (props) => {
     } else {
       if (questions.length >= 1) {
         const key = questions[activeQuestionIndex];
-        console.log("key  => ",key);
+        console.log("key  => ", key);
         console.log("second response ", resp);
         const valu = key[resp];
         console.log("score", valu);
-        console.log("active quesion id " ,activeQuestionId);
+        console.log("active quesion id ", activeQuestionId);
         // console.log(valu);
-        console.log("diagnostic id ",diagnosticsId);
+        console.log("diagnostic id ", diagnosticsId);
+
+        const newArr3 = [];
+
+        var newObj2 = { riskId: activeQuestionId,
+          score: valu,
+          selectedResponse: resp,
+          // userDiagnosticEvaluationId: data.id,
+          userInfoId: parseInt(userId),
+          diagnosticId: diagnosticsId}
+          
+          newArr3.push(newObj2);
+          console.log("newarray ", newArr3);
 
         fetch(endPoints.SUBMIT_ANSWER, {
           method: "POST",
@@ -359,15 +428,9 @@ const StepThree = (props) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${userToken}`,
           },
-          body: JSON.stringify({
-            riskId: activeQuestionId,
-            score: valu,
-            selectedResponse: resp,
-            userInfoId: parseInt(id),
-            diagnosticId: diagnosticsId,
-          }),
+          body: JSON.stringify(newArr3),
         })
-          .then( async (res) => {
+          .then(async (res) => {
             if (res.status === 200 && questions) {
               let answer = await res.json();
               props.changeStepper(props.now + progressPerQuestion);
@@ -377,52 +440,52 @@ const StepThree = (props) => {
               setActiveQuestionIndex(activeQuestionIndex + 1);
               const currentId = questions[activeQuestionIndex + 1].id;
               console.log("currentid ", currentId);
-                  // agaain back api
+              // agaain back api
+              // debugger;
+              fetch(`${endPoints.GET_PREVIOUS_ANSWER}/${currentId},${diagEvalId}`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${userToken}`
+                }
+              }).then((response) => response.json())
+                .then((res) => {
                   // debugger;
-                  fetch(`${endPoints.GET_PREVIOUS_ANSWER}/${currentId},${diagEvalId}`,{
-                    method: "GET",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${userToken}`
-                    }
-                  }).then((response) => response.json())
-                    .then((res) => {
-                      // debugger;
-                      console.log("selected response ",res.selectedResponse);
-                      console.log(boxes[0].resp);
-                      dispatch({type: actionTypes.SUBMIT_ANSWER, data: datatosend })
-                      // setIsBack(true);
-              
-                      // set Id
+                  console.log("selected response ", res.selectedResponse);
+                  console.log(boxes[0].resp);
+                  // dispatch({ type: actionTypes.SUBMIT_ANSWER, data: datatosend })
+                  // setIsBack(true);
+
+                  // set Id
                   //     setActiveQuestionId(questions[activeQuestionIndex - 1]?.id);
                   // setActiveQuestionIndex(activeQuestionIndex - 1);
-              
+
                   // set Progress
                   // var currentprogressper = 73 / questions.length;
                   // var remainProgress = props.now - currentprogressper;
                   // props.changeStepper(remainProgress);
-              
-                      // console.log(boxes.indexOf(x => x.resp === res.selectedResponse))
-                      const activeInd = boxes.map(function(e) { return e.resp; }).indexOf(res.selectedResponse);
-                      setActiveIndex(activeInd);
-                      console.log(boxes.map(function(e) { return e.resp; }).indexOf(res.selectedResponse))
-                      // boxes.map(function(e) { return e.hello; }).indexOf(res.selectedResponse);
-                      const prevIndex = boxes.indexOf(x => x.resp === res.selectedResponse);
-                      console.log("answer index ",prevIndex);
-                    })
-                    .catch((error) =>  {
-                      // debugger;
-                      console.log(error)
-                    })
+
+                  // console.log(boxes.indexOf(x => x.resp === res.selectedResponse))
+                  const activeInd = boxes.map(function (e) { return e.resp; }).indexOf(res.selectedResponse);
+                  setActiveIndex(activeInd);
+                  console.log(boxes.map(function (e) { return e.resp; }).indexOf(res.selectedResponse))
+                  // boxes.map(function(e) { return e.hello; }).indexOf(res.selectedResponse);
+                  const prevIndex = boxes.indexOf(x => x.resp === res.selectedResponse);
+                  console.log("answer index ", prevIndex);
+                })
+                .catch((error) => {
+                  // debugger;
+                  console.log(error)
+                })
               var qid;
               const activeIndex = activeQuestionIndex + 1;
               questions.find((item, i) => {
-                if(i = activeIndex){
+                if (i = activeIndex) {
                   qid = item.id
                 }
               });
               setDiagEvalId(answer.id);
-              console.log("diagnostics  => ",answer);
+              console.log("diagnostics  => ", answer);
               questions ? setActiveQuestionId(questions[activeQuestionIndex + 1]?.id) : setActiveQuestionId("");
               console.log("remianing question => ", questions);
               // console.log("first question index => ", questions[0].id);
@@ -436,7 +499,7 @@ const StepThree = (props) => {
             }
           })
           .catch((error) => {
-            
+
             setSpinner(false);
             // alert(error)
             // console.log(error);
@@ -463,13 +526,13 @@ const StepThree = (props) => {
 
   const goBack = () => {
     console.log(activeQuestionIndex);
-    
+
     const prevQuestionId = parseInt(questions[activeQuestionIndex - 1]?.id);
     console.log("prev id", prevQuestionId);
 
-    
 
-    fetch(`${endPoints.GET_PREVIOUS_ANSWER}/${prevQuestionId},${diagEvalId}`,{
+
+    fetch(`${endPoints.GET_PREVIOUS_ANSWER}/${prevQuestionId},${diagEvalId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -477,28 +540,28 @@ const StepThree = (props) => {
       }
     }).then((response) => response.json())
       .then((res) => {
-        console.log("selected response ",res.selectedResponse);
+        console.log("selected response ", res.selectedResponse);
         console.log(boxes[0].resp);
         setIsBack(true);
 
         // set Id
         setActiveQuestionId(questions[activeQuestionIndex - 1]?.id);
-    setActiveQuestionIndex(activeQuestionIndex - 1);
+        setActiveQuestionIndex(activeQuestionIndex - 1);
 
-    // set Progress
-    var currentprogressper = 73 / questions.length;
-    var remainProgress = props.now - currentprogressper;
-    props.changeStepper(remainProgress);
+        // set Progress
+        var currentprogressper = 73 / questions.length;
+        var remainProgress = props.now - currentprogressper;
+        props.changeStepper(remainProgress);
 
         // console.log(boxes.indexOf(x => x.resp === res.selectedResponse))
-        const activeInd = boxes.map(function(e) { return e.resp; }).indexOf(res.selectedResponse);
+        const activeInd = boxes.map(function (e) { return e.resp; }).indexOf(res.selectedResponse);
         setActiveIndex(activeInd);
-        console.log(boxes.map(function(e) { return e.resp; }).indexOf(res.selectedResponse))
+        console.log(boxes.map(function (e) { return e.resp; }).indexOf(res.selectedResponse))
         // boxes.map(function(e) { return e.hello; }).indexOf(res.selectedResponse);
         const prevIndex = boxes.indexOf(x => x.resp === res.selectedResponse);
-        console.log("answer index ",prevIndex);
+        console.log("answer index ", prevIndex);
       })
-      .catch((error) =>  console.log(error))
+      .catch((error) => console.log(error))
 
   }
 
@@ -507,7 +570,7 @@ const StepThree = (props) => {
     getAllQuestions();
     // console.log("active", questions[0]);
     // console.log(props.data);
-   
+
   }, [test]);
   // console.log("progress now => ", props.now);
   // console.log(activeQuestionId);
@@ -519,21 +582,21 @@ const StepThree = (props) => {
       <div
         className=" step-three-content-container"
       >
-        
+
         <div class="step-three-card-wrapper">
           <Card
             style={{
               backgroundColor: "#fff",
               padding: "7rem 5rem",
               borderRadius: "3.5rem",
-              position : "relative"
+              position: "relative"
             }}
           >
             {spinner && (
-          <div className="spinner">
-            <CircularProgress className="circular-spinner-blue" />
-          </div>
-        )}
+              <div className="spinner">
+                <CircularProgress className="circular-spinner-blue" />
+              </div>
+            )}
             <div className="text-center">
               <h3>{questions[`${activeQuestionIndex}`]?.wroding}</h3>
               <p>
@@ -541,7 +604,7 @@ const StepThree = (props) => {
                 suis absolument d’accord » à 7 voulant « Non ! je ne suis
                 absolument pas d’accord ».
               </p>
-              {boxes.map((box,index) => {
+              {boxes.map((box, index) => {
                 return (
                   <span
                     style={
@@ -561,12 +624,12 @@ const StepThree = (props) => {
             <div className="text-center pt-5">
               <Button
                 secondary
-                disabled={activeQuestionIndex === 0 ? true :  false}
+                disabled={activeQuestionIndex === 0 ? true : false}
                 onClick={goBack}
               >
                 Back
               </Button>
-             
+
             </div>
           </Card>
         </div>

@@ -31,6 +31,7 @@ class Steps extends Component {
     const state = this.props.location.state;
     var pathName = this.props.history.location.pathname;
     this.setState({name: state.name});
+    console.log("new state ", this.props.location.state);
     this.props.location.state.now && this.setState({now: this.props.location.state.now})
     var result = pathName.split("/diagnostic-list/");
     // this.changeStepper();
@@ -103,11 +104,11 @@ class Steps extends Component {
               : 
               now >= 79 && now < 99 ? 
               (
-                <StepFour changeStepper={this.changeStepper} data={this.props.location.state} />
+                <StepFour changeStepper={this.changeStepper} history={this.props} data={this.props.location.state} withoutLogin={this.props.location.state.withoutLogin} />
               ) 
               : 
               (
-                <StepFive routerInfo={this.props} state={this.props.location.state} />
+                <StepFive routerInfo={this.props} state={this.props.location.state}  />
               )
               }
             </div>

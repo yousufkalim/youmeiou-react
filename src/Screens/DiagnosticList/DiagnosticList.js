@@ -182,16 +182,22 @@ const Diagnostic = (props) => {
     enter: false,
     exit: false,
   });
-  const userToken = useSelector((state) => state.user.token);
+  const tokenId = useSelector((state) => state.user.token);
+  const userToken = tokenId !== "" ? tokenId : ""; 
 
   // console.log(props);
   const dispatch = useDispatch();
 
   // console.log("userToken", userToken)
   // setToken(userToken);
-  
-  var decToken = jwt_decode(userToken);
-  const userId = parseInt(decToken.Id);
+  var userId;
+  // debugger;
+  if(userToken !== ""){
+    var decToken = jwt_decode(userToken);
+    userId = parseInt(decToken.Id);
+  }else{
+    userId = 0
+  }
   console.log(userId)
   // const state = useSelector((state) => state);
   // console.log("complete state", state);
@@ -208,10 +214,10 @@ const Diagnostic = (props) => {
 
   async function getAllDiagnostics() {
 
-    var decoded = jwt_decode(userToken);
-    const id = parseInt(decoded.Id);
-    console.log(id);
-    await fetch(`${endPoints.GET_FILTER_DIAGNOSTICS}/${id}`, {
+    // var decoded = jwt_decode(userToken);
+    // const id = parseInt(decoded.Id);
+    // console.log(id);
+    await fetch(`${endPoints.GET_FILTER_DIAGNOSTICS}/${userId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -228,6 +234,7 @@ const Diagnostic = (props) => {
         } else {
           setSpinner(false);
           console.log("not result");
+          alert("hello")
           props.enqueueSnackbar("Un problème est survenu", {
             variant: "error",
           });
@@ -236,6 +243,7 @@ const Diagnostic = (props) => {
       .catch((error) => {
         setSpinner(false);
         console.log(error);
+        alert(error)
         props.enqueueSnackbar("Un problème est survenu", {
           variant: "error",
         });
