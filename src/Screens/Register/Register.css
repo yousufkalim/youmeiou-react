@@ -84,6 +84,14 @@
    .register-left{
       background-size: auto 100%;
       background-repeat: no-repeat;
-      
   }
+
+  .register-form-content {
+   height: auto;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   width: 60%;
+}
  }

@@ -43,7 +43,7 @@ const Register = () => {
     }
     if(e.target.name === "phoneNo"){
       if(e.target.value.length >= 13){
-        setError({...error, phoneNo: "Le numéro de téléphone n'est pas valide"})
+        setError({...error, phoneNo: "doit être inférieur ou égal à 13 chiffres"})
       }
       else{
         setError({...error, phoneNo: ""});
@@ -291,7 +291,7 @@ const Register = () => {
                 </Button>
                 <div className="text-center register-bottom pt-5">
                   Déjà inscrit ?{" "}
-                  <span className="register-text"><NavLink to="login">Connectez-vous</NavLink></span>
+                  <span className="register-text"><NavLink to="/login">Connectez-vous</NavLink></span>
                 </div>
               </div>
               </div>

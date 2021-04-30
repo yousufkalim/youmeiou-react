@@ -6,6 +6,7 @@ import endPoints from "../../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useSelector, useDispatch} from "react-redux";
+import * as actionTypes from "../../../store/actionTypes";
 //import { debugger } from "fusioncharts";
 
 // const questions = [
@@ -88,7 +89,8 @@ const StepThree = (props) => {
 
 
   async function getAllQuestions() {
-    const { diagnosticId } = props.data;
+    const diagnosticId = props.data.diagnosticId || props.data.id;
+    console.log("new data ", props);
     var decoded = jwt_decode(userToken);
     const id = parseInt(decoded.Id);
     // console.log(token);
@@ -246,12 +248,20 @@ const StepThree = (props) => {
     // console.log(props.data.diagnosticId);
     // console.log(decoded.Id);
     // console.log(token);
-    const diagnosticsId = props.data.diagnosticId;
+    var datatosend = {};
+    const diagnosticsId = props.data.diagnosticId || props.data.id;
     const id = decoded.Id;
-
-    console.log(id);
-    console.log("userid", id);
-    console.log("successful");
+    const currentQuestId = questions[activeQuestionIndex].id;
+    const key = questions[activeQuestionIndex];
+    const valu = key[resp];
+    // console.log(id);
+    console.log("userid is ", id);
+    console.log("question id is ", currentQuestId);
+    console.log("answer is ", valu);
+    console.log("diagnostic id is ", diagnosticsId);
+    Object.assign(datatosend, {diagnosticId: diagnosticsId, selectedResponse: resp, score: valu, id: currentQuestId })
+    // datatosend = {...datatosend, userId: id, }
+    console.log("complete data ", datatosend);
    
     if (props.now === 7) {
       await fetch(endPoints.CREATE_DIAGNOSTIC, {
@@ -307,7 +317,7 @@ const StepThree = (props) => {
                   setDiagEvalId(data.id);
                   setActiveQuestionIndex(activeQuestionIndex + 1);
                   setActiveQuestionId(questions[activeQuestionIndex + 1].id);
-
+                  dispatch({type: actionTypes.SUBMIT_ANSWER, data: datatosend })
                   // setActiveQuestion(activeQuestion + 1);
                   setSpinner(false);
                 } else {
@@ -380,6 +390,7 @@ const StepThree = (props) => {
                       // debugger;
                       console.log("selected response ",res.selectedResponse);
                       console.log(boxes[0].resp);
+                      dispatch({type: actionTypes.SUBMIT_ANSWER, data: datatosend })
                       // setIsBack(true);
               
                       // set Id
@@ -526,7 +537,7 @@ const StepThree = (props) => {
             <div className="text-center">
               <h3>{questions[`${activeQuestionIndex}`]?.wroding}</h3>
               <p>
-                Vos réponses peuvent varier de « 0 » voulant dire « Oui ! je
+                Vos réponses peuvent varier de « 1 » voulant dire « Oui ! je
                 suis absolument d’accord » à 7 voulant « Non ! je ne suis
                 absolument pas d’accord ».
               </p>

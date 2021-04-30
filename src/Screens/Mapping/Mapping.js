@@ -13,6 +13,7 @@ import jwt_decode from "jwt-decode";
 import TableChart2 from "../../components/TableChart2/TableChart2";
 import { withSnackbar } from "notistack";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import moment from "moment";
 
 
 const probabilityArr = [1, 2, 3, 12];
@@ -82,16 +83,16 @@ const Mapping = (props) => {
 
   const calculateValue = () => {
     // console.log("function");
-
+    console.log("length of data ", data);
     for (let i = 0; i < data.length; i++) {
       // const value = gravityArr[i] * probabilityArr[i];
       // console.log("function not run **************************** ");
       // console.log(this.props.gravity[i]);
       // console.log(this.props.probability[i]);
       const val = data[i].evalGravity * data[i].evalProbability;
-      const prob = (val / 25) * 90 + 1;
+      const prob = (val / 25) * 90 + 4;
       const valu = Math.round(prob);
-      setValues((state) => [...state, valu]);
+      setValues((state) => [...state, {score: valu, value: val, creationDate: data[i].createdDate , name: data[i].diagnosticName}]);
       // console.log(valu);
 
       // this.setState(prevState => ({
@@ -163,7 +164,7 @@ const Mapping = (props) => {
             </Card>
           </div>
         </div> */}
-        <div className="step-four-header mt-5">
+        <div className="step-four-header-2 mt-5">
           <div style={{ flexBasis: "75%" }} className="mapping-table-container">
             {/* <Card
               style={{
@@ -203,18 +204,21 @@ const Mapping = (props) => {
               </div>
             </Card>
           </div>
-          <div style={{ flexBasis: "23%" }}>
+          <div className="mapping-color-grid">
             <Card
               style={{
-                padding: "1rem 1rem 2rem 3rem",
+                padding: "3rem 1rem 2rem 3rem",
                 borderRadius: "5.4rem",
                 backgroundColor: "#EBEBEB",
+                height: "100%",
                 overflow: "hidden",
               }}
             >
               <div className="mapping-color-card">
                 <div className="mapping-color-card-inner">
+                  <div className="mapping-color-card-image-container">
                   <img src={Images.color} alt="color" />
+                  </div>
                   <div className="mapping-colors">
                     <div>Critique</div>
                     <div>Élevé</div>
@@ -224,33 +228,36 @@ const Mapping = (props) => {
                   </div>
                   {/* {console.log("valuessss =======================================> ",newArr)}; */}
                   {values &&
-                    values.map((item, index) => (
-                      <div
-                        className="mapping-color-line-container"
-                        key={index}
-                        style={{ bottom: `${item}%` }}
-                      >
-                        <div className="mapping-color-line-content">
-                          <img src={Images.search} alt="color" />
-                          <div className="mapping-color-line"></div>
-                          <Popover
-                            className="mapping-popover"
-                            id="popover-positioned-top"
-                          >
-                            <Popover.Title
-                              className="mapping-popover-title"
-                              as="h3"
+                    values.filter((value,e) => e < (data.length) ).map((item, i) =>
+                   
+                        <div
+                          className="mapping-color-line-container"
+                          key={i}
+                          style={{ bottom: `${item.score}%` }}
+                        >
+                          <div className="mapping-color-line-content">
+                            <img src={Images.search} alt="color" />
+                            <div className="mapping-color-line"></div>
+                            <Popover
+                              className="mapping-popover"
+                              id="popover-positioned-top"
+                             
                             >
-                              Diagnostic Name
-                            </Popover.Title>
-                            <Popover.Content>
-                              Diagnostic Id <strong>12</strong> description
-                            </Popover.Content>
-                          </Popover>
-                          {/* <span class="tooltiptext">Tooltip text</span> */}
+                              <Popover.Title
+                                className="mapping-popover-title"
+                                as="h3"
+                              >
+                                {item.name}
+                              </Popover.Title>
+                              <Popover.Content>
+                                {moment(item.creationDate).format("DD-MM-YYYY")}
+                              </Popover.Content>
+                            </Popover>
+                            
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      
+                     )}
                 </div>
               </div>
             </Card>

@@ -125,9 +125,8 @@
     background-color: #fff;
     color: var(--text_color);
     text-align: center;
-    font-size: 2rem;
     border-radius: 6px;
-    padding: 5px 0;
+    padding-bottom: 5px;
     position: absolute;
     top: -100%;
     left: -20%;
@@ -140,7 +139,7 @@
   }
 
   .mapping-popover-title{
-    font-size: 2.4rem !important;
+    font-size: 2rem !important;
     background-color: var(--text_color) !important;
     color: #fff !important;
     border-radius: 1rem;
@@ -148,6 +147,7 @@
 
   .custom-box .mapping-popover .popover-body{
     background-color: #fff;
+    font-size:2rem; 
   }
 
 

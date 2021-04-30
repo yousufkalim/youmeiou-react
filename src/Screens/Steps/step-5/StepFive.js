@@ -32,7 +32,7 @@ const StepFive = (props) => {
     setSpinner(true);
     var decoded = jwt_decode(userToken);
     const userid = parseInt(decoded.Id);
-    const diagnosticId = props.state.diagnosticId;
+    const diagnosticId = props.state.diagnosticId || props.state.id;
     const treatment = e.target.value;
     // console.log(treatment);
     fetch(endPoints.UPDATE_TREATMENT, {

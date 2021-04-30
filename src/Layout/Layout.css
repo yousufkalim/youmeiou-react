@@ -11,8 +11,8 @@
   /* padding: 0 5rem; */
   width: 23%;
   background-color: var(--text_color);
-  animation: sidebaranims 0.5s ease-in;
-  transition: 0.5s all ease;
+  animation: sidebaranims 0.2s ease-in;
+  transition: 0.3s all ease;
 }
 
 .layout-mobile-sidebar{
@@ -23,8 +23,8 @@
     width: 50%;
     position: absolute;
     background-color: var(--text_color);
-    animation: sidebarmobileanims 0.5s ease-in;
-    transition: 0.5s all ease;
+    animation: sidebarmobileanims 0.1s ease-in;
+    transition: 0.2s all ease;
     z-index: 9999999999;
     overflow: hidden;
 }
@@ -65,6 +65,7 @@
 .profile-img {
   width: 7rem;
   margin-right: 4rem;
+  border-radius: 50%;
   height: 6.9rem;
 }
 

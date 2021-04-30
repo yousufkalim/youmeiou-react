@@ -35,7 +35,7 @@ const StepFour = (props) => {
     const decoded = jwt_decode(userToken);
     const id = parseInt(decoded.Id);
     // console.log("user id ==> ", id);
-    const diagnosticId = props.data.diagnosticId;
+    const diagnosticId = props.data.diagnosticId || props.data.id;
     await fetch(`${endPoints.GET_SCORE}/${diagnosticId}, ${id}`, {
       method: "POST",
       headers: {

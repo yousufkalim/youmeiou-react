@@ -1,4 +1,4 @@
-import * as actionTypes from "../actionTypes";s
+import * as actionTypes from "../actionTypes";
 
 export const submitAnswer = (data) => {
     return {

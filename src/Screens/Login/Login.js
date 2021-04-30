@@ -163,7 +163,7 @@ const Login = (props) => {
                 <div className="text-center login-bottom pt-5">
                   Pas encore de compte ?{" "}
                   <span className="register-text">
-                    <NavLink to="register">Inscrivez-vous</NavLink>
+                    <NavLink to="/register">Inscrivez-vous</NavLink>
                   </span>
                 </div>
               </div>

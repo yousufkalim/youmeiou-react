@@ -43,9 +43,12 @@ const Discover = (props) => {
   const [spinner2, setSpinner2] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
 
+  const riskdata = useSelector((state) => state);
   const userToken = useSelector((state) => state.user.token);
   var decoded = jwt_decode(userToken);
   const userId = parseInt(decoded.Id);
+
+  console.log("risk data ", riskdata);
 
   useEffect(() => {
     getComapny();
@@ -168,14 +171,14 @@ const Discover = (props) => {
       }
     }
     if (e.target.name === "codeApe") {
-      if (e.target.value.length !== 5) {
+      if (e.target.value.length !== 5 && e.target.value.length !== 0) {
         setErrors({ ...errors, codeApeError: "Code APE must have 5 digits" });
       } else {
         setErrors({ ...errors, codeApeError: "" });
       }
     }
     if (e.target.name === "codePostal") {
-      if (e.target.value.length !== 5) {
+      if (e.target.value.length !== 5 && e.target.value.length !== 0) {
         setErrors({
           ...errors,
           codePostalError: "Code Postal must have 5 digits",
@@ -193,7 +196,7 @@ const Discover = (props) => {
     // }
     if (e.target.name === "website") {
       const web = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
-      if (!e.target.value.match(web)) {
+      if (!e.target.value.match(web) && e.target.value !== "") {
         setErrors({ ...errors, websiteError: "Url invalid" });
       } else {
         setErrors({ ...errors, websiteError: "" });
@@ -205,7 +208,7 @@ const Discover = (props) => {
   const changeSiren = (e) => {
     if (e.target.value.length <= 9) {
       setData({ ...data, siren: e.target.value });
-      if (e.target.value.length !== 9) {
+      if (e.target.value.length !== 9 && e.target.value.length !== 0) {
         setErrors({ ...errors, sireError: "Siren number must have 9 digits" });
       } else {
         setErrors({ ...data, siren: "" });
@@ -287,7 +290,7 @@ const Discover = (props) => {
     setData({ ...data, siren: "", companyName: "" });
   };
 
-  console.log(data);
+  console.log("start data ",startDate);
 
   return (
     <div className="discover mx-3">
@@ -437,6 +440,7 @@ const Discover = (props) => {
                 <div className="discover-date">
                   <DatePicker
                     selected={startDate}
+                    placeholderText="Date de création de l'entreprise"
                     onChange={(date) => setStartDate(date)}
                     showYearPicker
                     dateFormat="yyyy"

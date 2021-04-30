@@ -28,13 +28,16 @@
 .mapping-table-container{
   width: 100%;
   flex-basis: 100%;
-  margin-bottom: 10rem;
+  /* margin-bottom: 10rem; */
 }
 
 .mapping-color-card {
   width: 100%;
-  max-height: 80rem;
-  height: 70rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1rem;
+  position: relative;
 }
 
 .mapping-color-card-inner {
@@ -42,14 +45,18 @@
   gap: 1rem;
   width: 100%;
   justify-content: center;
-  padding: 3rem 0 3rem 2rem;
+  /* padding: 3rem 0 3rem 2rem; */
+  height: 90%;
+}
+.mapping-color-card-image-container{
   height: 100%;
+  width: 60%;
   position: relative;
 }
 .mapping-color-card-inner img {
   /* max-height: 80rem; */
+  width: 100%;
   height: 100%;
-  width: 50%;
 }
 .mapping-colors {
   display: flex;
@@ -101,9 +108,10 @@
 
 .mapping-color-line-container {
   position: absolute;
-  left: 22%;
+  left: 16%;
   transform: translate(-50%, -50%);
-  width: 60%;
+  width: 47%;
+  grid-gap: 2rem;
   gap: 2rem;
   /* height: 2rem; */
 }
@@ -136,7 +144,7 @@
     text-align: center;
     font-size: 2rem;
     border-radius: 6px;
-    padding: 5px 0;
+    padding-bottom: 5px;
     position: absolute;
     top: -100%;
     left: 50%;
@@ -158,6 +166,23 @@
   .mapping-color-line-content .mapping-popover .popover-body{
     background-color: #fff;
   }
+
+  /* .mapping-color-line-content .mapping-popover::after {
+    content: " " !important;
+    position: absolute !important;
+    top: 100% !important; 
+    left: 50% !important;
+    margin-left: -5px !important;
+    border-width: 5px !important;
+    border-style: solid !important;
+    border-color: black transparent transparent transparent !important;
+  } */
+
+  .mapping-color-grid{
+    flex-basis: 20%;
+    /* height: 100%; */
+    /* height: 61rem; */
+}
 
 @media (max-width: 767px) {
   .mapping-color-card {

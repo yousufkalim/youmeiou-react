@@ -53,8 +53,12 @@ const App = (props) => {
             {/* <PrivateRoute component={Discover} exact path="/" /> */}
             <PrivateRoute component={MyInformation} exact path="/mes-informations" />
             {/* <PublicRoute component={DiagnosticList} exact path="/diagnostic-list" /> */}
-            <PrivateRoute component={DiagnosticList} exact path="/diagnostic-list" />
-            <PrivateRoute component={Steps} exact path="/diagnostic-list/:id" />
+            {/* <PrivateRoute component={DiagnosticList} exact path="/diagnostic-list" />
+            <PrivateRoute component={Steps} exact path="/diagnostic-list/:id" /> */}
+
+            <PublicRoute component={DiagnosticList} exact path="/diagnostic-list" /> 
+            <PublicRoute component={Steps} exact path="/diagnostic-list/:id" />
+
             {/* <PublicRoute component={Inprogress} exact path="/mes-diagnostics" /> */}
             <PrivateRoute component={Inprogress} exact path="/mes-diagnostics" />
             <PrivateRoute component={Plan} exact path="/mes-diagnostics/:id" />

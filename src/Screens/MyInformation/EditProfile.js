@@ -112,7 +112,7 @@ const EditProfile = (props) => {
       if (e.target.value.length > 13) {
         setErrors({
           ...errors,
-          phoneError: "should be less than 13 digits",
+          phoneError: "doit être inférieur ou égal à 13 chiffres",
         });
       } else {
         setErrors({ ...errors, phoneError: "" });
@@ -255,7 +255,7 @@ const EditProfile = (props) => {
                   <div className="account-card-detail">
                     <Input
                       type="text"
-                      placeholder="First name"
+                      placeholder="Prénom"
                       value={data.fname}
                       onChange={changeHandler}
                       name="fname"
@@ -266,7 +266,7 @@ const EditProfile = (props) => {
 
                     <Input
                       type="text"
-                      placeholder="Last name"
+                      placeholder="Nom de famille"
                       value={data.lname}
                       onChange={changeHandler}
                       name="lname"
@@ -277,7 +277,7 @@ const EditProfile = (props) => {
 
                     <Input
                       type="number"
-                      placeholder="date de création de l'entreprise"
+                      placeholder="pas de téléphone"
                       value={data.phone}
                       onChange={changeHandler}
                       name="phone"

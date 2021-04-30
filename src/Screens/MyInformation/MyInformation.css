@@ -29,6 +29,7 @@
 }
 .account-card-detail{
     display: flex;
+    flex-basis: 50%;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;

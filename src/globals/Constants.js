@@ -1,6 +1,6 @@
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const HTTP = "http://";
-const URL = "localhost:51160";  //"160.153.249.64:5059"
+const URL = "160.153.249.64:5059";  //"localhost:51160"
 const API = "/api";
 const VERSION = "/v1";
 const BASE_URL_V1 = HTTP + URL + API + VERSION;

@@ -24,7 +24,7 @@ const StepOne = (props) => {
           >
             <Col className="step-one-card-wrapper" md={6}>
               <Card
-                heading={`${data.serialNo} ${data.name}  `}
+                heading={ data.serialNo !== null ? `${data.serialNo} ${data.name}` : `${""} ${data.name}`}
                 style={{
                   padding: "4rem 4rem 4rem 4rem",
                   borderRadius: "3.5rem",
