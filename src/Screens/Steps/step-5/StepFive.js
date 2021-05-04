@@ -28,12 +28,14 @@ const StepFive = (props) => {
 
 
   const navigateBack = (e) => {
-    // console.log(this.props.routerInfo);
+    console.log(props);
     setSpinner(true);
     var decoded = jwt_decode(userToken);
     const userid = parseInt(decoded.Id);
-    const diagnosticId = props.state.diagnosticId || props.state.id;
+    const diagnosticId = props.state.diagnosticId || props.state.id || props.state.data.diagnosticId || JSON.parse(localStorage.getItem("riskName")).diagnosticId;
     const treatment = e.target.value;
+    console.log(userid);
+    console.log(diagnosticId);
     // console.log(treatment);
     fetch(endPoints.UPDATE_TREATMENT, {
       method: "POST",

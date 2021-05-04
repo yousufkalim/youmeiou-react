@@ -138,7 +138,7 @@
 /* ========== TOOLTIP ============ */
   .mapping-color-line-content .mapping-popover {
     visibility: hidden;
-    width: 100% !important;
+    width: 150% !important;
     background-color: #fff;
     color: var(--text_color);
     text-align: center;

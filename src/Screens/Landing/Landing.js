@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect} from "react";
 import "./Landing.css";
 
 import { NavLink } from "react-router-dom";
@@ -35,6 +35,10 @@ const cards = [
 ];
 
 const Landing = (props) => {
+
+  useEffect(() => {
+    console.log(props);
+  },[])
   return (
     <>
       <div className="landing">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Register.css";
 
 //  COMPONENTS
@@ -11,7 +11,7 @@ import { Modal} from "react-bootstrap";
 import {MdDone, BiError} from "react-icons/all";
 import endPoints from "../../globals/Constants";
 
-const Register = () => {
+const Register = (props) => {
   const [data, setData] = useState({firstName: "", lastName:"", phoneNo: "", email: "", siren:"", reason: "", password:"", confirmPassword: "" });
   const [error, setError] = useState({firstName: "", lastName:"", phoneNo: "", email: "", siren:"", reason: "", password:"", confirmPassword: "" });
   const [spinner, setSpinner] = useState(false);
@@ -23,6 +23,11 @@ const Register = () => {
   const handleShow = () => setShow(true);
 
   console.log(endPoints);
+
+  useEffect(() => {
+    console.log(props);
+  },[])
+
   const inputChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     if(e.target.name === "firstName"){
@@ -139,7 +144,7 @@ const Register = () => {
         clearInputs();
         setShow(true);
         setUserError(false);
-        setMessage("user created successfully");
+        setMessage("Inscription réussie, veuillez vérifier la boîte de réception pour la vérification de l'e-mail");
         console.log(result);
       }
       else{
@@ -291,7 +296,20 @@ const Register = () => {
                 </Button>
                 <div className="text-center register-bottom pt-5">
                   Déjà inscrit ?{" "}
-                  <span className="register-text"><NavLink to="/login">Connectez-vous</NavLink></span>
+                  <span className="register-text">
+                    {
+                      props.location.state ? (
+                        <NavLink to={{
+                          pathname:"/login",
+                          state: {data: props.location.state.data, now: props.location.state.now, withoutLogin :true}
+                        }}>Connectez-vous</NavLink>
+                      )
+                      : 
+                      (
+                        <NavLink to="/login">Connectez-vous</NavLink>
+                      )
+                    }
+                  </span>
                 </div>
               </div>
               </div>

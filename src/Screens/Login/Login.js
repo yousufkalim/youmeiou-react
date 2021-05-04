@@ -35,6 +35,8 @@ const Login = (props) => {
   const dispatch = useDispatch();
 
   const store = useSelector((state) => state);
+  const risk = useSelector((state) => state.currentRisk);
+  const totalRisk = useSelector((state) => state.riskReducer);
   console.log(store);
 
   // const user = useSelector((state) => state);
@@ -43,6 +45,11 @@ const Login = (props) => {
     console.log(props);
     console.log(props.location);
     console.log(props);
+    console.log(totalRisk);
+    // const count = JSON.parse(localStorage.getItem("riskName")).questionsCount;
+    console.log("total Count",risk.questionsCount);
+    // var item = JSON.parse(localStorage.getItem("riskName")).now;
+    // console.log("item " ,item);
   }, []);
 
   const inputChange = (e) => {
@@ -99,14 +106,35 @@ const Login = (props) => {
         if(res.success){
           setSpinner(false);
           console.log(res);
+          console.log(props);
           dispatch({type: actionTypes.LOGIN, token: res.token });
-          props.location.state ?
+          if(props.location.state){
+
             props.history.push({
               pathname: `/diagnostic-list/${props.location.state.data.diagnosticId}`,
               state: {data: props.location.state.data, now: props.location.state.now, withoutLogin :true}
             }) 
-          :
-          props.history.push("/discover");
+          }
+          else if(localStorage.getItem("riskName")){
+            if(risk.diagnosticId > 0 && risk.questionsCount === totalRisk.length){
+              props.history.push({
+                pathname: `/diagnostic-list/${JSON.parse(localStorage.getItem("riskName")).diagnosticId}`,
+                state: {now: JSON.parse(localStorage.getItem("riskName")).now, withoutLogin :true, diagnosticId:JSON.parse(localStorage.getItem("riskName")).diagnosticId }
+              }) 
+            }
+            else{
+              localStorage.removeItem("riskName");
+              dispatch({type: actionTypes.CLEAR_RISK});
+              dispatch({type: actionTypes.RESET_RISKS, data: []});
+              props.history.push("/discover");
+            }
+           
+          }
+          else{
+            props.history.push("/discover");
+          }
+
+         
         }
         else{
           setMessage(res.errorMessage)
@@ -173,7 +201,20 @@ const Login = (props) => {
                 <div className="text-center login-bottom pt-5">
                   Pas encore de compte ?{" "}
                   <span className="register-text">
-                    <NavLink to="/register">Inscrivez-vous</NavLink>
+                    {
+                      props.location.state ? (
+                        <NavLink to={{
+                          pathname: "/register",
+                          state: {data: props.location.state.data, now: props.location.state.now, withoutLogin :true}
+                        }}
+                          >Inscrivez-vous</NavLink>
+                      )
+                      : 
+                      (
+                        <NavLink to="/register">
+                          Inscrivez-vous</NavLink>
+                      )
+                    }
                   </span>
                 </div>
               </div>

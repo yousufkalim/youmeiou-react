@@ -79,14 +79,18 @@ const StepThree = (props) => {
   const [sendData, setSendData] = useState({});
 
   const tokenId = useSelector((state) => state.user.token);
-  const userToken = tokenId ? tokenId : ""
+  const userToken = tokenId ? tokenId : "";
+
+  const currentRisk = useSelector((state) => state.currentRisk);
+
+  console.log(currentRisk);
 
   var userId;
   if (userToken !== "") {
     var decToken = jwt_decode(userToken);
     userId = parseInt(decToken.Id);
   } else {
-    userId = 0
+    userId = 0;
   }
 
   const dispatch = useDispatch();
@@ -95,8 +99,6 @@ const StepThree = (props) => {
   var progressPerQuestion = 73 / totalQuestions;
   // console.log("divide", progressPerQuestion);
   // console.log("total", totalQuestions);
-
-
 
   async function getAllQuestions() {
     const diagnosticId = props.data.diagnosticId || props.data.id;
@@ -128,9 +130,9 @@ const StepThree = (props) => {
         var completeCount = 0;
         result.riskList.map((item, i) => {
           if (item.isCompleted === true) {
-            completeCount = completeCount + 1
+            completeCount = completeCount + 1;
           }
-        })
+        });
         var ind;
         // for(let i = 0; i < result.riskList.length; i++){
         //   if(result.riskList[i].isCompleted === false){
@@ -156,7 +158,6 @@ const StepThree = (props) => {
 
         // });
 
-
         // for(let b = 0; b < result.riskList.length; b++){
         //   if(result.riskList[b].isCompleted === true){
         //     completeCount = completeCount + 1;
@@ -164,32 +165,46 @@ const StepThree = (props) => {
         // }
 
         console.log("active question index is ", ind);
-        setActiveQuestionIndex(ind);
+        userToken !== ""
+          ? setActiveQuestionIndex(ind)
+          : setActiveQuestionIndex(currentRisk.currentIndex);
         setTotalQuestions(result.totalQuestions);
         console.log("total ", result.totalQuestions);
         console.log("remaining ", result.riskList.length);
         setSpinner(false);
         console.log(activeQuestionIndex);
-        if (result.riskList.length === 0) {
-          props.changeStepper(80);
-          console.log("error");
-        }
-        else {
+        if (userToken === "") {
+          const diagnosticsId = props.data.diagnosticId || props.data.id;
 
-          console.log("complete count ", completeCount);
+          if (currentRisk.diagnosticId !== diagnosticsId) {
+            dispatch({ type: actionTypes.RESET_RISKS, data: [] });
+            localStorage.removeItem("riskName");
+            props.changeStepper(7);
+            setActiveQuestionIndex(0);
+          }
+          else{
+            props.changeStepper(currentRisk.now);
+          }
+        } else {
+          if (result.riskList.length === 0) {
+            props.changeStepper(80);
+            console.log("error");
+          } else {
+            console.log("complete count ", completeCount);
 
-          var currentprogressper = 73 / result.riskList.length;
-          var currentProgress = completeCount * currentprogressper
-          console.log("curren ", currentProgress);
+            var currentprogressper = 73 / result.riskList.length;
+            var currentProgress = completeCount * currentprogressper;
+            console.log("curren ", currentProgress);
 
-          var count = 73 / result.totalQuestions;
-          // console.log(count);
-          // var remaining = result.totalQuestions - result.riskList.length;
-          // console.log(remaining);
-          var progress = currentProgress + props.now;
-          console.log("useffect progress", progress);
-          // setTest(true);
-          props.changeStepper(progress);
+            var count = 73 / result.totalQuestions;
+            // console.log(count);
+            // var remaining = result.totalQuestions - result.riskList.length;
+            // console.log(remaining);
+            var progress = currentProgress + props.now;
+            console.log("useffect progress", progress);
+            // setTest(true);
+            props.changeStepper(progress);
+          }
         }
         // var i
         // result.riskList.find((item,index) => {
@@ -202,22 +217,18 @@ const StepThree = (props) => {
         var activeId;
         result.riskList.find((item, index) => {
           if (item.isCompleted === false) {
-
-            return activeId = item.id;
+            return (activeId = item.id);
           }
-
         });
         console.log(activeId);
         setActiveQuestionId(activeId);
       })
       .catch((error) => {
         setSpinner(false);
-        console.log(error)
+        console.log(error);
         // alert(error);
       });
   }
-
-
 
   async function selectAnswer(index, resp) {
     await setActiveIndex(index);
@@ -245,51 +256,79 @@ const StepThree = (props) => {
     //   },
     //   body: JSON.stringify({
     //       riskId: activeQuestionId,
-
     //   })
     // })
   }
 
-
   const submitRisk = (resp) => {
     if (userToken !== "") {
-      updateQuestion(resp)
+      updateQuestion(resp);
+    } else {
+      updateQuestionWithoutLogin(resp);
     }
-    else {
-      updateQuestionWithoutLogin(resp)
-    }
-  }
+  };
 
   const updateQuestionWithoutLogin = (resp) => {
     setSpinner(true);
-    if(questions.length >= 1){
+
+    if (questions.length >= 1) {
       var datatosend = {};
-    const diagnosticsId = props.data.diagnosticId || props.data.id;
-    // const id = decoded.Id;
-    const currentQuestId2 = questions[activeQuestionIndex].id;
-    const key2 = questions[activeQuestionIndex];
-    const valu2 = key2[resp];
+      const diagnosticsId = props.data.diagnosticId || props.data.id;
 
-    Object.assign(datatosend, { diagnosticId: diagnosticsId, selectedResponse: resp, score: valu2, riskId: currentQuestId2 })
+      if (currentRisk.diagnosticId !== diagnosticsId) {
+        dispatch({ type: actionTypes.RESET_RISKS, data: [] });
+        localStorage.removeItem("riskName");
+      }
+
+      // const id = decoded.Id;
+      const currentQuestId2 = questions[activeQuestionIndex].id;
+      const key2 = questions[activeQuestionIndex];
+      const valu2 = key2[resp];
+
+      Object.assign(datatosend, {
+        diagnosticId: diagnosticsId,
+        selectedResponse: resp,
+        score: valu2,
+        riskId: currentQuestId2,
+      });
+
+      dispatch({ type: actionTypes.SUBMIT_ANSWER, data: datatosend });
+      setSpinner(false);
+      console.log("if run", diagnosticsId);
+      console.log(props.data.name);
+      props.changeStepper(props.now + progressPerQuestion);
+      const progress = props.now + progressPerQuestion;
+      setActiveIndex("");
+      // setDiagEvalId(data.id);
+      setActiveQuestionIndex(activeQuestionIndex + 1);
+      const questionsLength = questions.length;
 
 
-    dispatch({ type: actionTypes.SUBMIT_ANSWER, data: datatosend, });
-    setSpinner(false);
-    console.log("if run");
-    props.changeStepper(props.now + progressPerQuestion);
-              setActiveIndex("");
-              // setDiagEvalId(data.id);
-              setActiveQuestionIndex(activeQuestionIndex + 1);
-              setActiveQuestionId(questions[activeQuestionIndex + 1]?.id);
+      const current = {
+        now: progress,
+        currentIndex: activeQuestionIndex + 1,
+        diagnosticId: diagnosticsId,
+        diagnosticName: props.data.name,
+      };
+      localStorage.setItem("riskName", JSON.stringify(current));
+
+      dispatch({
+        type: actionTypes.CURRENT_RISK,
+        data: {
+          now: progress,
+          questionsCount: questions.length,
+          currentIndex: activeQuestionIndex + 1,
+          diagnosticId: diagnosticsId,
+          diagnosticName: props.data.name,
+        },
+      });
+      setActiveQuestionId(questions[activeQuestionIndex + 1]?.id);
+    } else {
+      console.log("else run");
+      setSpinner(false);
+      props.changeStepper(80);
     }
-
-
-              else{
-                console.log("else run")
-                setSpinner(false);
-        props.changeStepper(80);
-              }
-  }
+  };
 
   async function updateQuestion(resp) {
     // debugger;
@@ -338,8 +377,8 @@ const StepThree = (props) => {
           if (response.status === 200 && questions.length >= 1) {
             let data = await response.json();
             console.log("new ", data.id);
-            console.log("hello")
-            console.log("active index ", activeQuestionIndex)
+            console.log("hello");
+            console.log("active index ", activeQuestionIndex);
             const key = questions[activeQuestionIndex];
             const valu = key[resp];
             console.log("riskid", activeQuestionId);
@@ -351,15 +390,17 @@ const StepThree = (props) => {
 
             var newArr = [];
 
-            var newObj = { riskId: activeQuestionId,
+            var newObj = {
+              riskId: activeQuestionId,
               score: valu,
               selectedResponse: resp,
               userDiagnosticEvaluationId: data.id,
               userInfoId: parseInt(userId),
-              diagnosticId: diagnosticsId}
-              
-              newArr.push(newObj);
-              console.log("newarray ", newArr);
+              diagnosticId: diagnosticsId,
+            };
+
+            newArr.push(newObj);
+            console.log("newarray ", newArr);
             fetch(endPoints.SUBMIT_ANSWER, {
               method: "POST",
               headers: {
@@ -379,7 +420,7 @@ const StepThree = (props) => {
                   setSpinner(false);
                 } else {
                   setSpinner(false);
-                  console.log(res)
+                  console.log(res);
                   console.log("answer not submitted");
                 }
               })
@@ -412,15 +453,17 @@ const StepThree = (props) => {
 
         const newArr3 = [];
 
-        var newObj2 = { riskId: activeQuestionId,
+        var newObj2 = {
+          riskId: activeQuestionId,
           score: valu,
           selectedResponse: resp,
           // userDiagnosticEvaluationId: data.id,
           userInfoId: parseInt(userId),
-          diagnosticId: diagnosticsId}
-          
-          newArr3.push(newObj2);
-          console.log("newarray ", newArr3);
+          diagnosticId: diagnosticsId,
+        };
+
+        newArr3.push(newObj2);
+        console.log("newarray ", newArr3);
 
         fetch(endPoints.SUBMIT_ANSWER, {
           method: "POST",
@@ -442,13 +485,17 @@ const StepThree = (props) => {
               console.log("currentid ", currentId);
               // agaain back api
               // debugger;
-              fetch(`${endPoints.GET_PREVIOUS_ANSWER}/${currentId},${diagEvalId}`, {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${userToken}`
+              fetch(
+                `${endPoints.GET_PREVIOUS_ANSWER}/${currentId},${diagEvalId}`,
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userToken}`,
+                  },
                 }
-              }).then((response) => response.json())
+              )
+                .then((response) => response.json())
                 .then((res) => {
                   // debugger;
                   console.log("selected response ", res.selectedResponse);
@@ -466,27 +513,41 @@ const StepThree = (props) => {
                   // props.changeStepper(remainProgress);
 
                   // console.log(boxes.indexOf(x => x.resp === res.selectedResponse))
-                  const activeInd = boxes.map(function (e) { return e.resp; }).indexOf(res.selectedResponse);
+                  const activeInd = boxes
+                    .map(function (e) {
+                      return e.resp;
+                    })
+                    .indexOf(res.selectedResponse);
                   setActiveIndex(activeInd);
-                  console.log(boxes.map(function (e) { return e.resp; }).indexOf(res.selectedResponse))
+                  console.log(
+                    boxes
+                      .map(function (e) {
+                        return e.resp;
+                      })
+                      .indexOf(res.selectedResponse)
+                  );
                   // boxes.map(function(e) { return e.hello; }).indexOf(res.selectedResponse);
-                  const prevIndex = boxes.indexOf(x => x.resp === res.selectedResponse);
+                  const prevIndex = boxes.indexOf(
+                    (x) => x.resp === res.selectedResponse
+                  );
                   console.log("answer index ", prevIndex);
                 })
                 .catch((error) => {
                   // debugger;
-                  console.log(error)
-                })
+                  console.log(error);
+                });
               var qid;
               const activeIndex = activeQuestionIndex + 1;
               questions.find((item, i) => {
-                if (i = activeIndex) {
-                  qid = item.id
+                if ((i = activeIndex)) {
+                  qid = item.id;
                 }
               });
               setDiagEvalId(answer.id);
               console.log("diagnostics  => ", answer);
-              questions ? setActiveQuestionId(questions[activeQuestionIndex + 1]?.id) : setActiveQuestionId("");
+              questions
+                ? setActiveQuestionId(questions[activeQuestionIndex + 1]?.id)
+                : setActiveQuestionId("");
               console.log("remianing question => ", questions);
               // console.log("first question index => ", questions[0].id);
               console.log(props.now);
@@ -499,7 +560,6 @@ const StepThree = (props) => {
             }
           })
           .catch((error) => {
-
             setSpinner(false);
             // alert(error)
             // console.log(error);
@@ -526,19 +586,19 @@ const StepThree = (props) => {
 
   const goBack = () => {
     console.log(activeQuestionIndex);
+    setSpinner(true)
 
     const prevQuestionId = parseInt(questions[activeQuestionIndex - 1]?.id);
     console.log("prev id", prevQuestionId);
-
-
 
     fetch(`${endPoints.GET_PREVIOUS_ANSWER}/${prevQuestionId},${diagEvalId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`
-      }
-    }).then((response) => response.json())
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then((response) => response.json())
       .then((res) => {
         console.log("selected response ", res.selectedResponse);
         console.log(boxes[0].resp);
@@ -554,23 +614,39 @@ const StepThree = (props) => {
         props.changeStepper(remainProgress);
 
         // console.log(boxes.indexOf(x => x.resp === res.selectedResponse))
-        const activeInd = boxes.map(function (e) { return e.resp; }).indexOf(res.selectedResponse);
+        const activeInd = boxes
+          .map(function (e) {
+            return e.resp;
+          })
+          .indexOf(res.selectedResponse);
         setActiveIndex(activeInd);
-        console.log(boxes.map(function (e) { return e.resp; }).indexOf(res.selectedResponse))
+        console.log(
+          boxes
+            .map(function (e) {
+              return e.resp;
+            })
+            .indexOf(res.selectedResponse)
+        );
+    setSpinner(false);
+
         // boxes.map(function(e) { return e.hello; }).indexOf(res.selectedResponse);
-        const prevIndex = boxes.indexOf(x => x.resp === res.selectedResponse);
+        const prevIndex = boxes.indexOf((x) => x.resp === res.selectedResponse);
         console.log("answer index ", prevIndex);
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        console.log(error);
+    setSpinner(false);
 
-  }
+      });
+  };
 
   useEffect(() => {
     // setActiveQuestion(0);
+    console.log(props);
     getAllQuestions();
+    // dispatch({type: actionTypes.CLEAR_RISK})
     // console.log("active", questions[0]);
     // console.log(props.data);
-
   }, [test]);
   // console.log("progress now => ", props.now);
   // console.log(activeQuestionId);
@@ -579,17 +655,14 @@ const StepThree = (props) => {
   console.log("activate ", activeQuestionIndex);
   return (
     <div className="steps-three-content">
-      <div
-        className=" step-three-content-container"
-      >
-
+      <div className=" step-three-content-container">
         <div class="step-three-card-wrapper">
           <Card
             style={{
               backgroundColor: "#fff",
               padding: "7rem 5rem",
               borderRadius: "3.5rem",
-              position: "relative"
+              position: "relative",
             }}
           >
             {spinner && (
@@ -621,16 +694,20 @@ const StepThree = (props) => {
                 );
               })}
             </div>
-            <div className="text-center pt-5">
-              <Button
-                secondary
-                disabled={activeQuestionIndex === 0 ? true : false}
-                onClick={goBack}
-              >
-                Back
-              </Button>
+           {
+             userToken !== "" &&
+             <div className="text-center pt-5">
+             <Button
+               secondary
+               disabled={activeQuestionIndex === 0 ? true : false}
+               onClick={goBack}
+             >
+               Back
+             </Button>
+           </div>
+           
 
-            </div>
+           }
           </Card>
         </div>
       </div>

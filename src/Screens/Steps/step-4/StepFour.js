@@ -64,7 +64,9 @@ setShow(true)
 
   async function submitAnswers(){
 
-    const {name,diagnosticId} = props.data.data;
+    var diagnosticId;
+
+    diagnosticId = props.data.data ? props.data.data.diagnosticId : JSON.parse(localStorage.getItem("riskName")).diagnosticId 
     const decoded = jwt_decode(userToken);
     const id = parseInt(decoded.Id);
 
@@ -125,6 +127,7 @@ setShow(true)
                 setScore(score);
 
                 dispatch({type: actionTypes.RESET_RISKS, data: []});
+                localStorage.removeItem("riskName");
                 console.log("third api ",result);
                 // console.log(result);
               })
@@ -278,7 +281,7 @@ setShow(true)
         </div>
         <div className="step-four-color-grid">
           <Card
-            heading="Criticité"
+            
             style={{
               padding: "1rem",
               borderRadius: "3.5rem",
@@ -289,6 +292,7 @@ setShow(true)
             }}
             noheadingMargin
           >
+            <div className="card-heading">Criticité</div>
             <div className="step-four-color-container">
               <div className="step-four-color">
                 <ColorPicker

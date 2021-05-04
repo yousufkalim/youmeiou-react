@@ -1,19 +1,31 @@
 
 .step-four-color-line-container{
     position: absolute;
-    left: 32%;
+    left: 34%;
     transform: translate(-50%, -50%);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 120%;
+    width: 125%;
     gap:2rem;
     /* height: 2rem; */
 
 }
 .step-four-color-image{
     height: 90%;
+}
+.step-four-color-line-content{
 
+}
+.step-four-color-line-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+    z-index: 1;
+    gap:1rem;
 }
 .step-four-color-image img{
     width: 100%;

@@ -129,6 +129,7 @@ const Discover = (props) => {
         apeCode: data.codeApe,
         postalCode: data.codePostal,
         city: data.ville,
+        siren: data.siren,
         dateOfCreation: formatted,
         companyWebsite: data.website,
         effectifId: parseInt(data.effectif),
@@ -268,7 +269,7 @@ const Discover = (props) => {
     // }
     if (data.website !== null) {
       const web = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
-      if (!data.website.match(web)) {
+      if (!data.website.match(web) && data.website.length !== 0 ) {
         setErrors({ ...errors, websiteError: "Invalid Url" });
       } else {
         setErrors({ ...errors, websiteError: "" });

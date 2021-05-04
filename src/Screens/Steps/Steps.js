@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./Steps.css";
 
 //  COMPONENTS
@@ -11,40 +11,37 @@ import StepThree from "./step-3/StepThree";
 import StepFour from "./step-4/StepFour";
 import StepFive from "./step-5/StepFive";
 import {withRouter} from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
 
-class Steps extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      now: 5,
-      toggle: false,
-      name: "",
-      serialNo: "",
-      explanation: "",
-    };
-  }
+const Steps = (props) => {
 
-  componentDidMount() {
-    // this.setState({now: })
-    // console.log(this.props);
-    const state = this.props.location.state;
-    var pathName = this.props.history.location.pathname;
-    this.setState({name: state.name});
-    console.log("new state ", this.props.location.state);
-    this.props.location.state.now && this.setState({now: this.props.location.state.now})
-    var result = pathName.split("/diagnostic-list/");
-    // this.changeStepper();
-    // console.log(result[1]);
-    // this.props.location.reload();
-  }
+  const [now, setNow] = useState(5);
+  const [toggle, setToggle] = useState(false);
+  const [name, setName] = useState("");
+  const [serialNo, setSerialNo] = useState("");
+  const [explanation, setExplanation] = useState("");
 
-  changeStepper = (btn) => {
-    this.setState({ now: btn });
+  const state = useSelector((state) => state.currentRisk);
+
+  useEffect(() => {
+    const state = props.location.state;
+    var pathName = props.history.location.pathname;
+    setName(state.name);
+    // this.setState({name: state.name});
+    // console.log("new state ", this.props.location.state);
+    props.location.state.now && setNow(props.location.state.now)
+    // var result = pathName.split("/diagnostic-list/");
+
+  },[])
+
+
+  const changeStepper = (btn) => {
+    setNow(btn);
   };
 
-  render() {
-    const { now, name, serialNo, explanation,  } = this.state;
+
+    // const { now, name, serialNo, explanation,  } = this.state;
     // console.log(this.props.location.state);
 
     // if(window.location.reload() === true){
@@ -93,22 +90,22 @@ class Steps extends Component {
             <div className="steps-content">
               {
               now >= 5 && now < 6 ? (
-                <StepOne changeStepper={this.changeStepper} data={this.props.location.state} />
+                <StepOne changeStepper={changeStepper} data={props.location.state} />
               ) 
               : now >= 6 && now < 7 ? (
-                <StepTwo changeStepper={this.changeStepper} />
+                <StepTwo changeStepper={changeStepper} />
               ) 
               : now >= 7 && now <= 79 ? (
-                <StepThree changeStepper={this.changeStepper} now={now} data={this.props.location.state} />
+                <StepThree changeStepper={changeStepper} now={now} data={props.location.state} />
               ) 
               : 
               now >= 79 && now < 99 ? 
               (
-                <StepFour changeStepper={this.changeStepper} history={this.props} data={this.props.location.state} withoutLogin={this.props.location.state.withoutLogin} />
+                <StepFour changeStepper={changeStepper} history={props} data={props.location.state} withoutLogin={props.location.state.withoutLogin} />
               ) 
               : 
               (
-                <StepFive routerInfo={this.props} state={this.props.location.state}  />
+                <StepFive routerInfo={props} state={props.location.state}  />
               )
               }
             </div>
@@ -117,6 +114,6 @@ class Steps extends Component {
       </div>
     );
   }
-}
+
 
 export default withRouter(Steps);

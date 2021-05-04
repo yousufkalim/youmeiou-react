@@ -27,7 +27,7 @@ const StepOne = (props) => {
       <>
         <div className="step-one-content">
           <Row
-            className="row w-100 align-items-center"s
+            className="row w-100 align-items-center"
             style={{ padding: "10rem" }}
           >
             <Col className="step-one-card-wrapper" md={6}>

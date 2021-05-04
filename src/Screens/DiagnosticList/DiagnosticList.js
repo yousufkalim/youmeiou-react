@@ -234,7 +234,7 @@ const Diagnostic = (props) => {
         } else {
           setSpinner(false);
           console.log("not result");
-          alert("hello")
+          // alert("hello")
           props.enqueueSnackbar("Un problème est survenu", {
             variant: "error",
           });
@@ -243,7 +243,7 @@ const Diagnostic = (props) => {
       .catch((error) => {
         setSpinner(false);
         console.log(error);
-        alert(error)
+        // alert(error)
         props.enqueueSnackbar("Un problème est survenu", {
           variant: "error",
         });

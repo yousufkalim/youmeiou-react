@@ -29,7 +29,7 @@ class ColorPicker extends React.Component {
   
   render() {
     const value = this.props.gravity * this.props.probability;
-    const prob = ((value/25)*90) + 1;
+    const prob = ((value/25)*90) + 4;
     const val = Math.round(prob);
     // console.log(val);
     // const val = 100 - prob;
@@ -75,13 +75,16 @@ class ColorPicker extends React.Component {
           color={this.props.color}
           onChangeComplete={this.props.handleChange}
         /> */}
+        
         <div className="step-four-color-image">
           <img  src={Images.color} alt="color"  />
         </div>
         
           <div className="step-four-color-line-container" style={{bottom: `${val}%`}}>
+            <div className="step-four-color-line-content">
             <img src={Images.search} alt="color" />
             <div className="step-four-color-line"></div>
+            </div>
           </div>
       
       </div>

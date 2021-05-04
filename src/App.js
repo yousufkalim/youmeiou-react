@@ -24,12 +24,29 @@ const App = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // window.addEventListener('unload', logout)
-    // return () => {
-    //     window.removeEventListener('unload', logout)
-    // } 
+    // localStorage.removeItem("riskName");
+    // localStorage.clear();
+    // window.addEventListener('unload', resetCurrentRisk);
+    window.addEventListener('unload', resetRisks,clearLocalStorage, resetCurrentRisk, logout);
+    return () => {
+        window.removeEventListener('unload', resetRisks,clearLocalStorage, resetCurrentRisk, logout)
+        
+        // window.removeEventListener('unload', resetCurrentRisk)
+    } 
 
-  },[dispatch,user])
+  },[dispatch])
+
+  const clearLocalStorage = () => {
+    localStorage.removeItem("riskName");
+  }
+
+  const resetCurrentRisk = () => {
+    dispatch({type: actionTypes.CLEAR_RISK});
+  }
+
+  const resetRisks = () => {
+    dispatch({type: actionTypes.RESET_RISKS, data: []});
+  }
 
   const logout = () => {
     dispatch({type: actionTypes.LOGOUT});

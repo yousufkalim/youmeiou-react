@@ -13,6 +13,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserEdit } from "react-icons/all";
 import EditProfile from "./EditProfile";
+import { withSnackbar } from "notistack";
+
 
 async function readDataUrl(file) {
   return new Promise((resolve, reject) => {
@@ -90,7 +92,10 @@ const MyInformation = (props) => {
         console.log(error);
         setSpinner(false);
         setShowEdit(false);
-        setError("something went wrong");
+        props.enqueueSnackbar("Un problème est survenu", {
+          variant: "error",
+        });
+        setError("Un problème est survenu");
       });
   }
 
@@ -277,4 +282,4 @@ const MyInformation = (props) => {
   );
 };
 
-export default MyInformation;
+export default withSnackbar(MyInformation);

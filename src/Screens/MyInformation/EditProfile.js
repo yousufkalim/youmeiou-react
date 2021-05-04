@@ -61,6 +61,7 @@ const EditProfile = (props) => {
   useEffect(() => {
     const { data } = props;
     let profileId;
+    console.log("profile image ",props.data.userProfileImage);
     data.entrepreneurProfileId === 0 ? profileId = null : profileId = data.entrepreneurProfileId;
     // if(data.entrepreneurProfileId === 0){
     //   profileId = null
@@ -72,7 +73,7 @@ const EditProfile = (props) => {
     let func;
     (data.entrepreneurProfileId === 0 || data.entrepreneurProfileId === null) ? func = 0 : func = 1
     console.log("useeffect");
-
+    setImageUrl(data.userProfileImage)
     setData({
       ...data,
       fname: data.firstName,
@@ -80,6 +81,7 @@ const EditProfile = (props) => {
       phone: data.phoneNo,
       email: data.email,
       profile: profileId,
+    
       profileArray: [
         { id: null, dropdownTypeId: 0, name: "" },
         ...data.dropdown.values,
@@ -139,6 +141,7 @@ const EditProfile = (props) => {
   }
 
   async function editProfile() {
+  
     // let result = {};
     // result = {
     //   // eslint-disable-next-line no-unused-vars

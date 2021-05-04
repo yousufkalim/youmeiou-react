@@ -11,6 +11,7 @@ import combineReducers from "./store/reducers";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./store";
 import { SnackbarProvider } from "notistack";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 // import authReducer from "./store/reducers/user";
 
 //  Fonts
@@ -23,10 +24,14 @@ import "./fonts/FiraSans-Bold.ttf";
 ReactDOM.render(
   <React.StrictMode>
     <Router>
+    <ErrorBoundary>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <SnackbarProvider
             maxSnack={3}
+            dense={false}
+            hideIconVariant={false}
+            autoHideDuration={2000}
             iconVariant={{
               success: "✅",
               error: "✖️",
@@ -42,6 +47,7 @@ ReactDOM.render(
           </SnackbarProvider>
         </PersistGate>
       </Provider>
+      </ErrorBoundary>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")

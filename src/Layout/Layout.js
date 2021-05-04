@@ -20,7 +20,7 @@ const Layout = (props, ref) => {
 
   useEffect(() => {
     getProfile();
-  },[getProfile])
+  },[getProfile, userImage])
 
   
 
