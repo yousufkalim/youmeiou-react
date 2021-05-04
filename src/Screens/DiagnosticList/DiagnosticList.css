@@ -81,3 +81,16 @@
    -webkit-line-clamp: 1; /* number of lines to show */
    -webkit-box-orient: vertical;
 }
+
+@media (max-width: 550px) {
+    .diagnostic-dropdown {
+        flex-basis: 23%;
+    }
+
+    .diagnostic-list-search {
+        flex-basis: 23%;
+    }
+    .diagnostic-header{
+        gap: 3rem;
+    }
+  }

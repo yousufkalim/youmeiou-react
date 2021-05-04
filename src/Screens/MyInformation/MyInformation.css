@@ -1,7 +1,8 @@
 .account-management{
     height: 90%;
     width: 100%;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
 }
 .account-cards{
@@ -16,6 +17,7 @@
 }
 .account-card{
     flex-basis: 46%;
+    width: 46%;
 }
 .account-card-img{
     flex-basis: 50%;
@@ -104,4 +106,27 @@
     font-weight: 300;
     font-style: italic;
     font-family: 'Fira Sans' !important;
+}
+
+
+
+@media (max-width: 550px) {
+    .account-card-detail-2 {
+        flex-direction: column;
+    }
+    
+.account-cards {
+    flex-direction: column;
+    padding: 0 10rem;
+  }
+
+  .account-card{
+      width: 100%;
+      margin-bottom: 5rem;
+  }
+
+  .account-management-header{
+      margin-bottom: 5rem;
+  }
+
 }

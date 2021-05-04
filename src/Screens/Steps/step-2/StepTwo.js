@@ -25,7 +25,7 @@ class StepTwo extends Component {
                 <p className="step-card-text text-center">
                   Bravo vous avez fait un bon choix ! Vous allez être dirigé
                   vers un questionnaire de questions. Vos réponses peuvent
-                  varier de « 0 » voulant dire « Oui ! je suis absolument
+                  varier de « 1 » voulant dire « Oui ! je suis absolument
                   d’accord » à 7 voulant « Non ! je ne suis absolument pas
                   d’accord ».
                 </p>

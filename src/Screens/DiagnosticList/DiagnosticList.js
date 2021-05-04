@@ -502,7 +502,7 @@ const Diagnostic = (props) => {
                         <NavLink
                           to={{
                             pathname: props.match.url + "/" + decodeURIComponent(item.diagnosticId),
-                            state: {id: item.diagnosticId, name: item.name, explanation: item.explanation }
+                            state: {id: item.diagnosticId, name: item.name, explanation: item.explanation, serialNo: item.serialNo }
                           }}
                           // onClick={props.history.push()}
                         >

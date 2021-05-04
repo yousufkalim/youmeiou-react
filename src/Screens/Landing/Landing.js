@@ -38,7 +38,17 @@ const Landing = (props) => {
 
   useEffect(() => {
     console.log(props);
+
+    return () => {
+      console.log("back button outer");
+      // && history.location.pathname === "any specific path")
+      if (props.history.action === "POP") {
+        console.log("back button");
+        props.history.replace("/");
+      }
+    };
   },[])
+
   return (
     <>
       <div className="landing">

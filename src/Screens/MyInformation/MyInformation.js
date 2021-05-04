@@ -63,6 +63,12 @@ const MyInformation = (props) => {
     })
       .then((res) => res.json())
       .then((result) => {
+        var newLinkedIn = "";
+        if (!result.linkedInProfile.match(/^http?:\/\//i) || !result.linkedInProfile.match(/^https?:\/\//i)) {
+          setData({...data, linkedInProfile: `http://${result.linkedInProfile}`});
+          newLinkedIn = `http://${result.linkedInProfile}`
+          // e.target.value = 'http://' + data.linkedin;
+        }
         console.log("result from api ",result);
         setResponse(result);
         let func;
@@ -83,7 +89,7 @@ const MyInformation = (props) => {
             { id: null, dropdownTypeId: 0, name: "" },
             ...result.dropdown.values,
           ],
-          linkedin: result.linkedInProfile,
+          linkedin: newLinkedIn,
         });
         setShowEdit(true);
         setSpinner(false);
@@ -110,9 +116,9 @@ const MyInformation = (props) => {
       {isEdit ? (
         <EditProfile data={response} />
       ) : (
-        <div className="account-management mx-3">
+        <div className="account-management">
           <div style={{ height: "10%", paddingTop: "1.4rem" }}>
-            <div className="d-flex justify-content-between align-items-center w-100 pr-5">
+            <div className="d-flex justify-content-between align-items-center w-100 pr-5 mx-3 account-management-header">
               <Heading>Mes informations</Heading>
               {
                 showEdit && (
@@ -228,7 +234,7 @@ const MyInformation = (props) => {
                     >
                       <div className="account-card-detail-2">
                         <img src={Images.linkedin} alt="linkedIn" />
-                        <a href="https://twitter.com" target="_blank" rel="noreferrer">{data.linkedin}</a>
+                        <a href={data.linkedin} target="_blank" rel="noreferrer">{data.linkedin}</a>
                         
                       </div>
                     </Card>

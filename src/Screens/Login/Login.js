@@ -15,6 +15,7 @@ import * as actionTypes from "../../store/actionTypes";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import {BiError} from "react-icons/all";
 import endPoints from "../../globals/Constants";
+import { useRouter } from "react-router-dom"
 
 const Login = (props) => {
   const [data, setData] = useState({ email: "", password: "" });
@@ -39,6 +40,9 @@ const Login = (props) => {
   const totalRisk = useSelector((state) => state.riskReducer);
   console.log(store);
 
+  // const {history} = useRouter();
+  // const [locationKeys, setLocationKeys] = useState<(string | undefined)[]>([]);
+
   // const user = useSelector((state) => state);
   // console.log("user is  => ", user);
   useEffect(() => {
@@ -48,9 +52,18 @@ const Login = (props) => {
     console.log(totalRisk);
     // const count = JSON.parse(localStorage.getItem("riskName")).questionsCount;
     console.log("total Count",risk.questionsCount);
+
+    return () => {
+      console.log("back button outer");
+      // && history.location.pathname === "any specific path")
+      if (props.history.action === "POP") {
+        console.log("back button");
+        props.history.replace("/");
+      }
+    };
     // var item = JSON.parse(localStorage.getItem("riskName")).now;
     // console.log("item " ,item);
-  }, []);
+  }, [props.history]);
 
   const inputChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });

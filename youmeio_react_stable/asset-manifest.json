@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.cb61ba99.chunk.css",
-    "main.js": "/static/js/main.f6cffa21.chunk.js",
-    "main.js.map": "/static/js/main.f6cffa21.chunk.js.map",
+    "main.css": "/static/css/main.aa670831.chunk.css",
+    "main.js": "/static/js/main.98cbaed3.chunk.js",
+    "main.js.map": "/static/js/main.98cbaed3.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.406dd86f.js",
     "runtime-main.js.map": "/static/js/runtime-main.406dd86f.js.map",
     "static/css/2.323c88ee.chunk.css": "/static/css/2.323c88ee.chunk.css",
@@ -10,7 +10,7 @@
     "static/js/2.686060f1.chunk.js.map": "/static/js/2.686060f1.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.323c88ee.chunk.css.map": "/static/css/2.323c88ee.chunk.css.map",
-    "static/css/main.cb61ba99.chunk.css.map": "/static/css/main.cb61ba99.chunk.css.map",
+    "static/css/main.aa670831.chunk.css.map": "/static/css/main.aa670831.chunk.css.map",
     "static/js/2.686060f1.chunk.js.LICENSE.txt": "/static/js/2.686060f1.chunk.js.LICENSE.txt",
     "static/media/FiraSans-Bold.3919333f.ttf": "/static/media/FiraSans-Bold.3919333f.ttf",
     "static/media/FiraSans-Regular.1c0bf072.ttf": "/static/media/FiraSans-Regular.1c0bf072.ttf",
@@ -33,7 +33,7 @@
     "static/js/runtime-main.406dd86f.js",
     "static/css/2.323c88ee.chunk.css",
     "static/js/2.686060f1.chunk.js",
-    "static/css/main.cb61ba99.chunk.css",
-    "static/js/main.f6cffa21.chunk.js"
+    "static/css/main.aa670831.chunk.css",
+    "static/js/main.98cbaed3.chunk.js"
   ]
 }

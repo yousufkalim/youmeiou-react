@@ -185,14 +185,34 @@
 }
 
 @media (max-width: 767px) {
+
+  .mapping-color-card-image-container {
+    width: 40%;
+}
   .mapping-color-card {
-    max-height: 50rem;
+    /* max-height: 50rem; */
+    height: 80rem;
   }
 
   .mapping-color-line-container {
-    left: 34%;
+    left: 25%;
   }
   .mapping-color-line-container img {
     width: 4rem;
   }
+
+  .mapping-color-card-inner {
+    gap: 4rem;
+}
+
+.mapping-color-line-content .mapping-popover {
+ 
+  width: 100% !important;
+  top: 0%;
+  left: 30%;
+  z-index: 99999999;
+}
+.mapping-color-grid{
+  margin-top: 7rem;
+}
 }

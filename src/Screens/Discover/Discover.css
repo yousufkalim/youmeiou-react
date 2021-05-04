@@ -194,3 +194,9 @@ input::-webkit-inner-spin-button {
   flex-wrap: wrap;
   max-width: 100% !important;
 }
+
+@media (max-width: 550px) {
+  .discover-form-content {
+    padding: 3rem 3rem 0rem 3rem;
+  }
+}

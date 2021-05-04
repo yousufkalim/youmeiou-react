@@ -61,7 +61,6 @@ const EditProfile = (props) => {
   useEffect(() => {
     const { data } = props;
     let profileId;
-    console.log("profile image ",props.data.userProfileImage);
     data.entrepreneurProfileId === 0 ? profileId = null : profileId = data.entrepreneurProfileId;
     // if(data.entrepreneurProfileId === 0){
     //   profileId = null
@@ -73,7 +72,7 @@ const EditProfile = (props) => {
     let func;
     (data.entrepreneurProfileId === 0 || data.entrepreneurProfileId === null) ? func = 0 : func = 1
     console.log("useeffect");
-    setImageUrl(data.userProfileImage)
+
     setData({
       ...data,
       fname: data.firstName,
@@ -81,7 +80,6 @@ const EditProfile = (props) => {
       phone: data.phoneNo,
       email: data.email,
       profile: profileId,
-    
       profileArray: [
         { id: null, dropdownTypeId: 0, name: "" },
         ...data.dropdown.values,
@@ -126,6 +124,7 @@ const EditProfile = (props) => {
         setData({ ...data, profile: null, function: e.target.value });
       }
     }
+   
 
     // if (e.target.name === "email") {
     //   var mailformat = /^(([^<>()[]\.,;:s@"]+(.[^<>()[]\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
@@ -141,7 +140,6 @@ const EditProfile = (props) => {
   }
 
   async function editProfile() {
-  
     // let result = {};
     // result = {
     //   // eslint-disable-next-line no-unused-vars
@@ -153,6 +151,12 @@ const EditProfile = (props) => {
     //   phoneNo: data.phone,
     //   linkedInProfile: data.linkedin,
     // };
+    
+      if (!data.linkedin.match(/^http?:\/\//i) || !data.linkedin.match(/^https?:\/\//i)) {
+        setData({...data, linkedin: `http://${data.linkedin}`})
+        // e.target.value = 'http://' + data.linkedin;
+      }
+    
     setSpinner(true);
     console.log("final image URL ", imageUrl);
     var formdata = new FormData();
@@ -237,14 +241,16 @@ const EditProfile = (props) => {
   // console.log(data);
   console.log("edit profile image ==> ",imageUrl);
   return (
-    <div className="account-management mx-3">
+    <div className="account-management">
       {spinner && (
               <div className="spinner">
                 <CircularProgress className="circular-spinner-blue" />
               </div>
             )}
       <div style={{ height: "10%", paddingTop: "1.4rem" }}>
+        <div className="account-management-header">
         <Heading>Mes informations</Heading>
+        </div>
         {/* <FileUploader  /> */}
         <form className="account-container" onSubmit={submitHandler}>
           <div className="account-cards">
