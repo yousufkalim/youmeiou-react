@@ -6,6 +6,7 @@ import { Images } from "../../assets/Assets";
 import Button from "../../components/Button/Button";
 import { Row, Col, Carousel } from "react-bootstrap";
 import LandingCard from "../../components/LandingCard/LandingCard";
+import _ from "lodash";
 
 const cards = [
   {
@@ -38,6 +39,7 @@ const Landing = (props) => {
 
   useEffect(() => {
     console.log(props);
+    test();
 
     return () => {
       console.log("back button outer");
@@ -48,6 +50,25 @@ const Landing = (props) => {
       }
     };
   },[])
+  const test = () => {
+    var data = [ {name: "apple", id: 2}, 
+  {name: "dog",   id: "dog_1"}, 
+  {name: "cat", id: "cat_2"}
+]
+
+if(_.find(data, {id: 3})) {
+  // console.log({id});
+  console.log("helloo");
+
+  const index = data.findIndex(listItem => {
+    // condition here
+    return listItem.id === 2;
+  });
+  console.log("index is ",index)
+}
+
+
+  }
 
   return (
     <>

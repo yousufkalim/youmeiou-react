@@ -369,7 +369,7 @@ const Diagnostic = (props) => {
             <img src={Images.profile} alt="profile" className="profile-img" />
           </div>
         </div> */}
-      <div className="diagnostic-wrapper">
+      <div className="diagnostic-wrapper" style={userToken ? {height: "90%"} : {height: "100%"}}>
         <div style={{ height: "10%", paddingTop: "1.4rem", maxHeight: "10rem" }} className="mx-3">
           <Heading>Liste de diagnostics disponibles</Heading>
         </div>

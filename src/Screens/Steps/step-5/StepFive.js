@@ -8,7 +8,27 @@ import endPoints from "../../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useSelector} from "react-redux";
+import _ from "lodash";
 
+
+const buttonValues = [
+  {
+    name: "Accepté",
+    id: 1,
+  },
+  {
+    name: "Réduit",
+    id:2,
+  },
+  {
+    name: "Evité",
+    id: 3,
+  },
+  {
+    name: "Partagé",
+    id: 4,
+  }
+]
 
 
 //  Components
@@ -29,14 +49,41 @@ const StepFive = (props) => {
 
   const navigateBack = (e) => {
     console.log(props);
-    setSpinner(true);
+    // setSpinner(true);
     var decoded = jwt_decode(userToken);
     const userid = parseInt(decoded.Id);
     const diagnosticId = props.state.diagnosticId || props.state.id || props.state.data.diagnosticId || JSON.parse(localStorage.getItem("riskName")).diagnosticId;
-    const treatment = e.target.value;
-    console.log(userid);
+    const treatment = e;
+    // console.log(parseInt(e.target.value));
+    console.log(e)
+
+    var findValue;
+
+    let bigCities = buttonValues.filter((e) => e.id === e ? e.name : "");
+
+    let newValue = _.find(buttonValues, function(o) { return o.id === e; });
+    console.log("found value ", newValue.name);
+
+    // for(let a = 0; a< buttonValues.length; a++){
+    //   if(buttonValues[a].id === treatment){
+    //     findValue = buttonValues[a].name;
+    //     break;
+    //   }
+    // }
+    // console.log("found values ", findValue);
+
+    // const activeInd = buttonValues.map(function (e) {
+    //   if(e.id === treatment){
+    //     return e.id;
+
+    //   }
+    // })
+    console.log("value id ", treatment);
+    // console.log("find id ", activeInd);
     console.log(diagnosticId);
     // console.log(treatment);
+
+
     fetch(endPoints.UPDATE_TREATMENT, {
       method: "POST",
       headers : {
@@ -46,7 +93,7 @@ const StepFive = (props) => {
       body: JSON.stringify({
         diagnosticId : diagnosticId,
         userInfoId : userid,
-        treatmentOfRisk : treatment
+        treatmentOfRisk : newValue.name
       })
     })
       .then((res) => res.json())
@@ -98,7 +145,7 @@ const StepFive = (props) => {
                   éventuelles, malgré vos conseils.
                 </div>
                 <div className="text-center pt-5">
-                  <Button secondary onClick={navigateBack} value="Accepté">
+                  <Button secondary onClick={() => navigateBack(1)} value="1">
                     Accepté
                   </Button>
                 </div>
@@ -125,7 +172,7 @@ const StepFive = (props) => {
                 </div>
 
                 <div className="text-center pt-4">
-                  <Button secondary onClick={navigateBack} value="Réduit">
+                  <Button secondary onClick={() => navigateBack(2)} value="2">
                     Réduit
                   </Button>
                 </div>
@@ -152,7 +199,7 @@ const StepFive = (props) => {
                   m'est offerte.
                 </div>
                 <div className="text-center pt-5">
-                  <Button secondary onClick={navigateBack} value="Evité">
+                  <Button secondary onClick={() => navigateBack(3)} value="3">
                     Evité
                   </Button>
                 </div>
@@ -181,7 +228,7 @@ const StepFive = (props) => {
                 </div>
 
                 <div className="text-center pt-4">
-                  <Button secondary onClick={navigateBack} value="Partagé">
+                  <Button secondary onClick={() => navigateBack(4)} value="4">
                     Partagé
                   </Button>
                 </div>

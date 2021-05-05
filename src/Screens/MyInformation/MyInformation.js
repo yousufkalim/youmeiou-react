@@ -64,11 +64,14 @@ const MyInformation = (props) => {
       .then((res) => res.json())
       .then((result) => {
         var newLinkedIn = "";
-        if (!result.linkedInProfile.match(/^http?:\/\//i) || !result.linkedInProfile.match(/^https?:\/\//i)) {
-          setData({...data, linkedInProfile: `http://${result.linkedInProfile}`});
-          newLinkedIn = `http://${result.linkedInProfile}`
-          // e.target.value = 'http://' + data.linkedin;
+        if(result.linkedInProfile !== null){
+          if (!result.linkedInProfile.match(/^http?:\/\//i) || !result.linkedInProfile.match(/^https?:\/\//i)) {
+            setData({...data, linkedInProfile: `http://${result.linkedInProfile}`});
+            newLinkedIn = `http://${result.linkedInProfile}`
+            // e.target.value = 'http://' + data.linkedin;
+          }
         }
+       
         console.log("result from api ",result);
         setResponse(result);
         let func;

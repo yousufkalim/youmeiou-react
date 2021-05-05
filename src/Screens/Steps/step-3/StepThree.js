@@ -83,6 +83,8 @@ const StepThree = (props) => {
 
   const currentRisk = useSelector((state) => state.currentRisk);
 
+  const allrisk = useSelector((state) => state.riskReducer);
+
   console.log(currentRisk);
 
   var userId;
@@ -640,6 +642,35 @@ const StepThree = (props) => {
       });
   };
 
+  const goBackWithoutLogin = () => {
+    console.log("go back without login");
+
+
+    // var numbers = [2, 5, 9, 2];
+    // console.log(numbers.lastIndexOf(9));
+
+    // const lastIndex = numbers.lastIndexOf();
+    // console.log(lastIndex);
+
+    setActiveQuestionIndex(activeQuestionIndex - 1);
+    console.log(allrisk);
+    console.log(activeQuestionIndex);
+    const activeResponse = allrisk[activeQuestionIndex - 1].selectedResponse;
+    console.log("active response", activeResponse);
+
+    const activeInd = boxes
+          .map(function (e) {
+            return e.resp;
+          })
+          .indexOf(activeResponse);
+        setActiveIndex(activeInd);
+
+
+    var currentprogressper = 73 / questions.length;
+        var remainProgress = props.now - currentprogressper;
+        props.changeStepper(remainProgress);
+  }
+
   useEffect(() => {
     // setActiveQuestion(0);
     console.log(props);
@@ -694,20 +725,19 @@ const StepThree = (props) => {
                 );
               })}
             </div>
-           {
-             userToken !== "" &&
+      
              <div className="text-center pt-5">
              <Button
                secondary
                disabled={activeQuestionIndex === 0 ? true : false}
-               onClick={goBack}
+               onClick={userToken ? goBack : goBackWithoutLogin}
              >
                Back
              </Button>
            </div>
            
 
-           }
+        
           </Card>
         </div>
       </div>
