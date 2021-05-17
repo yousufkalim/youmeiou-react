@@ -42,10 +42,31 @@ const StepFive = (props) => {
 
   const [spinner, setSpinner] = useState(false);
   const [show, setShow] = useState(false);
+  const [treatments, setTreatments] = useState({});
 
   const userToken = useSelector((state) => state.user.token);
 
+  
 
+  const getDiagnosticTreatment = () => {
+    var decoded = jwt_decode(userToken);
+    const userid = parseInt(decoded.Id);
+    const diagnosticId = props.state.diagnosticId || props.state.id || props.state.data.diagnosticId || JSON.parse(localStorage.getItem("riskName")).diagnosticId
+    fetch(`${endPoints.GET_DIAGNOSTIC_TREATMENT}/${diagnosticId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      }
+    })
+    .then((res) => res.json())
+    .then((result) => setTreatments(result.treatmentOfDiagnostics))
+    .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    getDiagnosticTreatment();
+  },[])
 
   const navigateBack = (e) => {
     console.log(props);
@@ -80,7 +101,7 @@ const StepFive = (props) => {
     // })
     console.log("value id ", treatment);
     // console.log("find id ", activeInd);
-    console.log(diagnosticId);
+    
     // console.log(treatment);
 
 
@@ -120,6 +141,8 @@ const StepFive = (props) => {
 
   };
 
+  console.log(treatments);
+
     return (
       <div className="step-five-container">
          {spinner && (
@@ -128,7 +151,7 @@ const StepFive = (props) => {
                   </div>
                 )}
         <div className="step-five-header">
-          <div style={{ flexBasis: "45%" }}>
+          <div style={{ flexBasis: "45%" }} className={treatments.acceptation === false && "step-five-card-disabled"}>
             <Card
               style={{
                 padding: "3rem",
@@ -151,8 +174,13 @@ const StepFive = (props) => {
                 </div>
               </div>
             </Card>
+            {
+              treatments.acceptation === false && (
+                <div className="step-five-card-layer"></div>
+              )
+            }
           </div>
-          <div style={{ flexBasis: "45%" }}>
+          <div style={{ flexBasis: "45%" }} className={treatments.réduction === false && "step-five-card-disabled"}>
             <Card
               style={{
                 padding: "3rem",
@@ -178,11 +206,16 @@ const StepFive = (props) => {
                 </div>
               </div>
             </Card>
+            {
+              treatments.réduction === false && (
+                <div className="step-five-card-layer"></div>
+              )
+            }
           </div>
         </div>
 
         <div className="step-five-header step-five-header-2">
-          <div style={{ flexBasis: "45%" }}>
+          <div style={{ flexBasis: "45%" }} className={treatments.evitement === false && "step-five-card-disabled"}>
             <Card
               style={{
                 padding: "3rem",
@@ -205,8 +238,13 @@ const StepFive = (props) => {
                 </div>
               </div>
             </Card>
+            {
+              treatments.evitement === false && (
+                <div className="step-five-card-layer"></div>
+              )
+            }
           </div>
-          <div style={{ flexBasis: "45%" }}>
+          <div style={{ flexBasis: "45%" }} className={treatments.partagé === false && "step-five-card-disabled"}>
             <Card
               style={{
                 padding: "3rem",
@@ -234,6 +272,11 @@ const StepFive = (props) => {
                 </div>
               </div>
             </Card>
+            {
+              treatments.partagé === false && (
+                <div className="step-five-card-layer"></div>
+              )
+            }
           </div>
         </div>
       </div>

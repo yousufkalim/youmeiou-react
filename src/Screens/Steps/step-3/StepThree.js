@@ -103,6 +103,7 @@ const StepThree = (props) => {
   // console.log("total", totalQuestions);
 
   async function getAllQuestions() {
+    console.log("checking");
     const diagnosticId = props.data.diagnosticId || props.data.id;
     console.log("new data ", props);
     // var decoded = jwt_decode(userToken);
@@ -169,7 +170,8 @@ const StepThree = (props) => {
         console.log("active question index is ", ind);
         userToken !== ""
           ? setActiveQuestionIndex(ind)
-          : setActiveQuestionIndex(currentRisk.currentIndex);
+          :
+        setActiveQuestionIndex(currentRisk.currentIndex);
         setTotalQuestions(result.totalQuestions);
         console.log("total ", result.totalQuestions);
         console.log("remaining ", result.riskList.length);
@@ -302,10 +304,26 @@ const StepThree = (props) => {
       const progress = props.now + progressPerQuestion;
       setActiveIndex("");
       // setDiagEvalId(data.id);
-      setActiveQuestionIndex(activeQuestionIndex + 1);
+      
+      if(allrisk[activeQuestionIndex + 1]){
+        const selected = allrisk[activeQuestionIndex + 1].selectedResponse;
+        console.log("next exist");
+        const activeInd = boxes
+        .map(function (e) {
+          return e.resp;
+        })
+        .indexOf(selected);
+        setActiveQuestionIndex(activeQuestionIndex + 1)
+      setActiveIndex(activeInd);
+      }
+      else{
+        console.log("next not exist");
+        setActiveQuestionIndex(activeQuestionIndex + 1);
+      }
+
       const questionsLength = questions.length;
 
-
+      console.log("forward");
       const current = {
         now: progress,
         currentIndex: activeQuestionIndex + 1,

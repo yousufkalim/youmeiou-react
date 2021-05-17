@@ -65,12 +65,9 @@ const MyInformation = (props) => {
       .then((result) => {
         var newLinkedIn = "";
         if(result.linkedInProfile !== null){
-          if (!result.linkedInProfile.match(/^http?:\/\//i) || !result.linkedInProfile.match(/^https?:\/\//i)) {
-            setData({...data, linkedInProfile: `http://${result.linkedInProfile}`});
-            newLinkedIn = `http://${result.linkedInProfile}`
-            // e.target.value = 'http://' + data.linkedin;
-          }
+          newLinkedIn = ""
         }
+        newLinkedIn = result.linkedInProfile
        
         console.log("result from api ",result);
         setResponse(result);

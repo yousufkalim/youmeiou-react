@@ -139,12 +139,12 @@ const Login = (props) => {
               localStorage.removeItem("riskName");
               dispatch({type: actionTypes.CLEAR_RISK});
               dispatch({type: actionTypes.RESET_RISKS, data: []});
-              props.history.push("/discover");
+              props.history.push("/mes-informations");
             }
            
           }
           else{
-            props.history.push("/discover");
+            props.history.push("/mes-informations");
           }
 
          

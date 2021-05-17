@@ -151,11 +151,35 @@ const EditProfile = (props) => {
     //   phoneNo: data.phone,
     //   linkedInProfile: data.linkedin,
     // };
+
+    var newLink = "";
+
+    if(data.linkedin !== "" || data.linkedin !== null){
+      if (data.linkedin.indexOf("http://") === 0 || data.linkedin.indexOf("https://") === 0) {
+        // console.log("The link has http or https.");
+        newLink = data.linkedin
+    }
+    else{
+      newLink = `http://${data.linkedin}`
+        // console.log("The link doesn't have http or https.");      
+    }
+    }
+    else{
+      newLink = ""
+    }
+
+
+    console.log("newlink ",newLink);
+
     
-      if (!data.linkedin.match(/^http?:\/\//i) || !data.linkedin.match(/^https?:\/\//i)) {
-        setData({...data, linkedin: `http://${data.linkedin}`})
-        // e.target.value = 'http://' + data.linkedin;
-      }
+      // if (!data.linkedin.match(/^http?:\/\//i)) {
+      //   newLink = `http://${data.linkedin}`
+      //   // setData({...data, linkedin: `http://${data.linkedin}`})
+      //   // e.target.value = 'http://' + data.linkedin;
+      // }
+      // else{
+      //   newLink = data.linkedin
+      // }
     
     setSpinner(true);
     console.log("final image URL ", imageUrl);
@@ -165,7 +189,7 @@ const EditProfile = (props) => {
     formdata.append("LastName", data.lname);
     formdata.append("PhoneNo", data.phone);
     formdata.append("EntrepreneurProfileId", parseInt(data.profile));
-    formdata.append("LinkedInProfile", data.linkedin);
+    formdata.append("LinkedInProfile", newLink);
     formdata.append("ProfileImage", imageUrl);
     // formdata.append("SerialNo", "")
     // formdata.append("Email", "")

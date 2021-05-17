@@ -7,6 +7,8 @@ import Button from "../../components/Button/Button";
 import { Row, Col, Carousel } from "react-bootstrap";
 import LandingCard from "../../components/LandingCard/LandingCard";
 import _ from "lodash";
+import { setIn } from "immutable";
+import { IoConstructOutline } from "react-icons/io5";
 
 const cards = [
   {
@@ -52,20 +54,54 @@ const Landing = (props) => {
   },[])
   const test = () => {
     var data = [ {name: "apple", id: 2}, 
-  {name: "dog",   id: "dog_1"}, 
+  {name: "dog",   id: 1}, 
   {name: "cat", id: "cat_2"}
 ]
 
-if(_.find(data, {id: 3})) {
-  // console.log({id});
-  console.log("helloo");
-
-  const index = data.findIndex(listItem => {
-    // condition here
-    return listItem.id === 2;
-  });
-  console.log("index is ",index)
+const newObj = [
+  {
+  diagnosticId: 1,
+  selectedResponse: "2",
+  score: "3",
+  riskId: "4",
+},
+{
+  diagnosticId: 3,
+  selectedResponse: "2",
+  score: "3",
+  riskId: "4",
+},
+{
+  diagnosticId: 2,
+  selectedResponse: "2",
+  score: "3",
+  riskId: "4",
 }
+]
+
+// if(_.find(newObj, {diagnosticId: 2})) {
+  for (var i in newObj) {
+    if (newObj[i].diagnosticId === 3) {
+      newObj[i].selectedResponse = "Found Value at 3";
+      // console.log(newObj);
+       break; //Stop this loop, we found it!
+    }
+  }
+  console.log(newObj);
+// }
+// if(_.find(newObj, {diagnosticId: 2})) {
+//   // console.log({id});
+//   //console.log("helloo");
+//   //int id = 2;
+//   const indexVal = data.findIndex(listItem => {
+//     // condition here
+//     return listItem.id === 1;
+//   });
+
+//   // const new_data = data.setIn(['data', index], data)
+//   console.log("index is ",index);
+//   // console.log("new data ", new_data)
+// }
 
 
   }
