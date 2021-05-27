@@ -14,7 +14,7 @@ const navlinks = [
     },
     {
         path: "/discover",
-        text: "Discover"
+        text: "découvrir"
     },
     {
         path: "/diagnostic-list",
@@ -29,7 +29,7 @@ const navlinks = [
     //     text: "Mes Diagnostics"
     // },
     {
-        path: "/mapping",
+        path: "/cartographie",
         text: "Cartographie des risques et criticité"
     },
     // {

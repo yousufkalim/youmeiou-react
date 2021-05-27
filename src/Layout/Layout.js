@@ -93,7 +93,11 @@ const Layout = (props, ref) => {
                 <span><img src={Images.logo} alt="logo" /></span> 
               </div>
               <div>
-                <img src={`data:image/jpeg;base64,${userImage}`} alt="profile" className="profile-img" />
+                { userImage ? 
+                  <img src={`data:image/jpeg;base64,${userImage}`} alt="profile" className="profile-img" />
+                  :
+                  <img src={Images.account} alt="profile" className="profile-img" />
+                }
               </div>
             </div>
             {props.children}

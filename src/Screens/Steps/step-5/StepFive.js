@@ -40,7 +40,7 @@ const buttonValues = [
 
 const StepFive = (props) => {
 
-  const [spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(true);
   const [show, setShow] = useState(false);
   const [treatments, setTreatments] = useState({});
 
@@ -60,7 +60,10 @@ const StepFive = (props) => {
       }
     })
     .then((res) => res.json())
-    .then((result) => setTreatments(result.treatmentOfDiagnostics))
+    .then((result) => {
+      setTreatments(result.treatmentOfDiagnostics);
+      setSpinner(false);
+    })
     .catch((err) => console.log(err));
   }
 
@@ -155,7 +158,7 @@ const StepFive = (props) => {
             <Card
               style={{
                 padding: "3rem",
-                borderRadius: "5.4rem",
+                borderRadius: "3.5rem",
               }}
             >
               <div className="step-five-content-container">
@@ -168,7 +171,7 @@ const StepFive = (props) => {
                   éventuelles, malgré vos conseils.
                 </div>
                 <div className="text-center pt-5">
-                  <Button secondary onClick={() => navigateBack(1)} value="1">
+                  <Button secondary disabled={treatments.acceptation === false && true} onClick={() => navigateBack(1)} value="1">
                     Accepté
                   </Button>
                 </div>
@@ -200,7 +203,7 @@ const StepFive = (props) => {
                 </div>
 
                 <div className="text-center pt-4">
-                  <Button secondary onClick={() => navigateBack(2)} value="2">
+                  <Button disabled={treatments.réduction === false && true} secondary onClick={() => navigateBack(2)} value="2">
                     Réduit
                   </Button>
                 </div>
@@ -219,7 +222,7 @@ const StepFive = (props) => {
             <Card
               style={{
                 padding: "3rem",
-                borderRadius: "5.4rem",
+                borderRadius: "3.5rem",
               }}
             >
               <div className="step-five-content-container">
@@ -232,7 +235,7 @@ const StepFive = (props) => {
                   m'est offerte.
                 </div>
                 <div className="text-center pt-5">
-                  <Button secondary onClick={() => navigateBack(3)} value="3">
+                  <Button disabled={treatments.evitement === false && true} secondary onClick={() => navigateBack(3)} value="3">
                     Evité
                   </Button>
                 </div>
@@ -266,7 +269,7 @@ const StepFive = (props) => {
                 </div>
 
                 <div className="text-center pt-4">
-                  <Button secondary onClick={() => navigateBack(4)} value="4">
+                  <Button disabled={treatments.partagé === false && true} secondary onClick={() => navigateBack(4)} value="4">
                     Partagé
                   </Button>
                 </div>
