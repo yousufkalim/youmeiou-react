@@ -48,7 +48,7 @@ const Discover = (props) => {
   var decoded = jwt_decode(userToken);
   const userId = parseInt(decoded.Id);
 
-  console.log("risk data ", riskdata);
+  // console.log("risk data ", riskdata);
 
   useEffect(() => {
     getComapny();
@@ -111,9 +111,10 @@ const Discover = (props) => {
     var decoded = jwt_decode(userToken);
     const userId = parseInt(decoded.Id);
     const date = new Date();
-    var formatted = moment(startDate, "YYYY-MM-DD").toDate();
+    var formatted = startDate === null ? moment(date, "YYYY-MM-DD").toDate() : moment(startDate, "YYYY-MM-DD").toDate();
+    
     // var formatted = moment(startDate).format('DD MMMM YYYY');
-    console.log(startDate);
+    // console.log(startDate);
     console.log(formatted);
     await fetch(endPoints.UPDATE_COMPANY, {
       method: "POST",
@@ -139,6 +140,7 @@ const Discover = (props) => {
       .then((resp) => {
         console.log(resp);
         setSpinner2(false);
+        console.log("data is ", data);
         props.enqueueSnackbar("Successfully update the data.", {
           variant: "success",
         });
@@ -243,14 +245,14 @@ const Discover = (props) => {
         setErrors({ ...errors, sireError: "" });
       }
     }
-    if (data.codeApe !== null) {
+    if (data.codeApe !== "") {
       if (data.codeApe.length !== 5) {
         setErrors({ ...errors, codeApeError: "Code APE must have 5 digits" });
       } else {
         setErrors({ ...errors, codeApeError: "" });
       }
     }
-    if (data.codePostal !== null) {
+    if (data.codePostal !== "") {
       if (data.codePostal.length !== 5) {
         setErrors({
           ...errors,
@@ -291,7 +293,9 @@ const Discover = (props) => {
     setData({ ...data, siren: "", companyName: "" });
   };
 
-  console.log("start data ",startDate);
+  // console.log("start data ",startDate);
+  console.log("changed data ", data);
+  console.log("start date ", startDate);
 
   return (
     <div className="discover mx-3">
@@ -513,6 +517,7 @@ const Discover = (props) => {
                   >
                     Enregistrer
                   </Button>{" "}
+                  
                 </div>
               </div>
             </div>

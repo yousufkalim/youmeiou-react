@@ -52,7 +52,7 @@ padding-right: 10rem; */
 
 .plan-card-heading{
     color: var(--yellow_color);
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     font-weight: bold;
     display: flex;
     justify-content: space-between;
@@ -63,7 +63,7 @@ padding-right: 10rem; */
 .plan-card-heading-score{
     font-size: 2.5rem;
     color: var(--text_color);
-    flex-basis: 25%;
+    flex-basis: 40%;
     padding-top: 1rem;
 
 }

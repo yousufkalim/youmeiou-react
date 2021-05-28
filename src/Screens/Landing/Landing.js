@@ -8,6 +8,8 @@ import { Row, Col, Carousel } from "react-bootstrap";
 import LandingCard from "../../components/LandingCard/LandingCard";
 import _ from "lodash";
 import Card from "../../components/Card/Card";
+// import { setIn } from "immutable";
+// import { IoConstructOutline } from "react-icons/io5";
 
 const WhyRiskrCards = [
 {

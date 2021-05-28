@@ -79,7 +79,7 @@ const App = (props) => {
             {/* <PublicRoute component={Inprogress} exact path="/mes-diagnostics" /> */}
             <PrivateRoute component={Inprogress} exact path="/mes-diagnostics" />
             <PrivateRoute component={Plan} exact path="/mes-diagnostics/:id" />
-            <PrivateRoute component={Mapping} exact path="/mapping" />
+            <PrivateRoute component={Mapping} exact path="/cartographie" />
             {/* <PrivateRoute component={Plan} exact path="/plan" /> */}
             <PublicRoute component={Steps} exact path="/diagnostic-presentation" />
             <PublicRoute component={Register} path="/register" exact restricted={true} />

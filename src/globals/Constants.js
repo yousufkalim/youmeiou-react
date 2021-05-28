@@ -28,7 +28,8 @@ const endPoints = {
     GET_COMPANY: BASE_URL_V1 + "/company/get",
     GET_PREVIOUS_ANSWER: BASE_URL_V1 + "/risk/get/GetRiskAnswer", 
     UPDATE_COMPANY: BASE_URL_V1 + "/company/create",
-    EDIT_USER_PROFILE: BASE_URL_V1 + "/userInfo/update"
+    EDIT_USER_PROFILE: BASE_URL_V1 + "/userInfo/update",
+    GET_DIAGNOSTIC_TREATMENT: BASE_URL_V1 + "/diagnostic/getDiagnosticTreatment"
 
 }
 

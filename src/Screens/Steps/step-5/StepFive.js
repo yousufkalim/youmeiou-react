@@ -40,12 +40,36 @@ const buttonValues = [
 
 const StepFive = (props) => {
 
-  const [spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(true);
   const [show, setShow] = useState(false);
+  const [treatments, setTreatments] = useState({});
 
   const userToken = useSelector((state) => state.user.token);
 
+  
 
+  const getDiagnosticTreatment = () => {
+    var decoded = jwt_decode(userToken);
+    const userid = parseInt(decoded.Id);
+    const diagnosticId = props.state.diagnosticId || props.state.id || props.state.data.diagnosticId || JSON.parse(localStorage.getItem("riskName")).diagnosticId
+    fetch(`${endPoints.GET_DIAGNOSTIC_TREATMENT}/${diagnosticId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      }
+    })
+    .then((res) => res.json())
+    .then((result) => {
+      setTreatments(result.treatmentOfDiagnostics);
+      setSpinner(false);
+    })
+    .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    getDiagnosticTreatment();
+  },[])
 
   const navigateBack = (e) => {
     console.log(props);
@@ -80,7 +104,7 @@ const StepFive = (props) => {
     // })
     console.log("value id ", treatment);
     // console.log("find id ", activeInd);
-    console.log(diagnosticId);
+    
     // console.log(treatment);
 
 
@@ -120,6 +144,8 @@ const StepFive = (props) => {
 
   };
 
+  console.log(treatments);
+
     return (
       <div className="step-five-container">
          {spinner && (
@@ -128,11 +154,11 @@ const StepFive = (props) => {
                   </div>
                 )}
         <div className="step-five-header">
-          <div style={{ flexBasis: "45%" }}>
+          <div style={{ flexBasis: "45%" }} className={treatments.acceptation === false && "step-five-card-disabled"}>
             <Card
               style={{
                 padding: "3rem",
-                borderRadius: "5.4rem",
+                borderRadius: "3.5rem",
               }}
             >
               <div className="step-five-content-container">
@@ -145,14 +171,19 @@ const StepFive = (props) => {
                   éventuelles, malgré vos conseils.
                 </div>
                 <div className="text-center pt-5">
-                  <Button secondary onClick={() => navigateBack(1)} value="1">
+                  <Button secondary disabled={treatments.acceptation === false && true} onClick={() => navigateBack(1)} value="1">
                     Accepté
                   </Button>
                 </div>
               </div>
             </Card>
+            {
+              treatments.acceptation === false && (
+                <div className="step-five-card-layer"></div>
+              )
+            }
           </div>
-          <div style={{ flexBasis: "45%" }}>
+          <div style={{ flexBasis: "45%" }} className={treatments.réduction === false && "step-five-card-disabled"}>
             <Card
               style={{
                 padding: "3rem",
@@ -172,21 +203,26 @@ const StepFive = (props) => {
                 </div>
 
                 <div className="text-center pt-4">
-                  <Button secondary onClick={() => navigateBack(2)} value="2">
+                  <Button disabled={treatments.réduction === false && true} secondary onClick={() => navigateBack(2)} value="2">
                     Réduit
                   </Button>
                 </div>
               </div>
             </Card>
+            {
+              treatments.réduction === false && (
+                <div className="step-five-card-layer"></div>
+              )
+            }
           </div>
         </div>
 
         <div className="step-five-header step-five-header-2">
-          <div style={{ flexBasis: "45%" }}>
+          <div style={{ flexBasis: "45%" }} className={treatments.evitement === false && "step-five-card-disabled"}>
             <Card
               style={{
                 padding: "3rem",
-                borderRadius: "5.4rem",
+                borderRadius: "3.5rem",
               }}
             >
               <div className="step-five-content-container">
@@ -199,14 +235,19 @@ const StepFive = (props) => {
                   m'est offerte.
                 </div>
                 <div className="text-center pt-5">
-                  <Button secondary onClick={() => navigateBack(3)} value="3">
+                  <Button disabled={treatments.evitement === false && true} secondary onClick={() => navigateBack(3)} value="3">
                     Evité
                   </Button>
                 </div>
               </div>
             </Card>
+            {
+              treatments.evitement === false && (
+                <div className="step-five-card-layer"></div>
+              )
+            }
           </div>
-          <div style={{ flexBasis: "45%" }}>
+          <div style={{ flexBasis: "45%" }} className={treatments.partagé === false && "step-five-card-disabled"}>
             <Card
               style={{
                 padding: "3rem",
@@ -228,12 +269,17 @@ const StepFive = (props) => {
                 </div>
 
                 <div className="text-center pt-4">
-                  <Button secondary onClick={() => navigateBack(4)} value="4">
+                  <Button disabled={treatments.partagé === false && true} secondary onClick={() => navigateBack(4)} value="4">
                     Partagé
                   </Button>
                 </div>
               </div>
             </Card>
+            {
+              treatments.partagé === false && (
+                <div className="step-five-card-layer"></div>
+              )
+            }
           </div>
         </div>
       </div>

@@ -48,9 +48,18 @@ select:focus{
 
 .spinner{
   position: absolute;
+  /* background-color: black; */
+  height: 100vh;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%;
+ 
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+ 
+  /* transform: translate(-50%, -50%); */
   z-index: 99999;
 }
 .circular-spinner-blue{

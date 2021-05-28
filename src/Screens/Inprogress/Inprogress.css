@@ -65,6 +65,12 @@
   width: 100%;
 }
 
+.calendly-link {
+  color: rgb(19, 130, 150) !important;
+  text-decoration: underline !important;
+  font-weight: 600 !important; 
+}
+
 @media (max-width: 1000px) {
   .inprogress-content {
     padding: 3rem 7rem 3rem 5rem;
