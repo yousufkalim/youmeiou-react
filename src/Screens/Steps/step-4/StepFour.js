@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./StepFour.css";
+import {Row,Col} from "react-bootstrap";
 
 //  Components
 // import { Images } from "../../../assets/Assets";
@@ -10,15 +11,17 @@ import "./StepFour.css";
 import Card from "../../../components/Card/Card";
 import TableChart from "../../../components/TableChart/TableChart";
 import ColorPicker from "../../../components/ColorPicker/ColorPcker";
+import ColorPickerTwo from "../../../components/ColorPickerTwo/ColorPickerTwo";
+// import ColorPickerTwo from "../../../components/ColorPickerTwo/ColorPckerTwo";
 import Button from "../../../components/Button/Button";
 import endPoints from "../../../globals/Constants";
 import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { withSnackbar } from "notistack";
-import { Modal} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import * as actionTypes from "../../../store/actionTypes";
-
+import { Images } from "../../../assets/Assets";
 
 const StepFour = (props) => {
   const [color, setColor] = useState("#fff");
@@ -30,15 +33,13 @@ const StepFour = (props) => {
 
   const [show, setShow] = useState(false);
 
-
   const tokenId = useSelector((state) => state.user.token);
   const reduxData = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  console.log("redux data ",reduxData)
+  console.log("redux data ", reduxData);
 
   const userToken = tokenId !== "" ? tokenId : "";
-
 
   useEffect(() => {
     console.log(props);
@@ -46,32 +47,30 @@ const StepFour = (props) => {
   }, []);
 
   const isLogin = () => {
-    if(userToken === ""){
+    if (userToken === "") {
       setSpinner(false);
-      
-setShow(true)
-    }
-    else{
-      if(reduxData.riskReducer.length !== 0){
+
+      setShow(true);
+    } else {
+      if (reduxData.riskReducer.length !== 0) {
         submitAnswers();
-      }
-      else{
+      } else {
         getScore();
       }
     }
-  }
+  };
 
-
-  async function submitAnswers(){
-
+  async function submitAnswers() {
     var diagnosticId;
 
-    diagnosticId = props.data.data ? props.data.data.diagnosticId : JSON.parse(localStorage.getItem("riskName")).diagnosticId 
+    diagnosticId = props.data.data
+      ? props.data.data.diagnosticId
+      : JSON.parse(localStorage.getItem("riskName")).diagnosticId;
     const decoded = jwt_decode(userToken);
     const id = parseInt(decoded.Id);
 
     const riskData = reduxData.riskReducer;
-    const newArr2 = riskData.map(v => Object.assign(v, {userInfoId: id}));
+    const newArr2 = riskData.map((v) => Object.assign(v, { userInfoId: id }));
     console.log(newArr2);
     await fetch(endPoints.CREATE_DIAGNOSTIC, {
       method: "POST",
@@ -85,69 +84,66 @@ setShow(true)
         isDiagnosticComplete: false,
       }),
     })
-    .then(async (response) => {
-      if (response.status === 200){
-        console.log(response);
-        let firstResponse = await response.json();
-        console.log(firstResponse);
-        const diagEvalId = firstResponse.id;
-        console.log("response");
-        fetch(endPoints.SUBMIT_ANSWER, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
-          body: JSON.stringify(newArr2),
-        })
-        .then(async (res) => {
-          if (res.status === 200) {
-            let secondResponse = await res.json();
-            console.log("succe");
+      .then(async (response) => {
+        if (response.status === 200) {
+          console.log(response);
+          let firstResponse = await response.json();
+          console.log(firstResponse);
+          const diagEvalId = firstResponse.id;
+          console.log("response");
+          fetch(endPoints.SUBMIT_ANSWER, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+            body: JSON.stringify(newArr2),
+          }).then(async (res) => {
+            if (res.status === 200) {
+              let secondResponse = await res.json();
+              console.log("succe");
 
-
-            await fetch(`${endPoints.GET_SCORE}/${diagnosticId}, ${id}`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userToken}`,
-              },
-            })
-              .then((res) => res.json())
-              .then((result) => {
-                setData(result);
-                setSpinner(false);
-                const score = result.score;
-                const grav = result.evalGravity;
-                const prob = result.evalProbability;
-                // console.log("gravity step four", result.evalGravity);
-                // console.log("probability step four", result.evalProbability);
-                setProbability(prob);
-                setGravity(grav);
-                setScore(score);
-
-                dispatch({type: actionTypes.RESET_RISKS, data: []});
-                localStorage.removeItem("riskName");
-                console.log("third api ",result);
-                // console.log(result);
+              await fetch(`${endPoints.GET_SCORE}/${diagnosticId}, ${id}`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${userToken}`,
+                },
               })
-              .catch((error) => {
-                setSpinner(false);
-                props.enqueueSnackbar("Un problème est survenu", {
-                  variant: "error",
+                .then((res) => res.json())
+                .then((result) => {
+                  setData(result);
+                  setSpinner(false);
+                  const score = result.score;
+                  const grav = result.evalGravity;
+                  const prob = result.evalProbability;
+                  // console.log("gravity step four", result.evalGravity);
+                  // console.log("probability step four", result.evalProbability);
+                  setProbability(prob);
+                  setGravity(grav);
+                  setScore(score);
+
+                  dispatch({ type: actionTypes.RESET_RISKS, data: [] });
+                  localStorage.removeItem("riskName");
+                  console.log("third api ", result);
+                  // console.log(result);
+                })
+                .catch((error) => {
+                  setSpinner(false);
+                  props.enqueueSnackbar("Un problème est survenu", {
+                    variant: "error",
+                  });
                 });
-              });
-          }
-        })
-      } 
-      else{
-        console.log("wrong else.....")
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      console.log("catch run");
-    })
+            }
+          });
+        } else {
+          console.log("wrong else.....");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("catch run");
+      });
   }
 
   async function getScore() {
@@ -188,13 +184,12 @@ setShow(true)
     setColor(color.hex);
   };
 
-  
   const handleClose = () => {
     setShow(false);
     const diagnosticId = props.data.diagnosticId || props.data.id;
     props.history.history.push({
       pathname: "/login",
-      state: {now: 80, data: props.data }
+      state: { now: 80, data: props.data },
     });
   };
   const handleShow = () => setShow(true);
@@ -205,14 +200,14 @@ setShow(true)
   // console.log(this.props.data);
   return (
     <>
-    <div className="step-four-container">
-      <div className="step-four-header">
-        {spinner && (
-          <div className="spinner">
-            <CircularProgress className="circular-spinner-blue" />
-          </div>
-        )}
-        <div style={{ flexBasis: "40%" }}>
+      <div className="step-four-container">
+        <div className="step-four-header">
+          {spinner && (
+            <div className="spinner">
+              <CircularProgress className="circular-spinner-blue" />
+            </div>
+          )}
+          {/* <div style={{ flexBasis: "40%" }}>
           <Card
             style={{
               padding: "1rem 2rem 2rem 3rem",
@@ -225,42 +220,42 @@ setShow(true)
               <div className="step-four-card1-content">{score}</div>
             </div>
           </Card>
+        </div> */}
+          <div style={{ flexBasis: "100%" }}>
+            <Card
+              style={{
+                padding: "2rem",
+                borderRadius: "3.5rem",
+              }}
+            >
+              <div className="step-four-card2-header">Gravité</div>
+              <div className="step-four-card2-content">
+                L’indice de gravité du risque quantifie l’importance des
+                dommages redoutés.
+              </div>
+
+              <div className="step-four-card2-header">Probabilité</div>
+              <div className="step-four-card2-content">
+                L’indice de probabilité d’un risque est une valeur numérique,
+                qui est à son minimum si le risque a très peu de chances de se
+                réaliser, et à son maximum si son apparition est quasi certaine.
+              </div>
+
+              <div className="step-four-card2-header">Criticité</div>
+              <div className="step-four-card2-content">
+                L’indice de criticité d’un risque correspond au produit de sa
+                probabilité par sa gravité. Cet indice permet de hiérarchiser
+                les risques et donc leur traitement.
+              </div>
+            </Card>
+          </div>
         </div>
-        <div style={{ flexBasis: "45%" }}>
-          <Card
-            style={{
-              padding: "2rem",
-              borderRadius: "3.5rem",
-            }}
-          >
-            <div className="step-four-card2-header">Gravité</div>
-            <div className="step-four-card2-content">
-              L’indice de gravité du risque quantifie l’importance des dommages
-              redoutés.
-            </div>
 
-            <div className="step-four-card2-header">Probabilité</div>
-            <div className="step-four-card2-content">
-              L’indice de probabilité d’un risque est une valeur numérique, qui
-              est à son minimum si le risque a très peu de chances de se
-              réaliser, et à son maximum si son apparition est quasi certaine.
-            </div>
-
-            <div className="step-four-card2-header">Criticité</div>
-            <div className="step-four-card2-content">
-              L’indice de criticité d’un risque correspond au produit de sa
-              probabilité par sa gravité. Cet indice permet de hiérarchiser les
-              risques et donc leur traitement.
-            </div>
-          </Card>
-        </div>
-      </div>
-
-      <div
+        {/* <div
         className="step-four-header-2"
         style={{ marginBottom: "20rem", marginTop: "5rem" }}
       >
-        <div className="step-four-table-card">
+         <div className="step-four-table-card">
           <Card
             style={{
               padding: "1.5rem 1.5rem 4rem 1.5rem",
@@ -310,14 +305,50 @@ setShow(true)
             </Button>
           </div>
         </div>
+      </div>  */}
+        {/* comment here */}
+        <div className="step-four-color-grid">
+          <Card
+            style={{
+              padding: "1rem",
+              borderRadius: "3.5rem",
+              fontWeight: "bold",
+              backgroundColor: "#EBEBEB",
+              height: "100%",
+              overflow: "hidden",
+            }}
+            noheadingMargin
+          >
+            <div className="card-heading">Cartographie de criticité</div>
+            <div className="step-four-color-container">
+              <div className="step-four-color">
+                <ColorPickerTwo
+                  color={color}
+                  handleChange={handleChangecolor}
+                  gravity={gravity}
+                  probability={probability}
+                />
+                <div>
+          </div>
+              </div>
+            </div>
+          </Card>
+          <Row style={{textAlign:"center",marginTop:"3rem"}}>
+            <Col>
+            <Button secondary>
+                    Call avec un expert
+                </Button>
+            </Col>
+        </Row>
+        </div>
       </div>
-    </div>
-    <Modal show={show} onHide={handleClose} className="custom-modal-2">
-        <Modal.Header closeButton>
-        </Modal.Header>
+      <Modal show={show} onHide={handleClose} className="custom-modal-2">
+        <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           {/* <div className="text-center"><BiError size={40} /></div> */}
-          <div className="py-2 text-center">please login or signup to view score</div>
+          <div className="py-2 text-center">
+            please login or signup to view score
+          </div>
         </Modal.Body>
         {/* <Modal.Footer>
           <div className="text-center w-100">

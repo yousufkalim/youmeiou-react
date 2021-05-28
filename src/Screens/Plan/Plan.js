@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Plan.css";
 import {useSelector} from "react-redux";
+import {Row,Col} from "react-bootstrap";
+import Button from "../../components/Button/Button";
 //  COMPONENTS
 import Card from "../../components/Card/Card";
 import Heading from "../../components/Heading/Heading";
@@ -8,6 +10,7 @@ import List from "../../components/List/List";
 import jwt_decode from "jwt-decode";
 import endPoints from "../../globals/Constants";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Images } from "../../assets/Assets";
 
 const lists = [
   {
@@ -112,58 +115,39 @@ const Plan = (props) => {
             <div className="plan-container">
           <div className="plan-header"></div>
           <div className="plan-container-first">
+          <div className="text-center pt-5">
+                <Heading>Votre risque fournisseur</Heading>
+                </div>
             <div className="d-flex justify-content-end w-100">
               <div className="plan-header-content">
-                <Heading>Qui sommes-nous ?</Heading>
                 <div className="plan-header-content-detail">
-                  « Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. »
+                L’entreprise doit avoir la capacité de maitriser les différentes facettes de ses fournisseurs : réputation, assurances, qualité, finances, engagement, services, performance financière, innovation …
                 </div>
               </div>
             </div>
 
-            <div className="text-center py-5">
+            <div className="text-center pb-3">
               <Heading>Plan d’action</Heading>
             </div>
-            <div className="d-flex justify-content-between plan-first-cards">
-              <div style={{ flexBasis: "43%" }}>
-                <Card
-                  style={{
-                    padding: "4rem 2rem 5rem 2rem",
-                    borderRadius: "3.5rem",
-                  }}
-                >
-                  <div className="plan-card-heading">
-                    <div>{data.diagnosticName}</div>
-                    <div className="plan-card-heading-score">score : {data.score}</div>
-                  </div>
-                  <div className="plan-card-detail">
-                    <div>-Probabilité</div>
-                    <div>-Gravité</div>
-                    <div>-Criticité</div>
-                  </div>
-                </Card>
-              </div>
-
-              <div style={{ flexBasis: "53%" }}>
-                <Card
-                  style={{
-                    padding: "4rem 2rem 5rem 2rem",
-                    borderRadius: "3.5rem",
-                  }}
-                >
-                  <div className="plan-card-heading">Notre promesse</div>
-                  <div className="plan-card-detail">
-                    Aujourd’hui vous êtes en Criticité Y, on vous fait la
-                    promesse de vous faire revenir dans la Criticité X
-                  </div>
-                </Card>
-              </div>
-            </div>
-
-            
+            <Row style={{textAlign:"center"}}>
+              <Col>
+                <img src={Images.icon_calender} />
+              </Col>
+            </Row>
+            <Row style={{textAlign:"center", marginTop:"3rem"}}>
+            <Col>
+                <div style={{fontSize:"2rem", color:"#012340"}}>
+                Choisir de prendre rendez-vous avec un expert qui répond à vos questions.
+                </div>
+              </Col>
+            </Row>
+            <Row style={{textAlign:"center",marginTop:"3rem"}}>
+              <Col>
+                <Button secondary>
+                  Prendre rendez-vous
+                </Button>
+              </Col>
+            </Row>            
             {/* <div style={{ width: "100%", margin: "8rem 0" }}>
               <Card
                 style={{
@@ -235,7 +219,48 @@ const Plan = (props) => {
               )
             }
             </div>
+            <div className="d-flex justify-content-around plan-first-cards">
+              <div style={{ flexBasis: "40%" }}>
+                <Card
+                  style={{
+                    padding: "4rem 2rem 5rem 2rem",
+                    borderRadius: "3.5rem",
+                  }}
+                >
+                  <div className="plan-card-heading">
+                    {/* <div>{data.diagnosticName}</div> */}
+                    <div className="plan-card-heading">Votre score : {data.score}</div>
+                  </div>
+                  <div className="plan-card-detail">
+                    <div>-Probabilité</div>
+                    <div>-Gravité</div>
+                    <div>-Criticité</div>
+                  </div>
+                </Card>
+              </div>
 
+              <div style={{ flexBasis: "40%" }}>
+                <Card
+                  style={{
+                    padding: "4rem 2rem 5rem 2rem",
+                    borderRadius: "3.5rem",
+                  }}
+                >
+                  <div className="plan-card-heading">Notre promesse</div>
+                  <div className="plan-card-detail">
+                    Aujourd’hui vous êtes en Criticité Y, on vous fait la
+                    promesse de vous faire revenir dans la Criticité X
+                  </div>
+                </Card>
+              </div>
+            </div>
+            <Row style={{textAlign:"center",marginTop:"10rem",paddingBottom:"10rem",width:"100%"}}>
+              <Col>
+                <Button secondary>
+                  Prendre rendez-vous
+                </Button>
+              </Col>
+            </Row>
           {/* 
           <div className="plan-container-second">
             <div className="plan-cards-second">

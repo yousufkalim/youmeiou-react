@@ -95,11 +95,11 @@ const Steps = (props) => {
               : now >= 6 && now < 7 ? (
                 <StepTwo changeStepper={changeStepper} />
               ) 
-              : now >= 7 && now <= 79 ? (
-                <StepThree changeStepper={changeStepper} now={now} data={props.location.state} />
-              ) 
+              // : now >= 7 && now <= 79 ? (
+              //   <StepThree changeStepper={changeStepper} now={now} data={props.location.state} />
+              // ) 
               : 
-              now >= 79 && now < 99 ? 
+              now >= 7 && now < 99 ? 
               (
                 <StepFour changeStepper={changeStepper} history={props} data={props.location.state} withoutLogin={props.location.state.withoutLogin} />
               ) 
