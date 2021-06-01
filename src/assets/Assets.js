@@ -29,6 +29,8 @@ import cloud_outline  from "./images/cloud_outline.png";
 import metro_rainy  from "./images/metro_rainy.png";
 import metro_sun  from "./images/metro_sun.png";
 import icon_calender  from "./images/icon_calender.png";
+import stepSixBackground  from "./images/stepSixBackground.png";
+import Icon_calender_two  from "./images/Icon_calender_two.png";
 
 import Comma from "./images/comma.png";
 import logo_white from "./images/logo_white.png";
@@ -76,6 +78,8 @@ export const Images = {
     ceo_Martin_Cregut: ceo_Martin_Cregut,
     ceo_Martin_Cregut_3: ceo_Martin_Cregut_3,
     icon_calender:icon_calender,
+    stepSixBackground:stepSixBackground,
+    Icon_calender_two:Icon_calender_two,
     comma: Comma,
     logo_white: logo_white,
     profile:profile,

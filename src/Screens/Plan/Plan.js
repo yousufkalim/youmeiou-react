@@ -99,6 +99,7 @@ const Plan = (props) => {
         // this.setState({spinner: false});
         console.log(error);
         setError(error)
+        setSpinner(false)
 
       })
   }

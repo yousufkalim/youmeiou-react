@@ -40,7 +40,7 @@ padding-right: 10rem; */
     width: 80%;   
 }
 .plan-header-content-detail{
-    padding: 5rem 5rem;
+    padding: 2rem 5rem 5rem 5rem;
     color: var(--text_color);
     font-size: 2.5rem;
     
@@ -123,4 +123,12 @@ z-index: -1;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.plan-container-first {
+    padding-top: 3rem;
+}
+@media (max-width: 550.9px) {
+  .plan-container-first {
+    padding-top: 15rem;
+  }
 }

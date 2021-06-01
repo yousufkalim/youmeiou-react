@@ -136,7 +136,7 @@
 }
 
 /* ========== TOOLTIP ============ */
-  .mapping-color-line-content .mapping-popover {
+  .step-four-color-line-content .mapping-popover {
     visibility: hidden;
     width: 150% !important;
     background-color: #fff;
@@ -151,7 +151,7 @@
     z-index: 99999999;
   }
   
-  .mapping-color-line-content:hover .mapping-popover {
+  .step-four-color-line-content:hover .mapping-popover {
     visibility: visible;
     z-index: 99999999;
   }
@@ -163,7 +163,7 @@
     border-radius: 1rem;
   }
 
-  .mapping-color-line-content .mapping-popover .popover-body{
+  .step-four-color-line-content .mapping-popover .popover-body{
     background-color: #fff;
   }
 

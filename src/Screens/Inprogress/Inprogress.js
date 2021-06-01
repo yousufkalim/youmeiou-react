@@ -190,7 +190,7 @@ const Inprogress = (props) => {
                         <NavLink
                           to={{
                             pathname: `diagnostic-list/${item.diagnosticId}`,
-                            state: { ...item, now: 100 },
+                            state: { ...item, now: 90 },
                           }}
                         >
                           <Button secondary className="inprogress-btn">

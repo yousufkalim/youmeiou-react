@@ -12,6 +12,7 @@ import StepFour from "./step-4/StepFour";
 import StepFive from "./step-5/StepFive";
 import {withRouter} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
+import StepSix from "./step-6/StepSix";
 
 
 const Steps = (props) => {
@@ -95,17 +96,25 @@ const Steps = (props) => {
               : now >= 6 && now < 7 ? (
                 <StepTwo changeStepper={changeStepper} />
               ) 
-              // : now >= 7 && now <= 79 ? (
-              //   <StepThree changeStepper={changeStepper} now={now} data={props.location.state} />
-              // ) 
+              : now >= 7 && now <= 79 ? (
+                <StepThree changeStepper={changeStepper} now={now} data={props.location.state} />
+              ) 
               : 
-              now >= 7 && now < 99 ? 
+              now >= 79 && now < 89 ? 
               (
-                <StepFour changeStepper={changeStepper} history={props} data={props.location.state} withoutLogin={props.location.state.withoutLogin} />
+               <StepFour changeStepper={changeStepper} history={props} data={props.location.state} withoutLogin={props.location.state.withoutLogin} />
+               
+              ) 
+              :
+              now >= 89 && now < 99 ? 
+              (
+                <StepFive changeStepper={changeStepper} routerInfo={props} state={props.location.state}  />
+
               ) 
               : 
               (
-                <StepFive routerInfo={props} state={props.location.state}  />
+                <StepSix changeStepper={changeStepper} history={props} state={props.location.state} />
+
               )
               }
             </div>

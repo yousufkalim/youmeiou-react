@@ -30,6 +30,7 @@ const StepFour = (props) => {
   const [score, setScore] = useState(null);
   const [probability, setProbability] = useState(0);
   const [gravity, setGravity] = useState(0);
+  const [criticity, setcriticity] = useState(0);
 
   const [show, setShow] = useState(false);
 
@@ -117,10 +118,12 @@ const StepFour = (props) => {
                   const score = result.score;
                   const grav = result.evalGravity;
                   const prob = result.evalProbability;
+                  const criticity = result.criticity;
                   // console.log("gravity step four", result.evalGravity);
                   // console.log("probability step four", result.evalProbability);
                   setProbability(prob);
                   setGravity(grav);
+                  setcriticity(criticity);
                   setScore(score);
 
                   dispatch({ type: actionTypes.RESET_RISKS, data: [] });
@@ -165,10 +168,12 @@ const StepFour = (props) => {
         const score = result.score;
         const grav = result.evalGravity;
         const prob = result.evalProbability;
+        const criticity = result.criticity;
         console.log("gravity step four", result.evalGravity);
         console.log("probability step four", result.evalProbability);
         setProbability(prob);
         setGravity(grav);
+        setcriticity(criticity);
         setScore(score);
         // console.log(result);
       })
@@ -323,10 +328,12 @@ const StepFour = (props) => {
             <div className="step-four-color-container">
               <div className="step-four-color">
                 <ColorPickerTwo
+                  changeStepper={props.changeStepper}
                   color={color}
                   handleChange={handleChangecolor}
                   gravity={gravity}
                   probability={probability}
+                  criticity = {criticity}
                 />
                 <div>
           </div>

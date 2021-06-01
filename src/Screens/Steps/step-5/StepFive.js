@@ -102,7 +102,7 @@ const StepFive = (props) => {
 
     //   }
     // })
-    console.log("value id ", treatment);
+    console.log("value id ", newValue.name);
     // console.log("find id ", activeInd);
     
     // console.log(treatment);
@@ -123,10 +123,20 @@ const StepFive = (props) => {
       .then((res) => res.json())
       .then((result) => {
         setSpinner(false);
-        result.errorMessage ? 
-        alert(result.errorMessage)
-        :
-        props.routerInfo.history.push("/mes-diagnostics")
+        if(result.errorMessage ){
+          alert(result.errorMessage)
+        }
+        else{
+          if(newValue.name === "Réduit" || newValue.name === "Partagé" ){
+            props.changeStepper(100)
+          }
+          else{
+            
+            props.routerInfo.history.push("/mes-diagnostics")
+          }
+        }
+       
+        
         
       })
       .catch((error) => {
