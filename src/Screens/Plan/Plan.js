@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Plan.css";
 import {useSelector} from "react-redux";
-import {Row,Col} from "react-bootstrap";
+import {Row,Col, Container} from "react-bootstrap";
 import Button from "../../components/Button/Button";
 //  COMPONENTS
 import Card from "../../components/Card/Card";
@@ -81,7 +81,7 @@ const Plan = (props) => {
     // http://160.153.249.64:5059/api/v1/actionPlan/get
     // http://160.153.249.64:5059/api/v1/actionPlan​/get​
     console.log(`${endPoints.GET_ACTIONS}/${diagnosticId},${id}`);
-    fetch(`http://160.153.249.64:5059/api/v1/actionPlan/get/${diagnosticId},${id}`, {
+    fetch(`http://localhost:51160/api/v1/actionPlan/get/${diagnosticId},${id}`, {//localhost:51160
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -117,22 +117,22 @@ const Plan = (props) => {
           <div className="plan-header"></div>
           <div className="plan-container-first">
           <div className="text-center pt-5">
-                <Heading>Votre risque fournisseur</Heading>
+                {/* <Heading>Votre risque fournisseur</Heading> */}
                 </div>
-            <div className="d-flex justify-content-end w-100">
+            {/* <div className="d-flex justify-content-end w-100">
               <div className="plan-header-content">
                 <div className="plan-header-content-detail">
                 L’entreprise doit avoir la capacité de maitriser les différentes facettes de ses fournisseurs : réputation, assurances, qualité, finances, engagement, services, performance financière, innovation …
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="text-center pb-3">
               <Heading>Plan d’action</Heading>
             </div>
             <Row style={{textAlign:"center"}}>
               <Col>
-                <img src={Images.icon_calender} />
+                <img style={{height: "60%"}} src={Images.icon_calender} />
               </Col>
             </Row>
             <Row style={{textAlign:"center", marginTop:"3rem"}}>
@@ -190,9 +190,9 @@ const Plan = (props) => {
                 <div style={{ width: "15%" }} className="plan-list-heading">
                   Priorite
                 </div>
-                <div style={{ width: "15%" }} className="plan-list-heading">
+                {/* <div style={{ width: "15%" }} className="plan-list-heading">
                   Tarif
-                </div>
+                </div> */}
               </List>
               {actionList.length >= 1 ? data.actionPlanList.map((item, index) => (
                 <List>
@@ -203,11 +203,11 @@ const Plan = (props) => {
                     {item.actionDescription}
                   </div>
                   <div style={{ width: "15%" }} className="plan-list-item">
-                    {item.order}
+                    {item.actionLevel}
                   </div>
-                  <div style={{ width: "15%" }} className="plan-list-item">
+                  {/* <div style={{ width: "15%" }} className="plan-list-item">
                     {item.tarif}
-                  </div>
+                  </div> */}
                 </List>
               ))
               :
@@ -233,9 +233,9 @@ const Plan = (props) => {
                     <div className="plan-card-heading">Votre score : {data.score}</div>
                   </div>
                   <div className="plan-card-detail">
-                    <div>-Probabilité</div>
-                    <div>-Gravité</div>
-                    <div>-Criticité</div>
+                    <div>-Probabilité : {data.probability}</div>
+                    <div>-Gravité : {data.gravity}</div>
+                    <div>-Criticité : {data.criticity}</div>
                   </div>
                 </Card>
               </div>
@@ -255,13 +255,37 @@ const Plan = (props) => {
                 </Card>
               </div>
             </div>
-            <Row style={{textAlign:"center",marginTop:"10rem",paddingBottom:"10rem",width:"100%"}}>
-              <Col>
+           <Container fluid>
+           <Row style={{textAlign:"center",marginTop:"5rem",paddingBottom:"5rem"}}>
+                <Col>
                 <Button secondary>
                   Prendre rendez-vous
-                </Button>
-              </Col>
+                </Button></Col>
             </Row>
+           </Container>
+
+              <div className="instructions-card"> 
+                  <Card
+                      style={{
+                        padding: "4rem 2rem 5rem 2rem",
+                        borderRadius: "3.5rem",
+                        background:"#F5F5F5",
+                      }}
+                    >
+                      <div className="plan-card-detail">
+                      A: Traiter ce risque relève de sécurité
+                      </div>
+                      <div className="plan-card-detail">
+                      B: Traiter ce risque relève de performance
+                      </div>
+                      <div className="plan-card-detail">
+                      C: Traiter ce risque relève de optimisation
+                      </div>
+                    </Card>
+
+                </div>
+
+
           {/* 
           <div className="plan-container-second">
             <div className="plan-cards-second">

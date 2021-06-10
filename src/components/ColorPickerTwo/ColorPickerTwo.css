@@ -65,7 +65,7 @@
     color: var(--text_color);
     text-align: center;
     font-size: 2rem;
-    border-radius: 6px;
+    border-radius: 50px;
     padding-bottom: 5px;
     position: absolute;
     top: -100%;
@@ -76,13 +76,13 @@
   .mapping-color-line-content:hover .mapping-popover {
     visibility: visible;
     z-index: 99999999;
+    
   }
 
   .mapping-popover-title{
     font-size: 2.4rem !important;
-    background-color: var(--text_color) !important;
-    color: #fff !important;
-    border-radius: 1rem;
+     background-color: transparent !important;
+    color: var(--text_color) !important;
   }
 
   .mapping-color-line-content .mapping-popover .popover-body{
@@ -102,5 +102,9 @@
 }
 .step-four-color-line-container img {
     width: 4rem;
+}
+.step-four-color-image-3{
+    /* width: 40%; */
+    width: 40% !important;
 }
   }

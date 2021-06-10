@@ -50,13 +50,13 @@
     height: 100%;
     /* display: flex;
     justify-content: center; */
-    padding: 1rem 4rem;
+    padding: 5rem 4rem;
 }
 .step-four-table-card{
     flex-basis: 80%;
 }
 .step-four-color{
-    width: 85%;
+    width: 100%;
     height: 100%;
 }
 .step-four-color .flexbox-fix{
@@ -107,14 +107,19 @@
       }
 
       .step-four-color-container {
-        height: 80rem;
-        margin-top: 5rem;
+        /* overflow: scroll; */
+        /* height: 80rem; */
+        /* margin-top: 5rem; */
+    }
+    .graph-images{
+        text-align: center;
     }
     .step-four-color-image {
         height: 100%;
     }
     .step-four-color {
-        width: 75%;
+        width: 100%;
+        padding: 5rem;
     }
     .step-four-color-grid{
         height: unset;

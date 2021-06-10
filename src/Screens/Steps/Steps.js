@@ -75,8 +75,9 @@ const Steps = (props) => {
             <Heading>
               {now === 80
                 ? "Résultat du diagnostic"
-                : now === 100
+                : now === 90
                 ? "Traitement d’un diagnostic"
+                : now === 100 ? "Résultat du diagnostic"
                 : "Diagnostic"}
             </Heading>  
           </div>

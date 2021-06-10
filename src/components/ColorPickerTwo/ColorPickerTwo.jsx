@@ -74,10 +74,10 @@ class ColorPicker extends React.Component {
 
     return (
       <>
-        <Row>
+        <Row className="align-items-center">
           <Col
             md={6}
-            style={{ width: "100%", height: "100%", position: "relative" }}
+            style={{ width: "100%", height: "100%", position: "relative", }}
           >
             <div className="step-four-color-image-2">
               <img
@@ -98,34 +98,46 @@ class ColorPicker extends React.Component {
                   className="mapping-popover"
                   id="popover-positioned-top"
                 >
+                <Popover.Title className="mapping-popover-title" as="h3">
+                    Name : {this.props.diagnosticName}
+                  </Popover.Title>
+                  {/* <Popover.Content>
+                    {this.props.diagnosticName}
+                  </Popover.Content> */}
                   <Popover.Title className="mapping-popover-title" as="h3">
                     {/* {item.name} */}
-                    Criticite
+                    Criticite : {this.props.criticity}
                   </Popover.Title>
-                  <Popover.Content>
+                  {/* <Popover.Content>
                     {this.props.criticity}
-                  </Popover.Content>
+                  </Popover.Content> */}
                   <Popover.Title className="mapping-popover-title" as="h3">
-                    Gravitie
+                    Gravitie : {this.props.gravity}
                   </Popover.Title>
-                  <Popover.Content>
+                  {/* <Popover.Content>
                     {this.props.gravity}
-                  </Popover.Content>
+                  </Popover.Content> */}
                   <Popover.Title className="mapping-popover-title" as="h3">
-                    Probabilitie
+                    Probabilitie : {this.props.probability}
                   </Popover.Title>
-                  <Popover.Content>
+                  {/* <Popover.Content>
                     {this.props.probability}
-                  </Popover.Content>
+                  </Popover.Content> */}
+                  <Popover.Title className="mapping-popover-title" as="h3">
+                    Score : {this.props.score}
+                  </Popover.Title>
+                  {/* <Popover.Content>
+                    {this.props.score}
+                  </Popover.Content> */}
                 </Popover>
 
               </div>
             </div>
           </Col>
-          <Col md={6} style={{ paddingTop: "10rem" }}>
+          <Col md={6} style={{ paddingTop: "5rem" }} className="graph-images">
             <Row>
               <Col md={3}>
-                <img
+                <img className="step-four-color-image-3"
                   src={Images.metro_rainy}
                   alt="color"
                   style={{ width: "100%" }}
@@ -138,12 +150,12 @@ class ColorPicker extends React.Component {
                 </div>
               </Col>
             </Row>
-            <Row style={{ margin: "8rem 0" }}>
+            <Row style={{ padding: "10rem 0" }}>
               <Col md={3}>
-                <img
+                <img className="step-four-color-image-3"
                   src={Images.cloud_outline}
                   alt="color"
-                  style={{ width: "100%", height: "100%" }}
+                  style={{ width: "100%" }}
                 />
               </Col>
               <Col md={9}>
@@ -153,12 +165,12 @@ class ColorPicker extends React.Component {
                 </div>
               </Col>
             </Row>
-            <Row style={{ marginTop: "10rem" }}>
+            <Row style={{ paddintTop: "12rem" }}>
               <Col md={3}>
-                <img
+                <img className="step-four-color-image-3"
                   src={Images.metro_sun}
                   alt="color"
-                  style={{ width: "100%", height: "100%" }}
+                  style={{ width: "100%"}}
                 />
               </Col>
               <Col md={9}>
@@ -168,7 +180,7 @@ class ColorPicker extends React.Component {
                 </div>
               </Col>
               <Col className="step-four-card-btn text-center mt-5 pt-4">
-                <Button secondary onClick={() => this.props.changeStepper(90)}>
+                <Button tertiary onClick={() => this.props.changeStepper(90)}>
                   Traitement du risque
                 </Button>
               </Col>

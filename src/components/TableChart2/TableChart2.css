@@ -139,10 +139,10 @@
   }
 
   .mapping-popover-title{
-    font-size: 2rem !important;
+    /* font-size: 2rem !important;
     background-color: var(--text_color) !important;
     color: #fff !important;
-    border-radius: 1rem;
+    border-radius: 1rem; */
   }
 
   .custom-box .mapping-popover .popover-body{

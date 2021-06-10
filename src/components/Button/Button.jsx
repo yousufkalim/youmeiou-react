@@ -15,6 +15,8 @@ const Button = (props) => {
             ? { background: "#012340" }
             : props.secondary ? { background: "#EFD242", color: "#012340" }
             :
+            props.tertiary ?{background: "#EFD242", color: "#012340",fontWeight:"bold"}
+            :
             {backgroundColor: "#EFD242",color: "#012340", width: "100%", padding: "1.4rem" }
         }
       >

@@ -31,6 +31,7 @@ const StepFour = (props) => {
   const [probability, setProbability] = useState(0);
   const [gravity, setGravity] = useState(0);
   const [criticity, setcriticity] = useState(0);
+  const [diagnosticName, setdiagnosticName] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -115,17 +116,19 @@ const StepFour = (props) => {
                 .then((result) => {
                   setData(result);
                   setSpinner(false);
+                  const diagnosticName = result.diagnosticName;
                   const score = result.score;
                   const grav = result.evalGravity;
                   const prob = result.evalProbability;
                   const criticity = result.criticity;
+                  
                   // console.log("gravity step four", result.evalGravity);
                   // console.log("probability step four", result.evalProbability);
                   setProbability(prob);
                   setGravity(grav);
                   setcriticity(criticity);
                   setScore(score);
-
+                  setdiagnosticName(diagnosticName);
                   dispatch({ type: actionTypes.RESET_RISKS, data: [] });
                   localStorage.removeItem("riskName");
                   console.log("third api ", result);
@@ -165,6 +168,7 @@ const StepFour = (props) => {
       .then((result) => {
         setData(result);
         setSpinner(false);
+        const diagnosticName = result.diagnosticName;
         const score = result.score;
         const grav = result.evalGravity;
         const prob = result.evalProbability;
@@ -175,6 +179,7 @@ const StepFour = (props) => {
         setGravity(grav);
         setcriticity(criticity);
         setScore(score);
+        setdiagnosticName(diagnosticName);
         // console.log(result);
       })
       .catch((error) => {
@@ -334,6 +339,8 @@ const StepFour = (props) => {
                   gravity={gravity}
                   probability={probability}
                   criticity = {criticity}
+                  score = {score}
+                  diagnosticName = {diagnosticName}
                 />
                 <div>
           </div>
@@ -342,7 +349,7 @@ const StepFour = (props) => {
           </Card>
           <Row style={{textAlign:"center",marginTop:"3rem"}}>
             <Col>
-            <Button secondary>
+            <Button tertiary>
                     Call avec un expert
                 </Button>
             </Col>

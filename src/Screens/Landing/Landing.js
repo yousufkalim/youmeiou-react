@@ -148,7 +148,7 @@ const Landing = (props) => {
 
         {/* Header */}
         <div className="landing-header">
-          <Row style={{ alignItems: "center" }}>
+          <Row className="top-content" style={{ alignItems: "center" }}>
             <Col md={6} className="landing-header-content">
               <div className="landing-heading">
                 Ciblez vos failles en un clic
@@ -161,7 +161,7 @@ const Landing = (props) => {
                 Améliorez vos performances, vos ROI et vos ROE!
               </div>
               <NavLink to="/diagnostic-list">
-                <Button secondary>Analyzer un risque</Button>
+                <Button tertiary>Essayez maintenant</Button>
               </NavLink>
             </Col>
             <Col md={6} sm={12} className="text-center">
@@ -202,7 +202,7 @@ const Landing = (props) => {
           </div>
           <div className="text-center">
             <NavLink to="/diagnostic-list">
-              <Button secondary>C’est parti !</Button>
+              <Button tertiary>C’est parti !</Button>
             </NavLink>
           </div>
         </div>
@@ -216,7 +216,7 @@ const Landing = (props) => {
           </div>
           <div
             className="d-flex justify-content-between"
-            style={{ padding: "0px 10rem" }}
+            style={{ padding: "0px 20rem" }}
           >
             <div className="landing-trust-img-parent">
               <img
@@ -323,15 +323,16 @@ const Landing = (props) => {
       <div className="landing-slider">
         <Carousel>
           <Carousel.Item>
-            <div className="landing-content-heading">
+          <div className="landing-content-heading">
               Que pensent nos clients ?
             </div>
             <div className="carousel-style">
+              <div className="owner-card">
               <Card
                 style={{
                   borderRadius: "3.5rem",
                   overflow: "hidden",
-                  width: "25%",
+                  width: "100%",
                   float: "left",
                   background: "#F8F8F8",
                   padding: "0 3rem",
@@ -350,12 +351,14 @@ const Landing = (props) => {
                 />
                 <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
               </Card>
+              </div>
+              <div className="owner-card">
               <Card
                 style={{
                   borderRadius: "3.5rem",
                   overflow: "hidden",
                   float: "left",
-                  width: "25%",
+                  width: "100%",
                   background: "#F8F8F8",
                   padding: "0 3rem",
                 }}
@@ -373,12 +376,14 @@ const Landing = (props) => {
                 />
                 <div className="ceo-card-footer">Julian Amar | CEO PicMe</div>
               </Card>
-              <Card
+              </div>
+              <div className="owner-card">
+                <Card
                 style={{
                   borderRadius: "3.5rem",
                   overflow: "hidden",
                   float: "left",
-                  width: "25%",
+                  width: "100%",
                   background: "#F8F8F8",
                   padding: "0 3rem",
                 }}
@@ -396,6 +401,10 @@ const Landing = (props) => {
                 />
                 <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
               </Card>
+                </div>
+
+
+
             </div>
 
             {/* <div className="landing-footer">
@@ -424,93 +433,16 @@ const Landing = (props) => {
             </div> */}
           </Carousel.Item>
           <Carousel.Item>
-            <div className="landing-content-heading">
+          <div className="landing-content-heading">
               Que pensent nos clients ?
             </div>
             <div className="carousel-style">
+              <div className="owner-card">
               <Card
                 style={{
                   borderRadius: "3.5rem",
                   overflow: "hidden",
-                  width: "25%",
-                  float: "left",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Martin_Cregut}
-                  alt="card"
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
-                  }}
-                />
-                <div className="ceo-card-footer">
-                  Martin Cregut | CEO PicMe{" "}
-                </div>
-              </Card>
-              <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  float: "left",
-                  width: "25%",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Julian_Amar}
-                  alt="card"
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
-                  }}
-                />
-                <div className="ceo-card-footer">Julian Amar | CEO PicMe </div>
-              </Card>
-              <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  float: "left",
-                  width: "25%",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Martin_Cregut_3}
-                  alt="card"
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
-                  }}
-                />
-                <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
-              </Card>
-            </div>
-          </Carousel.Item>
-          <Carousel.Item>
-            <div className="landing-content-heading">
-              Que pensent nos clients ?
-            </div>
-            <div className="carousel-style">
-              <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  width: "25%",
+                  width: "100%",
                   float: "left",
                   background: "#F8F8F8",
                   padding: "0 3rem",
@@ -529,12 +461,14 @@ const Landing = (props) => {
                 />
                 <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
               </Card>
+              </div>
+              <div className="owner-card">
               <Card
                 style={{
                   borderRadius: "3.5rem",
                   overflow: "hidden",
                   float: "left",
-                  width: "25%",
+                  width: "100%",
                   background: "#F8F8F8",
                   padding: "0 3rem",
                 }}
@@ -552,12 +486,14 @@ const Landing = (props) => {
                 />
                 <div className="ceo-card-footer">Julian Amar | CEO PicMe</div>
               </Card>
-              <Card
+              </div>
+              <div className="owner-card">
+                <Card
                 style={{
                   borderRadius: "3.5rem",
                   overflow: "hidden",
                   float: "left",
-                  width: "25%",
+                  width: "100%",
                   background: "#F8F8F8",
                   padding: "0 3rem",
                 }}
@@ -575,13 +511,102 @@ const Landing = (props) => {
                 />
                 <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
               </Card>
+                </div>
+
+
+
+            </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className="landing-content-heading">
+              Que pensent nos clients ?
+            </div>
+            <div className="carousel-style">
+              <div className="owner-card">
+              <Card
+                style={{
+                  borderRadius: "3.5rem",
+                  overflow: "hidden",
+                  width: "100%",
+                  float: "left",
+                  background: "#F8F8F8",
+                  padding: "0 3rem",
+                }}
+              >
+                <img
+                  className="landing-trust-1"
+                  src={Images.ceo_Martin_Cregut}
+                  alt="card"
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    marginTop: "3rem",
+                    display: "block",
+                  }}
+                />
+                <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
+              </Card>
+              </div>
+              <div className="owner-card">
+              <Card
+                style={{
+                  borderRadius: "3.5rem",
+                  overflow: "hidden",
+                  float: "left",
+                  width: "100%",
+                  background: "#F8F8F8",
+                  padding: "0 3rem",
+                }}
+              >
+                <img
+                  className="landing-trust-1"
+                  src={Images.ceo_Julian_Amar}
+                  alt="card"
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    marginTop: "3rem",
+                    display: "block",
+                  }}
+                />
+                <div className="ceo-card-footer">Julian Amar | CEO PicMe</div>
+              </Card>
+              </div>
+              <div className="owner-card">
+                <Card
+                style={{
+                  borderRadius: "3.5rem",
+                  overflow: "hidden",
+                  float: "left",
+                  width: "100%",
+                  background: "#F8F8F8",
+                  padding: "0 3rem",
+                }}
+              >
+                <img
+                  className="landing-trust-1"
+                  src={Images.ceo_Martin_Cregut_3}
+                  alt="card"
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    marginTop: "3rem",
+                    display: "block",
+                  }}
+                />
+                <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
+              </Card>
+                </div>
+
+
+
             </div>
           </Carousel.Item>
         </Carousel>
         <div className="text-center">
           <NavLink to="/diagnostic-list">
-            <Button style={{ marginTop: "10rem" }} secondary>
-              C’est parti !
+            <Button style={{ marginTop: "10rem" }} tertiary>
+              Essayez maintenant
             </Button>
           </NavLink>
         </div>
@@ -611,7 +636,7 @@ const Landing = (props) => {
                 }}
               >
                 <div class="column">
-                  <a href="https://www.facebook.com/">
+                  <a target="_blank" href="https://www.facebook.com/">
                     <img
                       src={Images.facebookIcon}
                       alt="Snow"
@@ -620,7 +645,7 @@ const Landing = (props) => {
                   </a>
                 </div>
                 <div class="column">
-                  <a href="https://www.twitter.com/">
+                  <a target="_blank" href="https://www.twitter.com/">
                     <img
                       src={Images.twitterIcon}
                       href="www.twitter.com"
@@ -630,7 +655,7 @@ const Landing = (props) => {
                   </a>
                 </div>
                 <div class="column">
-                  <a href="https://www.linkedin.com/">
+                  <a target="_blank" href="https://www.linkedin.com/">
                     <img
                       src={Images.linkedInIcon}
                       href="www.linkedin.com"

@@ -25,7 +25,7 @@ const StepSix = (props) => {
         // const diagnosticId = props.data.diagnosticId || props.data.id;
         
         const diagnosticId = props.state.diagnosticId || props.state.id || props.state.data.diagnosticId || JSON.parse(localStorage.getItem("riskName")).diagnosticId;
-        fetch(`http://localhost:51160/api/v1/diagnosticEvaluation/get/CheckIfUserDiagnosticEvaulationIsPaidFor/${userId},${diagnosticId}`, {
+        fetch(`${endPoints.CheckIfUserDiagnosticEvaulationIsPaidFor}/${userId},${diagnosticId}`,{
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -66,23 +66,23 @@ const StepSix = (props) => {
                 </div>
              </Col>
          </Row>
-            <Row style={{justifyContent:"center",marginTop:"10rem"}}>
+            <Row style={{justifyContent:"center",marginTop:"7rem"}}>
 
                 {/* <div className="col-md-2 align-content-center border-top border-bottom border-left border-warning" style={{paddingTop:"5rem",paddingBottom:"5rem"}}>
                    
                 </div> */}
-                <div className="col-md-6 p-5 align-content-center card-text border border-warning d-flex justify-content-center">
-                <img src={Images.Icon_calender_two} className="px-5 mx-5"/>
-                <div className="mr-5">
+                <div className="col-md-6 align-content-center card-text border border-warning d-flex justify-content-center">
+                <img src={Images.Icon_calender_two} className="pr-5 mx-5"/>
+                <div className="mr-2">
                 Commandez votre plan d’action immédiatement et 
                     découvrez comment maîtriser vos risques :
                 </div>
                 </div>
-                <div className="col-md-3 border border-warning" style={{padding:"3rem 5rem",borderRadius: "0 1rem 1rem 0"}}>
+                <div className="col-md-3 border border-warning" style={{padding:"3rem 2rem",borderRadius: "0 1rem 1rem 0",textAlign:"center"}}>
                     <div className="card-text-price pb-3">
                         89€
                     </div>
-                    <Button secondary className="inprogress-btn" onClick={checkPaid}>
+                    <Button tertiary onClick={checkPaid}>
                             Plan d’action
                     </Button>
                 </div>
