@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Landing.css";
-
 import { NavLink } from "react-router-dom";
 import { Images } from "../../assets/Assets";
 import Button from "../../components/Button/Button";
@@ -8,6 +7,10 @@ import { Row, Col, Carousel, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import LandingCard from "../../components/LandingCard/LandingCard";
 import _ from "lodash";
 import Card from "../../components/Card/Card";
+import Input from "../../components/Input/Input";
+import Popup from "../../components/Popup/popup";
+import Header from "../../components/Header/Header";
+import LandingFooter from "../../components/Footer/Footer";
 // import { setIn } from "immutable";
 // import { IoConstructOutline } from "react-icons/io5";
 
@@ -50,10 +53,55 @@ const cards = [
 ];
 
 const Landing = (props) => {
-  useEffect(() => {
-    console.log(props);
-    test();
+  const [show, setShow] = React.useState(false);
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    message: "",
+  });
+  const [error, setError] = useState({ email: "" });
+  const [isValid, setValidity] = React.useState(true);
 
+  function handleOpenModal() {
+    setShow(!show);
+    console.log("handleOpenModal", show);
+  }
+  function fieldsValidation() {
+    console.log("handleOpenModal", show);
+  }
+
+  const inputChange = (e) => {
+    // checkValidity();
+    // if ((e.target.name === "firstName" && e.target.value != "") &&
+    // (e.target.name === "lastName" && e.target.value != "")){
+    //   setValidity(false);
+    // }
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+    if (e.target.name === "email") {
+      var mailformat =
+        /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      if (!e.target.value.match(mailformat)) {
+        setError({ ...error, email: "Format d'email invalide" });
+      } else {
+        setError({ ...error, email: "" });
+      }
+    }
+    console.log(data);
+    //checkValidity();
+  };
+  const checkValidity = () => {
+    // if(data.firstName !== "" && data.lastName !== ""){
+    //   setValidity(false);
+    // }else{
+    //   setValidity(true);
+    // }
+  };
+  useEffect(() => {
+    test();
     return () => {
       console.log("back button outer");
       // && history.location.pathname === "any specific path")
@@ -84,71 +132,15 @@ const Landing = (props) => {
 
   return (
     <>
-      <div className="landing">
+      {/* <div className="landing"> */}
+      <div>
         {/* Navbar */}
-        {/* <div className="landing-navbar-container">
-          <img src={Images.logo} className="landing-logo" alt="logo" />
-          <div className="landing-navbar">
-            <div className="row" style={{gap:"8rem", paddingRight:"8rem",paddingLeft:"8rem"}}>
-            <div className="landing-navbar-buttons">Pourquoi Riskr</div>
-              <div className="landing-navbar-buttons">Comment ça marche</div>
-              <div className="landing-navbar-buttons">Nos clients</div>
-              <div className="landing-navbar-buttons">Blog</div>
-            </div>
+        <Header/>
 
-            <div>
-              <NavLink to="/register">
-                <Button primary>Inscription</Button>
-              </NavLink>
-            </div>
-            <div className="pl-5">
-              <NavLink to="/login">
-                <Button secondary>Se connecter</Button>
-              </NavLink>
-            </div>
-          </div>
-        </div> */}
-        <Navbar className="custom-navbar" expand="lg">
-          <Navbar.Brand href="#home">
-            <img src={Images.logo} className="landing-logo" alt="logo" />
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="ml-auto">
-              <Nav.Link href="#home">
-                <div className="landing-navbar-buttons">Pourquoi Riskr</div>
-              </Nav.Link>
-              <Nav.Link href="#home">
-                <div className="landing-navbar-buttons">Comment ça marche</div>
-              </Nav.Link>
-              <Nav.Link href="#features">
-                <div className="landing-navbar-buttons">Nos clients</div>
-              </Nav.Link>
-              <Nav.Link href="#pricing">
-                <div className="landing-navbar-buttons">Blog</div>
-              </Nav.Link>
-            </Nav>
-            <div>
-              <NavLink to="/register">
-                <Button secondary>Inscription</Button>
-              </NavLink>
-            </div>
-            <div className="pl-lg-5 pt-lg-0 pt-3">
-              <NavLink to="/login">
-                <Button primary>Se connecter</Button>
-              </NavLink>
-            </div>
-          </Navbar.Collapse>
-
-          {/* <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-      <Button variant="outline-info">Search</Button>
-    </Form> */}
-        </Navbar>
 
         {/* Header */}
         <div className="landing-header">
-          <Row className="top-content" style={{ alignItems: "center" }}>
+          <Row className="top-content" style={{ alignItems: "center",marginTop: "5rem" }}>
             <Col md={6} className="landing-header-content">
               <div className="landing-heading">
                 Ciblez vos failles en un clic
@@ -255,29 +247,6 @@ const Landing = (props) => {
             </div>
           </div>
           <div className="landing-content-footer">Les logos défilent*</div>
-          {/* <div className="single-landing-card"> */}
-
-          {/* <LandingCard
-                heading={""}
-                detail={""}
-                image="9"
-              />
-            <LandingCard
-                heading={""}
-                detail={""}
-                image="10"
-              />
-            <LandingCard
-                heading={""}
-                detail={""}
-                image="11"
-              />
-              <LandingCard
-                heading={""}
-                detail={""}
-                image="12"
-              /> */}
-          {/* </div> */}
         </div>
         {/* Card */}
         <div className="landing-cards-container">
@@ -312,209 +281,95 @@ const Landing = (props) => {
               />
             </div>
           </div>
-          {/* <div className="text-center">
-            <NavLink to="/diagnostic-list">
-              <Button primary>C’est parti !</Button>
-            </NavLink>
-          </div> */}
         </div>
       </div>
 
       <div className="landing-slider">
         <Carousel>
           <Carousel.Item>
-          <div className="landing-content-heading">
+            <div className="landing-content-heading">
               Que pensent nos clients ?
             </div>
             <div className="carousel-style">
               <div className="owner-card">
-              <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  width: "100%",
-                  float: "left",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Martin_Cregut}
-                  alt="card"
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
-                  }}
-                />
-                <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
-              </Card>
-              </div>
-              <div className="owner-card">
-              <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  float: "left",
-                  width: "100%",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Julian_Amar}
-                  alt="card"
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
-                  }}
-                />
-                <div className="ceo-card-footer">Julian Amar | CEO PicMe</div>
-              </Card>
-              </div>
-              <div className="owner-card">
                 <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  float: "left",
-                  width: "100%",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Martin_Cregut_3}
-                  alt="card"
                   style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
+                    borderRadius: "3.5rem",
+                    overflow: "hidden",
+                    width: "100%",
+                    float: "left",
+                    background: "#F8F8F8",
+                    padding: "0 3rem",
                   }}
-                />
-                <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
-              </Card>
-                </div>
-
-
-
-            </div>
-
-            {/* <div className="landing-footer">
-              <div className="landing-footer-img">
-                <img src={Images.landingFooter} alt="profile" />
-              </div>
-              <div className="landing-footer-content text-center">
-                <div className="text-center">
+                >
                   <img
-                    src={Images.comma}
-                    alt="comma"
-                    className="landing-footer-comma"
+                    className="landing-trust-1"
+                    src={Images.ceo_Martin_Cregut}
+                    alt="card"
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "3rem",
+                      display: "block",
+                    }}
                   />
-                </div>
-                <div>
-                  <div className="landing-footer-detail">
-                    Je suis prêt à parier que Riskr va dans les prochaines
-                    années devenir un outil incontournable du chef d’entreprise
-                    de TPE/PME !{" "}
-                  </div>
-                  <div className="landing-footer-text">
+                  <div className="ceo-card-footer">
                     Martin Cregut | CEO PicMe
                   </div>
-                </div>
-              </div>
-            </div> */}
-          </Carousel.Item>
-          <Carousel.Item>
-          <div className="landing-content-heading">
-              Que pensent nos clients ?
-            </div>
-            <div className="carousel-style">
-              <div className="owner-card">
-              <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  width: "100%",
-                  float: "left",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Martin_Cregut}
-                  alt="card"
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
-                  }}
-                />
-                <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
-              </Card>
-              </div>
-              <div className="owner-card">
-              <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  float: "left",
-                  width: "100%",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Julian_Amar}
-                  alt="card"
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
-                  }}
-                />
-                <div className="ceo-card-footer">Julian Amar | CEO PicMe</div>
-              </Card>
+                </Card>
               </div>
               <div className="owner-card">
                 <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  float: "left",
-                  width: "100%",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Martin_Cregut_3}
-                  alt="card"
                   style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
+                    borderRadius: "3.5rem",
+                    overflow: "hidden",
+                    float: "left",
+                    width: "100%",
+                    background: "#F8F8F8",
+                    padding: "0 3rem",
                   }}
-                />
-                <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
-              </Card>
-                </div>
-
-
-
+                >
+                  <img
+                    className="landing-trust-1"
+                    src={Images.ceo_Julian_Amar}
+                    alt="card"
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "3rem",
+                      display: "block",
+                    }}
+                  />
+                  <div className="ceo-card-footer">Julian Amar | CEO PicMe</div>
+                </Card>
+              </div>
+              <div className="owner-card">
+                <Card
+                  style={{
+                    borderRadius: "3.5rem",
+                    overflow: "hidden",
+                    float: "left",
+                    width: "100%",
+                    background: "#F8F8F8",
+                    padding: "0 3rem",
+                  }}
+                >
+                  <img
+                    className="landing-trust-1"
+                    src={Images.ceo_Martin_Cregut_3}
+                    alt="card"
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "3rem",
+                      display: "block",
+                    }}
+                  />
+                  <div className="ceo-card-footer">
+                    Martin Cregut | CEO PicMe
+                  </div>
+                </Card>
+              </div>
             </div>
           </Carousel.Item>
           <Carousel.Item>
@@ -523,83 +378,170 @@ const Landing = (props) => {
             </div>
             <div className="carousel-style">
               <div className="owner-card">
-              <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  width: "100%",
-                  float: "left",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Martin_Cregut}
-                  alt="card"
+                <Card
                   style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
+                    borderRadius: "3.5rem",
+                    overflow: "hidden",
+                    width: "100%",
+                    float: "left",
+                    background: "#F8F8F8",
+                    padding: "0 3rem",
                   }}
-                />
-                <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
-              </Card>
-              </div>
-              <div className="owner-card">
-              <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  float: "left",
-                  width: "100%",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Julian_Amar}
-                  alt="card"
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
-                  }}
-                />
-                <div className="ceo-card-footer">Julian Amar | CEO PicMe</div>
-              </Card>
+                >
+                  <img
+                    className="landing-trust-1"
+                    src={Images.ceo_Martin_Cregut}
+                    alt="card"
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "3rem",
+                      display: "block",
+                    }}
+                  />
+                  <div className="ceo-card-footer">
+                    Martin Cregut | CEO PicMe
+                  </div>
+                </Card>
               </div>
               <div className="owner-card">
                 <Card
-                style={{
-                  borderRadius: "3.5rem",
-                  overflow: "hidden",
-                  float: "left",
-                  width: "100%",
-                  background: "#F8F8F8",
-                  padding: "0 3rem",
-                }}
-              >
-                <img
-                  className="landing-trust-1"
-                  src={Images.ceo_Martin_Cregut_3}
-                  alt="card"
                   style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "3rem",
-                    display: "block",
+                    borderRadius: "3.5rem",
+                    overflow: "hidden",
+                    float: "left",
+                    width: "100%",
+                    background: "#F8F8F8",
+                    padding: "0 3rem",
                   }}
-                />
-                <div className="ceo-card-footer">Martin Cregut | CEO PicMe</div>
-              </Card>
-                </div>
-
-
-
+                >
+                  <img
+                    className="landing-trust-1"
+                    src={Images.ceo_Julian_Amar}
+                    alt="card"
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "3rem",
+                      display: "block",
+                    }}
+                  />
+                  <div className="ceo-card-footer">Julian Amar | CEO PicMe</div>
+                </Card>
+              </div>
+              <div className="owner-card">
+                <Card
+                  style={{
+                    borderRadius: "3.5rem",
+                    overflow: "hidden",
+                    float: "left",
+                    width: "100%",
+                    background: "#F8F8F8",
+                    padding: "0 3rem",
+                  }}
+                >
+                  <img
+                    className="landing-trust-1"
+                    src={Images.ceo_Martin_Cregut_3}
+                    alt="card"
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "3rem",
+                      display: "block",
+                    }}
+                  />
+                  <div className="ceo-card-footer">
+                    Martin Cregut | CEO PicMe
+                  </div>
+                </Card>
+              </div>
+            </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className="landing-content-heading">
+              Que pensent nos clients ?
+            </div>
+            <div className="carousel-style">
+              <div className="owner-card">
+                <Card
+                  style={{
+                    borderRadius: "3.5rem",
+                    overflow: "hidden",
+                    width: "100%",
+                    float: "left",
+                    background: "#F8F8F8",
+                    padding: "0 3rem",
+                  }}
+                >
+                  <img
+                    className="landing-trust-1"
+                    src={Images.ceo_Martin_Cregut}
+                    alt="card"
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "3rem",
+                      display: "block",
+                    }}
+                  />
+                  <div className="ceo-card-footer">
+                    Martin Cregut | CEO PicMe
+                  </div>
+                </Card>
+              </div>
+              <div className="owner-card">
+                <Card
+                  style={{
+                    borderRadius: "3.5rem",
+                    overflow: "hidden",
+                    float: "left",
+                    width: "100%",
+                    background: "#F8F8F8",
+                    padding: "0 3rem",
+                  }}
+                >
+                  <img
+                    className="landing-trust-1"
+                    src={Images.ceo_Julian_Amar}
+                    alt="card"
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "3rem",
+                      display: "block",
+                    }}
+                  />
+                  <div className="ceo-card-footer">Julian Amar | CEO PicMe</div>
+                </Card>
+              </div>
+              <div className="owner-card">
+                <Card
+                  style={{
+                    borderRadius: "3.5rem",
+                    overflow: "hidden",
+                    float: "left",
+                    width: "100%",
+                    background: "#F8F8F8",
+                    padding: "0 3rem",
+                  }}
+                >
+                  <img
+                    className="landing-trust-1"
+                    src={Images.ceo_Martin_Cregut_3}
+                    alt="card"
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "3rem",
+                      display: "block",
+                    }}
+                  />
+                  <div className="ceo-card-footer">
+                    Martin Cregut | CEO PicMe
+                  </div>
+                </Card>
+              </div>
             </div>
           </Carousel.Item>
         </Carousel>
@@ -613,104 +555,66 @@ const Landing = (props) => {
       </div>
 
       {/* Footer */}
+      <LandingFooter handleOpenModal={handleOpenModal}/>
 
-      <div className="footer-wrap" style={{ backgroundColor: "#012340" }}>
-        <div className="container-fluid">
-          <div
-            className="row"
-            style={{ justifyContent: "center", padding: "5rem 0" }}
+
+      <Popup fullscreen={true} show={show} handleClose={handleOpenModal}>
+        <Input
+          type="text"
+          placeholder="Prénom *"
+          // value={data.email}
+          onChange={inputChange}
+          name="lastName"
+        />
+        <Input
+          type="text"
+          placeholder="Nom *"
+          // value={data.email}
+          onChange={inputChange}
+          name="firstName"
+        />
+        <Input
+          type="text"
+          placeholder="Adresse e-mail *"
+          onChange={inputChange}
+          name="email"
+        />
+        {error.email && <div className="custom-error">{error.email}</div>}
+        <Input
+          type="text"
+          placeholder="Nom de l'entreprise"
+          onChange={inputChange}
+          name="NameOfEntreprise"
+        />
+        <Input
+          type="text"
+          placeholder="Numéro SIREN"
+          onChange={inputChange}
+          name="SirenNumber"
+        />
+        <Input
+          type="text"
+          placeholder="Message *"
+          onChange={inputChange}
+          name="message"
+        />
+        <div style={{ width: "100%", textAlign: "center", marginTop: "3rem" }}>
+          <Button
+            primary
+            type="submit"
+            disabled={
+              data.firstName !== "" &&
+              data.lastName !== "" &&
+              error.email === "" &&
+              data.message !== ""
+                ? false
+                : true
+            }
           >
-            <div className="footer-image-content col-md-3 col-sm-6">
-              <div className="footer-logo">
-                <img src={Images.riskr_logo} />
-              </div>
-              <p className="text-color-white">
-                Ciblez vos failles en un clic !
-              </p>
-              <div
-                class="row"
-                style={{
-                  paddingRight: "2rem",
-                  paddingLeft: "2rem",
-                  gap: "3rem",
-                }}
-              >
-                <div class="column">
-                  <a target="_blank" href="https://www.facebook.com/">
-                    <img
-                      src={Images.facebookIcon}
-                      alt="Snow"
-                      style={{ width: "100%" }}
-                    />
-                  </a>
-                </div>
-                <div class="column">
-                  <a target="_blank" href="https://www.twitter.com/">
-                    <img
-                      src={Images.twitterIcon}
-                      href="www.twitter.com"
-                      alt="Forest"
-                      style={{ width: "100%" }}
-                    />
-                  </a>
-                </div>
-                <div class="column">
-                  <a target="_blank" href="https://www.linkedin.com/">
-                    <img
-                      src={Images.linkedInIcon}
-                      href="www.linkedin.com"
-                      alt="Mountains"
-                      style={{ width: "100%" }}
-                    />
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-2 col-sm-6">
-              <h3>En savoir plus</h3>
-              <ul className="footer-links">
-                <li>
-                  <a href="#.">Qui sommes-nous ?</a>
-                </li>
-                <li>
-                  <a href="#.">Tarifs</a>
-                </li>
-                <li>
-                  <a href="#.">Blog</a>
-                </li>
-              </ul>
-            </div>
-            <div className="col-md-2 col-sm-6 footer-Politiques-link">
-              <h3>Politiques</h3>
-              <ul className="footer-links">
-                <li>
-                  <a href="#.">Mentions légales</a>
-                </li>
-                <li>
-                  <a href="#.">CGU / CGV</a>
-                </li>
-                <li>
-                  <a href="#.">Gestion des données personnelles</a>
-                </li>
-              </ul>
-              <div className="clearfix"></div>
-            </div>
-            <div className="col-md-2 col-sm-6">
-              <h3>Support</h3>
-              <ul className="footer-links">
-                <li>
-                  <a href="#.">Nous contacter</a>
-                </li>
-                <li>
-                  <a href="#.">FAQ</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          {/* <div className="copyright">Copyright © 2017 Classify - All Rights Reserved.</div> */}
+            Soumettre
+          </Button>
         </div>
-      </div>
-
+      </Popup>
       {/* <div className="landing-footer">
         <div className="landing-footer-img">
           <img src={Images.landingFooter} alt="profile" />

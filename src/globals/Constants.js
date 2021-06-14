@@ -1,6 +1,6 @@
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const HTTP = "http://";
-const URL = "localhost:51160";//"160.153.249.64:5059";  //"localhost:51160"
+const URL = "160.153.249.64:5059";//"160.153.249.64:5059";  //"localhost:51160"
 const API = "/api";
 const VERSION = "/v1";
 const BASE_URL_V1 = HTTP + URL + API + VERSION;
@@ -22,7 +22,7 @@ const endPoints = {
     UPDATE_TREATMENT : BASE_URL_V1 + "/diagnosticEvaluation/update/treatmentOfRisk",
     GET_FAMILY : BASE_URL_V1 + "/family/getall",
     GET_CATEGORY: BASE_URL_V1 + "/DiagCategory/getall",
-    GET_ACTIONS: BASE_URL_V1 + "/actionPlan​/get​",
+    GET_ACTIONS: BASE_URL_V1 +"/actionPlan/get",   
     GET_PROFILE: BASE_URL_V1 + "/get/userprofile",
     EMAIL_VERIFY: BASE_URL_V1 + "/emailVerification",
     GET_COMPANY: BASE_URL_V1 + "/company/get",

@@ -14,6 +14,7 @@ import Plan from "./Screens/Plan/Plan";
 import Mapping from "./Screens/Mapping/Mapping";
 import Steps from "./Screens/Steps/Steps";
 import Landing from "./Screens/Landing/Landing";
+import WhoAreWe from "./Screens/WhoAreWe/WhoAreWe";
 import EmailVerify from "./Screens/EmailVerify/EmailVerify";
 import {useSelector,useDispatch} from "react-redux"; 
 import * as actionTypes from "./store/actionTypes";
@@ -85,6 +86,7 @@ const App = (props) => {
             <PublicRoute component={Register} path="/register" exact restricted={true} />
             <PublicRoute component={Landing} path="/" exact restricted={true} />
             <PublicRoute component={Login} path="/login" exact  restricted={true} />
+            <PublicRoute component={WhoAreWe} path="/WhoAreWe" exact  restricted={true} />
             <PublicRoute component={EmailVerify} path="/email-verify/:id" exact  restricted={true} />
           </Layout>
         </Switch>

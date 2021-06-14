@@ -79,9 +79,13 @@ const Plan = (props) => {
   
     // console.log(endPoints.GET_ACTIONS)
     // http://160.153.249.64:5059/api/v1/actionPlan/get
-    // http://160.153.249.64:5059/api/v1/actionPlan​/get​
-    console.log(`${endPoints.GET_ACTIONS}/${diagnosticId},${id}`);
-    fetch(`http://localhost:51160/api/v1/actionPlan/get/${diagnosticId},${id}`, {//localhost:51160
+    //// http://160.153.249.64:5059/api/v1/actionPlan​/get​
+    // console.log(`${endPoints.GET_ACTIONS}/test123/${diagnosticId},${id}`);
+    // var linkt = `${endPoints.GET_ACTIONS}/actionplan/get/${diagnosticId},${id}`;
+    // console.log('test123',linkt);
+    // fetch(`${endPoints.GET_ALL_DIAGNOSTICS}/${id}`, {
+      //fetch(`http://160.153.249.64:5059/api/v1/actionPlan/get/${diagnosticId},${id}`, {//localhost:51160
+    fetch(`${endPoints.GET_ACTIONS}/${diagnosticId},${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -182,7 +186,7 @@ const Plan = (props) => {
           <div style={{paddingBottom: "10rem"}} className="plan-list-container">
               <List noborder>
                 <div style={{ width: "25%" }} className="plan-list-heading">
-                  Nom de l'action
+                  Famille d'action
                 </div>
                 <div style={{ width: "40%" }} className="plan-list-heading">
                   Description
@@ -197,7 +201,7 @@ const Plan = (props) => {
               {actionList.length >= 1 ? data.actionPlanList.map((item, index) => (
                 <List>
                   <div style={{ width: "25%" }} className="plan-list-item">
-                    {item.actionName}
+                    {item.familyOfAction}
                   </div>
                   <div style={{ width: "40%" }} className="plan-list-item">
                     {item.actionDescription}

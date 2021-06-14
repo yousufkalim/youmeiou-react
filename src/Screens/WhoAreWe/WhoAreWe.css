@@ -1,0 +1,19 @@
+.landing{
+    padding: 0 10rem;
+    text-align: center;
+}
+.page-heading-1{
+    font-size: 6rem;
+    padding-bottom: 2rem;
+    color: var(--text_color);
+}
+.page-heading-2{
+    font-size: 4rem;
+    padding-bottom: 4rem;
+    color: var(--text_color);
+}
+.page-content{
+    font-size: 3rem;
+    padding-bottom: 8rem;
+    color: var(--text_color);
+}
