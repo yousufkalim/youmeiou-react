@@ -96,7 +96,7 @@ const StepSix = (props) => {
             </Modal.Header>
             <Modal.Body>
               <div className="text-center"><BiError size={40} /></div>
-              <div className="py-2 text-center">Afin de voir le plan d'action, merci de prendre RDV sur ce lien <span><a rel="noreferrer" className="calendly-link" target="_blank" href="https://calendly.com/">Calendly</a></span></div>
+              <div className="py-2 text-center">Afin de voir le plan d'action, merci de prendre RDV sur ce lien <span><a rel="noreferrer" className="calendly-link" target="_blank" href={`${endPoints.calendlyLink}`}>Calendly</a></span></div>
             </Modal.Body>
             <Modal.Footer>
               <div className="text-center w-100">

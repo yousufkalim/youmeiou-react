@@ -48,7 +48,7 @@
 }
 
 .landing-cards-container {
-  padding: 8rem 0;
+  padding: 0 0 5rem 0;
 }
 
 .landing-content-heading {
@@ -56,7 +56,7 @@
   font-size: 5rem;
   font-weight: bold;
   text-align: center;
-  /* padding: 5rem 0; */
+  padding: 5rem 0;
 }
 .landing-content-heading-blue {
   color: var(--text_color);
@@ -206,7 +206,12 @@
   height: 1.5rem;
   border-radius: 50% !important;
 }
-
+.they-trust-us-card{
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20rem;
+  /* d-flex justify-content-between */
+}
 
 @media (max-width: 991px) {
   .custom-navbar .nav-link{
@@ -267,4 +272,20 @@
     padding: 0 5rem;
   }
 
+}
+@media (max-width:450px) {
+  .they-trust-us-card{    
+    padding: 0 2rem;
+  }
+  Button {
+    height: 8rem;
+    font-size: 3rem !important;
+    /* width: 20rem; */
+  }
+}
+
+@media (max-width:350px) {
+  .landing-detail{
+    font-size: 3rem;
+  }
 }

@@ -9,17 +9,23 @@ import * as actionTypes from "../../store/actionTypes";
 
 const navlinks = [
     {
-        path: "/mes-diagnostics",
-        text: "Mes Diagnostics"
+        path: "/mes-informations",
+        text: "Mon compte"
     },
     {
         path: "/discover",
-        text: "découvrir"
+        text: "Mon entreprise"
     },
     {
         path: "/diagnostic-list",
-        text: "Sélection des risques à analyser"
+        text: "Diagnostics disponibles"
     },
+    {
+        path: "/mes-diagnostics",
+        text: "Mes Diagnostics"
+    },
+
+
     // {
     //     path: "/diagnostic-list",
     //     text: "Sélection des risques à analyser"
@@ -30,7 +36,7 @@ const navlinks = [
     // },
     {
         path: "/cartographie",
-        text: "Cartographie des risques et criticité"
+        text: "Cartographie des risques"
     },
     // {
     //     path: "/diagnostic-presentation",
@@ -42,10 +48,7 @@ const navlinks = [
     //     path: "/plan",
     //     text: "Gestion des plans d’action"
     // },
-    {
-        path: "/mes-informations",
-        text: "Gestion du compte"
-    },
+
 ]
 
 const Sidebar = (props) => {

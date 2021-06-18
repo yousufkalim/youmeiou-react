@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import * as actionTypes from "../../../store/actionTypes";
+import { BiArrowBack } from 'react-icons/bi';
 //import { debugger } from "fusioncharts";
 
 // const questions = [
@@ -750,8 +751,8 @@ const StepThree = (props) => {
                disabled={activeQuestionIndex === 0 ? true : false}
                onClick={userToken ? goBack : goBackWithoutLogin}
              >
-               dos
-             </Button>
+               <BiArrowBack />
+             </Button>  
            </div>
            
 

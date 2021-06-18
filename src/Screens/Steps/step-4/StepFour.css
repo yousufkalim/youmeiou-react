@@ -41,7 +41,7 @@
       font-weight: bold;
   }
 .step-four-card2-content{
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: var(--text_color);
     margin: 0.5rem 0;
 }  
@@ -50,7 +50,7 @@
     height: 100%;
     /* display: flex;
     justify-content: center; */
-    padding: 5rem 4rem;
+    padding: 3rem 4rem;
 }
 .step-four-table-card{
     flex-basis: 80%;
@@ -81,9 +81,14 @@
 
 .step-four-color-grid{
     flex-basis: 20%;
-    height: 90rem;
+    /* height: 90rem; */
     margin-bottom: 20rem;
-    margin-top: 5rem;
+    /* margin-top: 5rem; */
+}
+.cartography-info-card{
+    padding: 2rem;
+    border-radius: 3.5rem;
+    width: 70%;
 }
 
 @media (max-width: 767px) {
@@ -123,5 +128,9 @@
     }
     .step-four-color-grid{
         height: unset;
+    }
+
+    .cartography-info-card{
+        width: 100%;
     }
   }

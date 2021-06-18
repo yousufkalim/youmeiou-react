@@ -1,14 +1,45 @@
 import "./WhoAreWe.css";
-import React, { Component } from "react";
-import Header from "../../components/Header/Header";
+import React, { Component,useState } from "react";
+import CustomHeader from "../../components/CustomNavbar/CustomNavabar";
 import Footer from "../../components/Footer/Footer";
-export class WhoAreWe extends Component {
-  render() {
+import Input from "../../components/Input/Input";
+import Popup from "../../components/Popup/popup";
+import Button from "../../components/Button/Button";
+import { FaRocket } from 'react-icons/fa';
+function WhoAreWe() {
+    const [show, setShow] = React.useState(false);
+    const [error, setError] = useState({ email: "" });
+    const [data, setData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        message: "",
+      });
+    function handleOpenModal() {
+        setShow(!show);
+      }
+      const inputChange = (e) => {
+        setData({
+          ...data,
+          [e.target.name]: e.target.value,
+        });
+        if (e.target.name === "email") {
+          var mailformat =
+            /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+          if (!e.target.value.match(mailformat)) {
+            setError({ ...error, email: "Format d'email invalide" });
+          } else {
+            setError({ ...error, email: "" });
+          }
+        }
+        console.log(data);
+      };
     return (
-      <div>
-        <Header />
+        <div>
+          <div>
+       <CustomHeader isVisible={false}/>
         <div className="landing">
-          <div className="page-heading-1">Qu’est-ce</div>
+          <div className="page-heading-1" style={{marginTop:"5rem"}}>Qu’est-ce</div>
           <div className="page-heading-2">qu’est RiskR ?</div>
           <div className="page-content">
             RiskR est un outil qui permet de déterminer les risques auxquels
@@ -24,10 +55,15 @@ export class WhoAreWe extends Component {
             Investment) et du ROE (Return on Expectation)
           </div>
         </div>
-        <Footer />
+        <Popup fullscreen={true} show={show} setShow={setShow} handleClose={handleOpenModal}>
+
+
+      </Popup>
+          </div>
+
+        <Footer handleOpenModal={handleOpenModal}/>
       </div>
-    );
-  }
+    )
 }
 
-export default WhoAreWe;
+export default WhoAreWe

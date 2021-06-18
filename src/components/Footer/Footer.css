@@ -121,6 +121,9 @@
   .top-content{
     padding-left: 15rem;
   }
+  .social-media-icons{
+    width: 70% !important;
+  }
   /* footer css end */
 
   @media (max-width: 991px) {
@@ -168,7 +171,14 @@
       padding-left: 0;
     }
   }
-  
+  @media (max-width:580px) {
+    .content-heading{
+      margin-top: 5rem;
+    }
+    .footer-wrap h3{
+      margin-bottom: 0px;
+    }
+  }
   @media (max-width: 500.9px) {
     .landing {
       background-position: top 47% right -25%;
@@ -181,5 +191,11 @@
       gap: 5rem;
       padding: 0 5rem;
     }
-  
+    .riskr-footer-logo{
+      width: 40%;
+    }
+    /* .social-media-icons{
+      width: 75% !important;
+    } */
+
   }

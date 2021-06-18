@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./StepFour.css";
-import {Row,Col} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 //  Components
 // import { Images } from "../../../assets/Assets";
@@ -121,7 +121,7 @@ const StepFour = (props) => {
                   const grav = result.evalGravity;
                   const prob = result.evalProbability;
                   const criticity = result.criticity;
-                  
+
                   // console.log("gravity step four", result.evalGravity);
                   // console.log("probability step four", result.evalProbability);
                   setProbability(prob);
@@ -231,34 +231,6 @@ const StepFour = (props) => {
             </div>
           </Card>
         </div> */}
-          <div style={{ flexBasis: "100%" }}>
-            <Card
-              style={{
-                padding: "2rem",
-                borderRadius: "3.5rem",
-              }}
-            >
-              <div className="step-four-card2-header">Gravité</div>
-              <div className="step-four-card2-content">
-                L’indice de gravité du risque quantifie l’importance des
-                dommages redoutés.
-              </div>
-
-              <div className="step-four-card2-header">Probabilité</div>
-              <div className="step-four-card2-content">
-                L’indice de probabilité d’un risque est une valeur numérique,
-                qui est à son minimum si le risque a très peu de chances de se
-                réaliser, et à son maximum si son apparition est quasi certaine.
-              </div>
-
-              <div className="step-four-card2-header">Criticité</div>
-              <div className="step-four-card2-content">
-                L’indice de criticité d’un risque correspond au produit de sa
-                probabilité par sa gravité. Cet indice permet de hiérarchiser
-                les risques et donc leur traitement.
-              </div>
-            </Card>
-          </div>
         </div>
 
         {/* <div
@@ -329,7 +301,25 @@ const StepFour = (props) => {
             }}
             noheadingMargin
           >
-            <div className="card-heading">Cartographie de criticité</div>
+            <Row className="p-3">
+              <Col>
+
+                    <div className="card-heading">
+                    <span>
+                <img
+                      src={Images.Ionic_ios_warning}
+                      alt="color"
+                      style={{ width: "4rem" }}
+                    />
+                </span> Météo de la criticité</div>
+              </Col>
+              <Col style={{ textAlign: "end" }}>
+                <Button tertiary onClick={() => props.changeStepper(90)}>
+                  Agir maintenant
+                </Button>
+              </Col>
+            </Row>
+
             <div className="step-four-color-container">
               <div className="step-four-color">
                 <ColorPickerTwo
@@ -338,22 +328,50 @@ const StepFour = (props) => {
                   handleChange={handleChangecolor}
                   gravity={gravity}
                   probability={probability}
-                  criticity = {criticity}
-                  score = {score}
-                  diagnosticName = {diagnosticName}
+                  criticity={criticity}
+                  score={score}
+                  diagnosticName={diagnosticName}
                 />
-                <div>
-          </div>
+                <div></div>
               </div>
             </div>
           </Card>
-          <Row style={{textAlign:"center",marginTop:"3rem"}}>
+
+          <Row style={{ textAlign: "center", marginTop: "3rem", marginBottom: "3rem" }}>
             <Col>
-            <Button tertiary>
-                    Call avec un expert
-                </Button>
+              <Button tertiary onClick={() => props.changeStepper(90)}>Agir maintenant</Button>
             </Col>
-        </Row>
+          </Row>
+          {/* <div></div> */}
+          <div
+            style={{
+              flexBasis: "100%",
+              justifyContent: "center",
+              display: "flex",
+            }}
+          >
+            <Card className="cartography-info-card" style={{}}>
+              <div className="step-four-card2-header">Gravité</div>
+              <div className="step-four-card2-content">
+                L’indice de gravité du risque quantifie l’importance des
+                dommages redoutés.
+              </div>
+
+              <div className="step-four-card2-header">Probabilité</div>
+              <div className="step-four-card2-content">
+                L’indice de probabilité d’un risque est une valeur numérique,
+                qui est à son minimum si le risque a très peu de chances de se
+                réaliser, et à son maximum si son apparition est quasi certaine.
+              </div>
+
+              <div className="step-four-card2-header">Criticité</div>
+              <div className="step-four-card2-content">
+                L’indice de criticité d’un risque correspond au produit de sa
+                probabilité par sa gravité. Cet indice permet de hiérarchiser
+                les risques et donc leur traitement.
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
       <Modal show={show} onHide={handleClose} className="custom-modal-2">

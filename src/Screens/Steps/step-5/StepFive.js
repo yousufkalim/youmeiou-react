@@ -182,7 +182,7 @@ const StepFive = (props) => {
                 </div>
                 <div className="text-center pt-5">
                   <Button secondary disabled={treatments.acceptation === false && true} onClick={() => navigateBack(1)} value="1">
-                    Accepté
+                    Accepter
                   </Button>
                 </div>
               </div>
@@ -214,7 +214,7 @@ const StepFive = (props) => {
 
                 <div className="text-center pt-4">
                   <Button disabled={treatments.réduction === false && true} secondary onClick={() => navigateBack(2)} value="2">
-                    Réduit
+                  Réduire
                   </Button>
                 </div>
               </div>
@@ -236,6 +236,7 @@ const StepFive = (props) => {
               }}
             >
               <div className="step-five-content-container">
+                <div>
                 <div className="step-five-card-heading">
                   Évitement d’un risque
                 </div>
@@ -244,9 +245,10 @@ const StepFive = (props) => {
                   J'évite le risque, et je renonce donc à l'opportunité qui
                   m'est offerte.
                 </div>
+                </div>
                 <div className="text-center pt-5">
                   <Button disabled={treatments.evitement === false && true} secondary onClick={() => navigateBack(3)} value="3">
-                    Evité
+                  Eviter
                   </Button>
                 </div>
               </div>
@@ -280,7 +282,7 @@ const StepFive = (props) => {
 
                 <div className="text-center pt-4">
                   <Button disabled={treatments.partagé === false && true} secondary onClick={() => navigateBack(4)} value="4">
-                    Partagé
+                  Partager
                   </Button>
                 </div>
               </div>

@@ -74,7 +74,7 @@ class ColorPicker extends React.Component {
 
     return (
       <>
-        <Row className="align-items-center">
+        <Row className="align-items-start">
           <Col
             md={6}
             style={{ width: "100%", height: "100%", position: "relative", }}
@@ -106,19 +106,19 @@ class ColorPicker extends React.Component {
                   </Popover.Content> */}
                   <Popover.Title className="mapping-popover-title" as="h3">
                     {/* {item.name} */}
-                    Criticite : {this.props.criticity}
+                    Criticité : {this.props.criticity}
                   </Popover.Title>
                   {/* <Popover.Content>
                     {this.props.criticity}
                   </Popover.Content> */}
                   <Popover.Title className="mapping-popover-title" as="h3">
-                    Gravitie : {this.props.gravity}
+                  Gravité : {this.props.gravity}
                   </Popover.Title>
                   {/* <Popover.Content>
                     {this.props.gravity}
                   </Popover.Content> */}
                   <Popover.Title className="mapping-popover-title" as="h3">
-                    Probabilitie : {this.props.probability}
+                  Probabilité : {this.props.probability}
                   </Popover.Title>
                   {/* <Popover.Content>
                     {this.props.probability}
@@ -134,8 +134,8 @@ class ColorPicker extends React.Component {
               </div>
             </div>
           </Col>
-          <Col md={6} style={{ paddingTop: "5rem" }} className="graph-images">
-            <Row>
+          <Col md={6} className="graph-images">
+            <div className="step-four-graph-row">
               <Col md={3}>
                 <img className="step-four-color-image-3"
                   src={Images.metro_rainy}
@@ -149,8 +149,8 @@ class ColorPicker extends React.Component {
                   risque sont élevées : mettez vous à l'abri au plus vite !
                 </div>
               </Col>
-            </Row>
-            <Row style={{ padding: "10rem 0" }}>
+            </div>
+            <div className="step-four-graph-row" style={{ paddingTop: "3rem" }}>
               <Col md={3}>
                 <img className="step-four-color-image-3"
                   src={Images.cloud_outline}
@@ -164,8 +164,8 @@ class ColorPicker extends React.Component {
                   risque sont moyennes : agissez avant que cela n’empire.
                 </div>
               </Col>
-            </Row>
-            <Row style={{ paddintTop: "12rem" }}>
+            </div>
+            <div className="step-four-graph-row" style={{ paddingTop: "3rem" }}>
               <Col md={3}>
                 <img className="step-four-color-image-3"
                   src={Images.metro_sun}
@@ -179,12 +179,8 @@ class ColorPicker extends React.Component {
                   votre risque sont mineures optimisez vos résultats !
                 </div>
               </Col>
-              <Col className="step-four-card-btn text-center mt-5 pt-4">
-                <Button tertiary onClick={() => this.props.changeStepper(90)}>
-                  Traitement du risque
-                </Button>
-              </Col>
-            </Row>
+
+            </div>
           </Col>
         </Row>
 

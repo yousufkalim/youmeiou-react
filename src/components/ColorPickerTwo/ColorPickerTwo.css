@@ -12,8 +12,8 @@
 
 }
 .step-four-color-image-2{
-    /* width: 40%; */
-    height: 90%;
+    width: 60%;
+    /* height: 90%; */
 }
 .step-four-color-line-content{
 
@@ -44,13 +44,13 @@
 }
 
 .step-four-color-dot{
-    width: 2rem;
-    height: 2rem;
+    width: 1.8rem;
+    height: 1.8rem;
     border-radius: 50%;
     border: 1px solid #000;
     background-color: #000;
     position: absolute;
-    left: 32%;
+    left: 29.3%;
 }
 .color-palatte-text{
     font-size: 2rem;
@@ -65,7 +65,7 @@
     color: var(--text_color);
     text-align: center;
     font-size: 2rem;
-    border-radius: 50px;
+    /* border-radius: 50px; */
     padding-bottom: 5px;
     position: absolute;
     top: -100%;
@@ -89,9 +89,32 @@
     background-color: #fff;
   }
 
+.step-four-graph-row{
+    display: flex;
+}
 
 
-@media (max-width: 767px) {
+  @media (max-width: 985px) {
+    .step-four-color-image-2 {
+        width: 70%;
+    }
+    .step-four-color-dot{
+        width: 1.6rem;
+        height: 1.6rem;
+        left: 30.7%;
+    }
+  }
+  @media (max-width: 800px) {
+    .step-four-color-image-2 {
+        width: 100%;
+    }
+    .step-four-color-dot{
+        width: 1.8rem;
+        height: 1.8rem;
+        left: 30.7%;
+    }
+  }
+  @media (max-width: 767px) {
     .step-four-color-image {
         height: 100%;
     }
@@ -100,11 +123,35 @@
     left: 34%;
 
 }
+.step-four-graph-row{
+    flex-direction: column;
+}
+
+.step-four-color-dot{
+    width: 3rem;
+    height: 3rem;
+    left: 32%;
+}
 .step-four-color-line-container img {
     width: 4rem;
 }
 .step-four-color-image-3{
     /* width: 40%; */
-    width: 40% !important;
+    /* width: 20% !important; */
+    padding-bottom: 2rem;
+    width: 20rem !important;
 }
+
+  }
+  @media (max-width: 376px) {
+    .step-four-color-dot{
+        width: 2rem;
+        height: 2rem;
+        left: 33%;
+    }
+  }
+  @media (max-width: 281px) {
+    .step-four-color-dot{
+        left: 34.5%;
+    }
   }

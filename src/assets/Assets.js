@@ -31,7 +31,7 @@ import metro_sun  from "./images/metro_sun.png";
 import icon_calender  from "./images/icon_calender.png";
 import stepSixBackground  from "./images/stepSixBackground.png";
 import Icon_calender_two  from "./images/Icon_calender_two.png";
-
+import Ionic_ios_warning  from "./images/ionic-ios-warning.png";
 import Comma from "./images/comma.png";
 import logo_white from "./images/logo_white.png";
 import profile from "./images/profile.png";
@@ -92,4 +92,5 @@ export const Images = {
     search:search,
     mapping1:mapping1,
     color:color,
+    Ionic_ios_warning:Ionic_ios_warning,
 }

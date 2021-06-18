@@ -138,10 +138,10 @@
 /* ========== TOOLTIP ============ */
   .step-four-color-line-content .mapping-popover {
     visibility: hidden;
-    width: 150% !important;
+    width: 40% !important;
     background-color: #fff;
     color: var(--text_color);
-    text-align: center;
+    /* text-align: center; */
     font-size: 2rem;
     border-radius: 6px;
     padding-bottom: 5px;

@@ -1,70 +1,11 @@
-/* .custom-header {
+.custom-header {
     background-color: var(--text_color);
     height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-  } */
+  } 
   
-  @media (max-width: 991px) {
-    .custom-navbar .nav-link{
-      padding: 1rem 3rem !important;
-    }
-    .footer-image-content{
-      margin-right:10rem;
-    }
-    .custom-navbar .navbar-collapse{
-      text-align: center;
-    }
-  }
-  @media (max-width: 767.9px) {
-    .landing {
-      background-position: top 50% right -25%;
-      /* background-position: right -15% center; */
-      background-size: 50rem 50rem;
-    }
-    .landing-trust-1{
-      /* flex-basis: 40%; */
-      /* width: 40%; */
-    }
-    .landing-header-img {
-      width: 100%;
-      margin-bottom: 10rem;
-      
-    }
-    .landing-heading {
-      font-size: 6rem;
-      padding-bottom: 8rem;
-    }
-    .single-landing-card{
-      flex-basis: 45%;
-      height: 100%;
-      margin-bottom: 10rem;
-    }
-    .footer-image-content{
-      margin-right:0rem;
-    }
-    .footer-Politiques-link{
-      margin-top: 5rem;
-    }
-    .top-content{
-      padding-left: 0;
-    }
-  }
-  
-  @media (max-width: 500.9px) {
-    .landing {
-      background-position: top 47% right -25%;
-    }
-    .owner-card{
-      padding: "0 3rem";
-      width: 30%;
-    }
-    .carousel-style{
-      gap: 5rem;
-      padding: 0 5rem;
-    }
-  
-  }
+
   

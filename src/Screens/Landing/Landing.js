@@ -9,8 +9,9 @@ import _ from "lodash";
 import Card from "../../components/Card/Card";
 import Input from "../../components/Input/Input";
 import Popup from "../../components/Popup/popup";
-import Header from "../../components/Header/Header";
+import CustomHeader from "../../components/CustomNavbar/CustomNavabar";
 import LandingFooter from "../../components/Footer/Footer";
+import {Link, animateScroll as Scroll} from "react-scroll";
 // import { setIn } from "immutable";
 // import { IoConstructOutline } from "react-icons/io5";
 
@@ -135,7 +136,7 @@ const Landing = (props) => {
       {/* <div className="landing"> */}
       <div>
         {/* Navbar */}
-        <Header/>
+        <CustomHeader isVisible={true}/>
 
 
         {/* Header */}
@@ -166,7 +167,7 @@ const Landing = (props) => {
           </Row>
         </div>
         {/* Why riskr Card */}
-        <div className="landing-cards-container">
+        <div id ="whyRiskr" className="landing-cards-container">
           <div className="landing-content-heading">Pourquoi Riskr ?</div>
           <div className="landing-cards">
             <div className="single-landing-card">
@@ -207,8 +208,7 @@ const Landing = (props) => {
             Ils nous font confiance
           </div>
           <div
-            className="d-flex justify-content-between"
-            style={{ padding: "0px 20rem" }}
+            className="they-trust-us-card"
           >
             <div className="landing-trust-img-parent">
               <img
@@ -246,11 +246,11 @@ const Landing = (props) => {
               />
             </div>
           </div>
-          <div className="landing-content-footer">Les logos défilent*</div>
+          {/* <div className="landing-content-footer">Les logos défilent*</div> */}
         </div>
         {/* Card */}
-        <div className="landing-cards-container">
-          <div className="landing-content-heading">Comment ça marche ?</div>
+        <div id="howItWorks" className="landing-cards-container">
+          <div className="landing-content-heading"><strong>Comment ça marche ?</strong></div>
           <div className="landing-cards">
             <div className="single-landing-card">
               <LandingCard
@@ -284,7 +284,7 @@ const Landing = (props) => {
         </div>
       </div>
 
-      <div className="landing-slider">
+      {/* <div className="landing-slider" >
         <Carousel>
           <Carousel.Item>
             <div className="landing-content-heading">
@@ -552,13 +552,13 @@ const Landing = (props) => {
             </Button>
           </NavLink>
         </div>
-      </div>
+      </div> */}
 
       {/* Footer */}
       <LandingFooter handleOpenModal={handleOpenModal}/>
 
 
-      <Popup fullscreen={true} show={show} handleClose={handleOpenModal}>
+      <Popup fullscreen={true} show={show} setShow={setShow} handleClose={handleOpenModal} data={data} error={error}>
         <Input
           type="text"
           placeholder="Prénom *"
@@ -598,22 +598,7 @@ const Landing = (props) => {
           onChange={inputChange}
           name="message"
         />
-        <div style={{ width: "100%", textAlign: "center", marginTop: "3rem" }}>
-          <Button
-            primary
-            type="submit"
-            disabled={
-              data.firstName !== "" &&
-              data.lastName !== "" &&
-              error.email === "" &&
-              data.message !== ""
-                ? false
-                : true
-            }
-          >
-            Soumettre
-          </Button>
-        </div>
+
       </Popup>
       {/* <div className="landing-footer">
         <div className="landing-footer-img">
