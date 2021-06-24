@@ -4,25 +4,36 @@ import "./Sidebar.css";
 import {FiLogOut} from "react-icons/all";
 import {NavLink, withRouter} from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/all";
+import { BsFillPersonFill } from "react-icons/all";
+import { BsFillBagFill } from "react-icons/all";
+import { BsFillFolderFill } from "react-icons/all";
+import { BsCheckCircle } from "react-icons/all";
+import { BsGraphUp } from "react-icons/all";
+
 import {useDispatch} from "react-redux";
 import * as actionTypes from "../../store/actionTypes";
 
 const navlinks = [
     {
         path: "/mes-informations",
-        text: "Mon compte"
+        text: "Mon compte",
+        img: <BsFillPersonFill className="side-bar-item-icon" />
     },
     {
         path: "/discover",
-        text: "Mon entreprise"
+        text: "Mon entreprise",
+        img: <BsFillBagFill className="side-bar-item-icon"/>
     },
     {
         path: "/diagnostic-list",
-        text: "Diagnostics disponibles"
+        text: "Diagnostics disponibles",
+        img: <BsFillFolderFill className="side-bar-item-icon"/>
     },
     {
         path: "/mes-diagnostics",
-        text: "Mes Diagnostics"
+        text: "Mes Diagnostics",
+        img: <BsCheckCircle className="side-bar-item-icon"/>
+
     },
 
 
@@ -34,10 +45,11 @@ const navlinks = [
     //     path: "/mes-diagnostics",
     //     text: "Mes Diagnostics"
     // },
-    {
-        path: "/cartographie",
-        text: "Cartographie des risques"
-    },
+    // {
+    //     path: "/cartographie",
+    //     text: "Cartographie des risques",
+    //     img: <BsGraphUp className="side-bar-item-icon"/>
+    // },
     // {
     //     path: "/diagnostic-presentation",
     //     text: "Traitement des risques",
@@ -71,7 +83,7 @@ const Sidebar = (props) => {
                 <div className="links-container">
                    {
                        navlinks.map((item) => (
-                           <NavLink activeClassName="active-navlink" className="custom-navlink" to={item.path}>{item.text}</NavLink>
+                           <NavLink activeClassName="active-navlink" className="custom-navlink" to={item.path}><span>{item.img}</span> {item.text}</NavLink>
                        ))
                    }
 

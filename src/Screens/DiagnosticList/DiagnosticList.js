@@ -12,10 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../store/actionTypes";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import jwt_decode from "jwt-decode";
-import Skeleton from '@material-ui/lab/Skeleton';
+import Skeleton from "@material-ui/lab/Skeleton";
 import endPoints from "../../globals/Constants";
 import { withSnackbar } from "notistack";
-
 
 // import { GiHamburgerMenu } from "react-icons/all";
 // import { Images } from "../../assets/Assets";
@@ -158,21 +157,26 @@ const Diagnostic = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [diagnostics, setDiagnostics] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [displayEmptyDiagosticMsg, setDisplayEmptyMsg] = useState(false);
   const [token, setToken] = useState("");
-  const [families, setFamilies] = useState([{
-    created_at: "",
-    deleted_at: null,
-    diagnostics: [],
-    explaination: "",
-    family_Id: "",
-    name: "Famille de diagnostics",
-    updated_at: ""
-  }]);
-  const [categories, setCategories] = useState([{
-    explaination: "",
-    id: "",
-    name: "Catégorie"
-  }])
+  const [families, setFamilies] = useState([
+    {
+      created_at: "",
+      deleted_at: null,
+      diagnostics: [],
+      explaination: "",
+      family_Id: "",
+      name: "Famille de diagnostics",
+      updated_at: "",
+    },
+  ]);
+  const [categories, setCategories] = useState([
+    {
+      explaination: "",
+      id: "",
+      name: "Catégorie",
+    },
+  ]);
   const [spinner, setSpinner] = useState(true);
 
   // const [list, setList] = useState([]);
@@ -183,7 +187,7 @@ const Diagnostic = (props) => {
     exit: false,
   });
   const tokenId = useSelector((state) => state.user.token);
-  const userToken = tokenId !== "" ? tokenId : ""; 
+  const userToken = tokenId !== "" ? tokenId : "";
 
   // console.log(props);
   const dispatch = useDispatch();
@@ -192,13 +196,13 @@ const Diagnostic = (props) => {
   // setToken(userToken);
   var userId;
   // debugger;
-  if(userToken !== ""){
+  if (userToken !== "") {
     var decToken = jwt_decode(userToken);
     userId = parseInt(decToken.Id);
-  }else{
-    userId = 0
+  } else {
+    userId = 0;
   }
-  console.log(userId)
+  console.log(userId);
   // const state = useSelector((state) => state);
   // console.log("complete state", state);
   // console.log("token", token);
@@ -209,11 +213,9 @@ const Diagnostic = (props) => {
     getFamily();
     getCategory();
     // console.log("User data is =>>> ",decoded.email);
-
   }, [dispatch]);
 
   async function getAllDiagnostics() {
-
     // var decoded = jwt_decode(userToken);
     // const id = parseInt(decoded.Id);
     // console.log(id);
@@ -229,6 +231,10 @@ const Diagnostic = (props) => {
         if (result) {
           console.log(result);
           setDiagnostics(result);
+          console.log("diagnostic result" + result.length);
+          if (result.length === 0) {
+            setDisplayEmptyMsg(true);
+          }
           setSpinner(false);
           // console.log(result);
         } else {
@@ -259,77 +265,73 @@ const Diagnostic = (props) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userToken}`,
       },
-    }).then((res) => res.json())
+    })
+      .then((res) => res.json())
       .then((result) => {
-        if(result){
-            const obj = {
-              created_at: "",
-              deleted_at: null,
-              diagnostics: [],
-              explaination: "",
-              family_Id: "",
-              name: "Famille de diagnostics",
-              updated_at: ""
-            }
+        if (result) {
+          const obj = {
+            created_at: "",
+            deleted_at: null,
+            diagnostics: [],
+            explaination: "",
+            family_Id: "",
+            name: "Famille de diagnostics",
+            updated_at: "",
+          };
 
-            setFamilies([...families,...result]);
-            // console.log(result);
-        }
-        else{
+          setFamilies([...families, ...result]);
+          // console.log(result);
+        } else {
           props.enqueueSnackbar(result.errorMessage, {
             variant: "error",
           });
         }
       })
-      .catch((error) => {
-
-      })
+      .catch((error) => {});
   }
 
   const sidebarToggle = (btn) => {
     setToggle(btn);
   };
 
-  async function getCategory(){
+  async function getCategory() {
     await fetch(endPoints.GET_CATEGORY, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userToken}`,
       },
-    }).then((res) => res.json())
+    })
+      .then((res) => res.json())
       .then((result) => {
-        if(result){
-            setCategories([...categories,...result.diagCategoryContract]);
-            // console.log(result.diagCategoryContract);
-        }
-        else{
+        if (result) {
+          setCategories([...categories, ...result.diagCategoryContract]);
+          // console.log(result.diagCategoryContract);
+        } else {
           props.enqueueSnackbar(result.errorMessage, {
             variant: "error",
           });
         }
-      })
+      });
   }
 
   const changeFamily = (e) => {
-    if(selectedCategory !== ""){
+    if (selectedCategory !== "") {
       setSelectedCategory("");
       setSelectedFamily(e.target.value);
-    }
-    else{
+    } else {
       setSelectedFamily(e.target.value);
     }
   };
 
   const changeCategory = (e) => {
-    if(selectedFamily !== ""){
+    if (selectedFamily !== "") {
       setSelectedFamily("");
       setSelectedCategory(e.target.value);
-    }
-    else{
+    } else {
       setSelectedCategory(e.target.value);
     }
-  }
+  };
 
   const searchUpdated = (term) => {
     setSearchTerm(term);
@@ -339,15 +341,13 @@ const Diagnostic = (props) => {
     createFilter(searchTerm, KEYS_TO_FILTERS)
   );
 
-  const sendData = () => {
-
-  }
+  const sendData = () => {};
   // const items = useSelector((state) => state);
   // console.log("current state", items);
   // console.log("diagnostics =>>", selectedCategory);
   // console.log("result families ==> ", families);
 
-  console.log("categories ",categories);
+  console.log("categories ", categories);
   return (
     <div className="diagnostic">
       {/* <div
@@ -369,8 +369,14 @@ const Diagnostic = (props) => {
             <img src={Images.profile} alt="profile" className="profile-img" />
           </div>
         </div> */}
-      <div className="diagnostic-wrapper" style={userToken ? {height: "90%"} : {height: "100%"}}>
-        <div style={{ height: "10%", paddingTop: "1.4rem", maxHeight: "10rem" }} className="mx-3">
+      <div
+        className="diagnostic-wrapper"
+        style={userToken ? { height: "90%" } : { height: "100%" }}
+      >
+        <div
+          style={{ height: "10%", paddingTop: "1.4rem", maxHeight: "10rem" }}
+          className="mx-3"
+        >
           <Heading>Liste de diagnostics disponibles</Heading>
         </div>
         <div className="diagnostic-container">
@@ -385,46 +391,68 @@ const Diagnostic = (props) => {
               </Dropdown>
             </div> */}
             <div className="diagnostic-dropdown">
-              <Dropdown onChange={changeCategory} value={selectedCategory} disabled={selectedFamily !== "" ? true : false}>
-                {
-                  categories.map((item,index) => (
-                    <option key={index} value={item.id} >{item.name}</option>
-                  ))
-                }
-               
+              <Dropdown
+                onChange={changeCategory}
+                value={selectedCategory}
+                disabled={selectedFamily !== "" ? true : false}
+              >
+                {categories.map((item, index) => (
+                  <option key={index} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
               </Dropdown>
             </div>
             <div className="diagnostic-dropdown">
-              <Dropdown value={selectedFamily} onChange={changeFamily} disabled={selectedCategory !== "" ? true : false}>
+              <Dropdown
+                value={selectedFamily}
+                onChange={changeFamily}
+                disabled={selectedCategory !== "" ? true : false}
+              >
                 {families.map((item, index) => (
                   <option value={item.family_Id} key={index}>
                     {item.name}
                   </option>
                 ))}
-                
               </Dropdown>
             </div>
             <div className="diagnostic-list-search">
               <SearchInput className="search-input" onChange={searchUpdated} />
-            
             </div>
           </div>
 
           <div className="diagnostic-content">
             <div className="diagnostic-card">
-              <Card
-                style={{
-                  padding: "1rem 4rem 1rem 4rem",
-                  borderRadius: "3.5rem",
-                  position: "relative",
-                }}
-              >
-                {spinner && (
-                  <div className="spinner">
-                    <CircularProgress className="circular-spinner-blue" />
-                  </div>
-                )}
-                {/* {filteredEmails.map((item) => {
+              {displayEmptyDiagosticMsg ? (
+                <Card
+                  style={{
+                    padding: "1rem 4rem 1rem 4rem",
+                    borderRadius: "3.5rem",
+                    position: "relative",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <h1 style={{ color: "var(--text_color)" }}>
+                    No Remaining diagnostics or active diagnostics
+                  </h1>
+                  
+                </Card>
+              ) : (
+                <Card
+                  style={{
+                    padding: "1rem 4rem 1rem 4rem",
+                    borderRadius: "3.5rem",
+                    position: "relative",
+                  }}
+                >
+                  {spinner && (
+                    <div className="spinner">
+                      <CircularProgress className="circular-spinner-blue" />
+                    </div>
+                  )}
+                  {/* {filteredEmails.map((item) => {
                     
                       selectedFamily.match(item.familyId) ?
                          
@@ -451,139 +479,156 @@ const Diagnostic = (props) => {
                     </NavLink>
                   })} */}
 
-                {filteredEmails.map((item) => {
-                  if (selectedFamily !== "") {
-                    if (selectedFamily.match(item.familyId)) {
-                      return (
-                        <NavLink
-                          to={{
-                            pathname: props.match.url + "/" + decodeURIComponent(item.diagnosticId),
-                            state: {id: item.diagnosticId, name: item.name, explanation: item.explanation }
-                          }}
-                          // onClick={props.history.push()}
-                        >
-                          <List>
-                            {/* <div
+                  {filteredEmails.map((item) => {
+                    if (selectedFamily !== "") {
+                      if (selectedFamily.match(item.familyId)) {
+                        return (
+                          <NavLink
+                            to={{
+                              pathname:
+                                props.match.url +
+                                "/" +
+                                decodeURIComponent(item.diagnosticId),
+                              state: {
+                                id: item.diagnosticId,
+                                name: item.name,
+                                explanation: item.explanation,
+                              },
+                            }}
+                            // onClick={props.history.push()}
+                          >
+                            <List>
+                              {/* <div
                               className="diagnostic-list-id"
                               style={{ width: "10%" }}
                               className="diagnostic-list-item"
                             >
                               {item.serialNo}
                             </div> */}
-                            <div
-                              className="diagnostic-list-name"
-                              style={{ width: "25%" }}
-                              className="diagnostic-list-item"
-                            >
-                              {item.name}
-                            </div>
-                            <div
-                              className="diagnostic-list-id"
-                              style={{ width: "20%" }}
-                              className="diagnostic-list-item"
-                            >
-                              {item.shortExplanation}{" "}
-                            </div>
-                            <div
-                              className="diagnostic-list-id"
-                              style={{ width: "50%" }}
-                              className="diagnostic-list-item"
-                            >
-                              {item.explanation}
-                            </div>
-                          </List>
-                        </NavLink>
-                      );
-                    }
-                  }
-                  else if(selectedCategory !== ""){
-                    if (selectedCategory.match(item.categoryId)) {
-                      return (
-                        <NavLink
-                          to={{
-                            pathname: props.match.url + "/" + decodeURIComponent(item.diagnosticId),
-                            state: {id: item.diagnosticId, name: item.name, explanation: item.explanation, serialNo: item.serialNo }
-                          }}
-                          // onClick={props.history.push()}
-                        >
-                          <List>
-                            {/* <div
+                              <div
+                                className="diagnostic-list-name"
+                                style={{ width: "25%" }}
+                                className="diagnostic-list-item"
+                              >
+                                {item.name}
+                              </div>
+                              <div
+                                className="diagnostic-list-id"
+                                style={{ width: "20%" }}
+                                className="diagnostic-list-item"
+                              >
+                                {item.shortExplanation}{" "}
+                              </div>
+                              <div
+                                className="diagnostic-list-id"
+                                style={{ width: "50%" }}
+                                className="diagnostic-list-item"
+                              >
+                                {item.explanation}
+                              </div>
+                            </List>
+                          </NavLink>
+                        );
+                      }
+                    } else if (selectedCategory !== "") {
+                      if (selectedCategory.match(item.categoryId)) {
+                        return (
+                          <NavLink
+                            to={{
+                              pathname:
+                                props.match.url +
+                                "/" +
+                                decodeURIComponent(item.diagnosticId),
+                              state: {
+                                id: item.diagnosticId,
+                                name: item.name,
+                                explanation: item.explanation,
+                                serialNo: item.serialNo,
+                              },
+                            }}
+                            // onClick={props.history.push()}
+                          >
+                            <List>
+                              {/* <div
                               className="diagnostic-list-id"
                               style={{ width: "10%" }}
                               className="diagnostic-list-item"
                             >
                               {item.serialNo}
                             </div> */}
-                            <div
-                              className="diagnostic-list-name"
-                              style={{ width: "25%" }}
-                              className="diagnostic-list-item"
-                            >
-                              {item.name}
-                            </div>
-                            <div
-                              className="diagnostic-list-id"
-                              style={{ width: "20%" }}
-                              className="diagnostic-list-item"
-                            >
-                              {item.shortExplanation}{" "}
-                            </div>
-                            <div
-                              className="diagnostic-list-id"
-                              style={{ width: "50%" }}
-                              className="diagnostic-list-item"
-                            >
-                              {item.explanation}
-                            </div>
-                          </List>
-                        </NavLink>
-                      );
-                    }
-                  }
-                  else {
-                    return (
-                      <NavLink
-                      onClick={sendData}
-                        to={{
-                          pathname: props.match.url + "/" +  decodeURIComponent(item.diagnosticId),
-                          state: {...item}
-                        }}
-                      >
-                        <List>
-                          {/* <div
+                              <div
+                                className="diagnostic-list-name"
+                                style={{ width: "25%" }}
+                                className="diagnostic-list-item"
+                              >
+                                {item.name}
+                              </div>
+                              <div
+                                className="diagnostic-list-id"
+                                style={{ width: "20%" }}
+                                className="diagnostic-list-item"
+                              >
+                                {item.shortExplanation}{" "}
+                              </div>
+                              <div
+                                className="diagnostic-list-id"
+                                style={{ width: "50%" }}
+                                className="diagnostic-list-item"
+                              >
+                                {item.explanation}
+                              </div>
+                            </List>
+                          </NavLink>
+                        );
+                      }
+                    } else {
+                      return (
+                        <NavLink
+                          onClick={sendData}
+                          to={{
+                            pathname:
+                              props.match.url +
+                              "/" +
+                              decodeURIComponent(item.diagnosticId),
+                            state: { ...item },
+                          }}
+                        >
+                          <List>
+                            {/* <div
                             className="diagnostic-list-id"
                             style={{ width: "10%" }}
                             className="diagnostic-list-item"
                           >
                             {item.serialNo}
                           </div> */}
-                          <div
-                            className="diagnostic-list-name"
-                            style={{ width: "25%" }}
-                            className="diagnostic-list-item"
-                          >
-                            {item.name}
-                          </div>
-                          <div
-                            className="diagnostic-list-id"
-                            style={{ width: "20%" }}
-                            className="diagnostic-list-item"
-                          >
-                            {item.shortExplanation}{" "}
-                          </div>
-                          <div
-                            className="diagnostic-list-id"
-                            style={{ width: "50%" }}
-                            className="diagnostic-list-item"
-                          >
-                            {item.explanation}
-                          </div>
-                        </List>
-                      </NavLink>
-                    );
-                  }
-                })}
-              </Card>
+                            <div
+                              className="diagnostic-list-name"
+                              style={{ width: "25%" }}
+                              className="diagnostic-list-item"
+                            >
+                              {item.name}
+                            </div>
+                            <div
+                              className="diagnostic-list-id"
+                              style={{ width: "20%" }}
+                              className="diagnostic-list-item"
+                            >
+                              {item.shortExplanation}{" "}
+                            </div>
+                            <div
+                              className="diagnostic-list-id"
+                              style={{ width: "50%" }}
+                              className="diagnostic-list-item"
+                            >
+                              {item.explanation}
+                            </div>
+                          </List>
+                        </NavLink>
+                      );
+                    }
+                  })}
+                </Card>
+              )}
             </div>
           </div>
         </div>

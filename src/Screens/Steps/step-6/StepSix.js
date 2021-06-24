@@ -80,7 +80,7 @@ const StepSix = (props) => {
                 </div>
                 <div className="col-md-3 border border-warning" style={{padding:"3rem 2rem",borderRadius: "0 1rem 1rem 0",textAlign:"center"}}>
                     <div className="card-text-price pb-3">
-                        89€
+                        89€ HT
                     </div>
                     <Button tertiary onClick={checkPaid}>
                             Plan d’action
@@ -91,7 +91,7 @@ const StepSix = (props) => {
 
         </div>
         </div>
-            <Modal show={show} onHide={handleClose} className="custom-modal-2">
+            <Modal show={show} onHide={handleClose} className="custom-modal-3">
             <Modal.Header closeButton>
             </Modal.Header>
             <Modal.Body>
@@ -101,12 +101,14 @@ const StepSix = (props) => {
             <Modal.Footer>
               <div className="text-center w-100">
               <div className="login-modal-btn">
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
+                  <a target="_blank" href={`${endPoints.calendlyLink}`}>
+                  <Button variant="secondary"> 
+                    Ouvrir le lien
+                  </Button>
+                   </a>
               </div>
               </div>
-             
+              {/* onClick={handleClose} */}
             </Modal.Footer>
           </Modal>
           </>

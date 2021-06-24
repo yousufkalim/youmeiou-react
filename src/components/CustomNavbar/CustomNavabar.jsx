@@ -8,9 +8,9 @@ import {Link, animateScroll as Scroll} from "react-scroll";
 
 const Header = (props) => {
   return (
-    <Navbar className="custom-navbar" expand="lg">
+    <Navbar className="custom-navbar" expand="lg" style={{background:"#ebebeb"}}>
       <Navbar.Brand href="/">
-        <img src={Images.logo} className="landing-logo" alt="logo" />
+        <img src={Images.logo} style={{paddingBottom:"3rem"}} className="landing-logo" alt="logo" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">

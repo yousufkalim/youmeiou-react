@@ -49,7 +49,7 @@ const MyInformation = (props) => {
 
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [isEdit]);
 
   async function getProfile() {
     var decoded = jwt_decode(userToken);
@@ -71,11 +71,16 @@ const MyInformation = (props) => {
        
         console.log("result from api ",result);
         setResponse(result);
+        let entId;
         let func;
-        result.entrepreneurProfileId === 0 ||
-        result.entrepreneurProfileId === null
-          ? (func = 0)
-          : (func = 1);
+        result.entrepreneurProfileId === null ? (func = 1) :
+        (func = 0);
+      
+
+          // result.entrepreneurProfileId === 0 ||
+          result.entrepreneurProfileId === null
+            ? (entId = 0) : (entId = result.entrepreneurProfileId);
+        // result.entrepreneurProfileId === null
         setData({
           ...data,
           fname: result.firstName,
@@ -84,7 +89,7 @@ const MyInformation = (props) => {
           email: result.email,
           profileImage: result.userProfileImage,
           function: func,
-          profile: result.entrepreneurProfileId,
+          profile: entId,
           profileArray: [
             { id: null, dropdownTypeId: 0, name: "" },
             ...result.dropdown.values,
@@ -106,7 +111,7 @@ const MyInformation = (props) => {
   }
 
   const toggleEdit = () => {
-    setIsEdit(true);
+    setIsEdit(false);
   };
 
   console.log(data.profileImage);
@@ -114,7 +119,7 @@ const MyInformation = (props) => {
   return (
     <>
       {isEdit ? (
-        <EditProfile data={response} />
+        <EditProfile data={response} setIsEdit={setIsEdit} />
       ) : (
         <div className="account-management">
           <div style={{ height: "10%", paddingTop: "1.4rem" }}>
@@ -214,9 +219,9 @@ const MyInformation = (props) => {
                             // value={data.companyType}
                             className="custom-dropdown"
                           >
-                            <option value="0"></option>
-                            <option value="1">Dirigeant de l'entreprise</option>
-                            <option value="2">Employé</option>
+                            
+                            <option value="0">Dirigeant de l'entreprise</option>
+                            <option value="1">Employé</option>
                           </select>
                         </div>
                       </div>

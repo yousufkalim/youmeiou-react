@@ -217,7 +217,7 @@ const Inprogress = (props) => {
         </div>
       </div>
     </div>
-    <Modal show={show} onHide={handleClose} className="custom-modal-2">
+    <Modal show={show} onHide={handleClose} className="custom-modal-3">
     <Modal.Header closeButton>
     </Modal.Header>
     <Modal.Body>
@@ -227,12 +227,14 @@ const Inprogress = (props) => {
     <Modal.Footer>
       <div className="text-center w-100">
       <div className="login-modal-btn">
-      <Button variant="secondary" onClick={handleClose}>
-        Close
+      <a target="_blank" href={`${endPoints.calendlyLink}`}>
+      <Button variant="secondary">
+        Ouvrir le lien
       </Button>
+      </a>
       </div>
       </div>
-     
+      {/* onClick={handleClose} */}
     </Modal.Footer>
   </Modal>
 

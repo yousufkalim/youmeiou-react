@@ -52,3 +52,47 @@
     font-size: 3rem;
     font-weight: bold;
   }
+
+  /* ==============================================
+                Modal
+   ============================================ */
+
+
+   .custom-modal-3 .modal-header{
+    border: none !important;
+}
+.custom-modal-3 .modal-dialog{
+    /* margin: auto !important; */
+    /* display: flex;
+    align-items: center; */
+    /* height: 100%; */
+    position: absolute;
+    top: 31%;
+    left: 31%;
+    width: 40%; 
+    transform: translate(-50%, -50%);
+    /* max-width: 50% !important; */
+    height: 100%;
+} 
+.custom-modal-3 .modal-content {
+    border-radius: 6.5rem !important;
+    padding: 1rem 1.5rem 3rem 1.5rem !important;
+    font-size: 2rem !important;
+    box-shadow: 2px 2px 10px rgba(0,0,0,30%);
+    border: 1px solid var(--yellow_color);
+
+}
+
+.custom-modal-3 .modal-header .close {
+    font-size: 4rem;
+    color: var(--yellow_color);
+    text-shadow: none !important;
+}
+
+@media (max-width: 600px) {
+  .custom-modal-3 .modal-dialog{
+    left: 10%;
+    width: 80%;
+    max-width: auto;
+  }
+}

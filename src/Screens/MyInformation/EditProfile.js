@@ -12,6 +12,7 @@ import endPoints from "../../globals/Constants";
 import { useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 import { withSnackbar } from "notistack";
+import MyInformation from "./MyInformation";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
@@ -61,7 +62,7 @@ const EditProfile = (props) => {
   useEffect(() => {
     const { data } = props;
     let profileId;
-    data.entrepreneurProfileId === 0 ? profileId = null : profileId = data.entrepreneurProfileId;
+    data.entrepreneurProfileId === null ? profileId = null : profileId = data.entrepreneurProfileId;
     // if(data.entrepreneurProfileId === 0){
     //   profileId = null
     // }
@@ -70,7 +71,7 @@ const EditProfile = (props) => {
     // }
     console.log(profileId);
     let func;
-    (data.entrepreneurProfileId === 0 || data.entrepreneurProfileId === null) ? func = 0 : func = 1
+    (data.entrepreneurProfileId === null) ? func = 1 : func = 0
     console.log("useeffect");
 
     setData({
@@ -90,6 +91,7 @@ const EditProfile = (props) => {
   }, []);
 
   const changeHandler = (e) => {
+    console.log(e.target.value);
     setData({ ...data, [e.target.name]: e.target.value });
     if (e.target.name === "fname") {
       if (e.target.value.length > 30) {
@@ -119,10 +121,13 @@ const EditProfile = (props) => {
       }
     }
     if (e.target.name === "function") {
-      if (e.target.value === "0" || e.target.value === "2") {
+      if (e.target.value === "1") {
       
         setData({ ...data, profile: null, function: e.target.value });
       }
+      // else if(e.target.value === "1"){
+      //   setData({ ...data, profile: 0, function: e.target.value });
+      // }
     }
    
 
@@ -182,7 +187,7 @@ const EditProfile = (props) => {
       // }
     
     setSpinner(true);
-    console.log("final image URL ", imageUrl);
+    console.log("final image URL ", parseInt(data.profile));
     var formdata = new FormData();
     formdata.append("Id",userId)
     formdata.append("FirstName", data.fname);
@@ -211,7 +216,7 @@ const EditProfile = (props) => {
       console.log('values', value)
     }
     console.log(formdata);
-    await fetch("http://160.153.249.64:5059/api/v1/userInfo/update", {
+    await fetch(`${endPoints.UPDATE_USERPROFILE}`, {
       method: "PUT",
       headers: {
         // "Content-Type": "application/x-www-form-urlencoded",
@@ -225,6 +230,7 @@ const EditProfile = (props) => {
         props.enqueueSnackbar("Le profil utilisateur a bien été mis à jour", {
           variant: "success",
         });
+        props.setIsEdit(false);
       })
       .catch((error) => {
         console.log(error);
@@ -351,9 +357,9 @@ const EditProfile = (props) => {
                       // value={data.companyType}
                       className="custom-dropdown"
                     >
-                      <option value="0"></option>
-                      <option value="1">Dirigeant de l'entreprise</option>
-                      <option value="2">Employé</option>
+                     
+                      <option value="0">Dirigeant de l'entreprise</option>
+                      <option value="1">Employé</option>
                     </select>
                   </div>
                 </div>
@@ -401,13 +407,13 @@ const EditProfile = (props) => {
                         name="profile"
                         id="profile"
                         disabled={
-                          data.function === "0" ||
-                          data.function === "2" ||
+                          data.function === "1" ||
+                  
                           data.function === null
                             ? true
                             : false
                         }
-                        value={data.function === "0" || data.function === "2" ? 0 : data.profile}
+                        value={data.function === "1" ? 0 : data.profile}
                         className="custom-dropdown"
                       >
                         {data.profileArray.map((item, index) => (

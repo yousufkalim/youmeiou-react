@@ -20,7 +20,7 @@
  .links-container{
     display: flex;
     flex-direction: column;
-    padding-top: 7rem;
+    padding-top: 50%;
 }
 .sidebar-toggler{
     cursor: pointer;
@@ -28,16 +28,16 @@
     margin-right: 4rem;
 }
 .custom-navlink{
-    color: #fff !important;
+    color: grey !important;
     text-decoration: none !important;
-    font-size: 2rem !important;
+    font-size: 1.6rem !important;
     font-weight: bold !important;
     padding: 1rem 5rem;
 }
 
 .active-navlink{
-    /* color: var(---primary) !important; */
-    background-color: rgba(239,266,66, 30%);
+    color: white !important;
+    /* background-color: rgba(239,266,66, 30%); */
     text-decoration: none !important;
     padding: 1rem 5rem;
 }

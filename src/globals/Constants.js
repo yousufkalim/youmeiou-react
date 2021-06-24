@@ -32,6 +32,7 @@ const endPoints = {
     SEND_CLIENT_EMAIL: BASE_URL_V1 + "/userInfo/create/ContactUsEmailSend",
     GET_DIAGNOSTIC_TREATMENT: BASE_URL_V1 + "/diagnostic/getDiagnosticTreatment",
     CheckIfUserDiagnosticEvaulationIsPaidFor: BASE_URL_V1 + "/diagnosticEvaluation/get/CheckIfUserDiagnosticEvaulationIsPaidFor",
+    UPDATE_USERPROFILE: BASE_URL_V1 + "/userInfo/update",
     calendlyLink: "https://calendly.com/expertise-riskr/evaluation-des-risques"
 }
 

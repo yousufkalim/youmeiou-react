@@ -151,7 +151,7 @@ const Landing = (props) => {
                 risques qu'elle va devoir affronter.
               </div>
               <div className="landing-detail">
-                Améliorez vos performances, vos ROI et vos ROE!
+                Améliorer vos performances, vos ROI
               </div>
               <NavLink to="/diagnostic-list">
                 <Button tertiary>Essayez maintenant</Button>

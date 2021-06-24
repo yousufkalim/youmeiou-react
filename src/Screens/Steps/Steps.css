@@ -30,3 +30,8 @@
   width: 100%;
   overflow: hidden;
 }
+@media (max-width:360px) {
+  .screen-heading {
+    font-size: 4rem;
+  }
+}
