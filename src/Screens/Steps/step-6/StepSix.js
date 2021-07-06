@@ -4,6 +4,7 @@ import "./StepSix.css";
 import endPoints from "../../../globals/Constants";
 import {Row,Col} from "react-bootstrap";
 import { Images } from '../../../assets/Assets';
+import CircularProgress from "@material-ui/core/CircularProgress";
 import jwt_decode from "jwt-decode";
 import { Modal} from "react-bootstrap";
 import {BiError} from "react-icons/all";
@@ -16,40 +17,62 @@ const StepSix = (props) => {
     useEffect(() => {
         console.log(props.history);
     },[])
-    var userId;
+    var email;
     const userToken = useSelector((state) => state.user.token);
+    const [checkActionPlanSpinner, setCheckActionPlanSpinner] = useState(false);
+    const [DisableBtn, setDisableBtn] = useState(false);
+    const [calendlyParameters, setCalendlyParameters] = useState("");
     var decToken = jwt_decode(userToken);
-    userId = parseInt(decToken.Id);
+    email = decToken.email;
     const checkPaid = () => {
-
+        setCheckActionPlanSpinner(true);
+        setDisableBtn(true);
         // const diagnosticId = props.data.diagnosticId || props.data.id;
         
         const diagnosticId = props.state.diagnosticId || props.state.id || props.state.data.diagnosticId || JSON.parse(localStorage.getItem("riskName")).diagnosticId;
-        fetch(`${endPoints.CheckIfUserDiagnosticEvaulationIsPaidFor}/${userId},${diagnosticId}`,{
-            method: "GET",
+        fetch(`${endPoints.CHECK_ACTION_PLAN_PAID_FOR}`,{
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${userToken}`,
             },
+            body: JSON.stringify({
+                DiagnosticId:props.state.serialNo,
+                Email: email,
+              }),
           })
+          .then((res) => res.json())
           .then(async (response) => {
-            if (response.status === 200) {
-                console.log(response);
-                let firstResponse = await response.json();
-                console.log(firstResponse.checkIfUserPaidForDiagnostic);
-                if(!firstResponse.checkIfUserPaidForDiagnostic.isPaid){
-                    setShow(true);
-                }else{
-                    props.history.history.push(`/mes-diagnostics/${diagnosticId}`)
-                    // props.history.history.push(`mes-diagnostics/${diagnosticId}`)
-                }
+              debugger;
+            if(response.paidFor === true){
+                // console.log(response);
+                // let firstResponse = await response.json();
+                // console.log(firstResponse.checkIfUserPaidForDiagnostic);
+                props.history.history.push(`/mes-diagnostics/${diagnosticId}`)
+                setCheckActionPlanSpinner(false);
+                setDisableBtn(false);
+                // if(!firstResponse.checkIfUserPaidForDiagnostic.isPaid){
+                //     setShow(true);
+                // }else{
+                //     props.history.history.push(`/mes-diagnostics/${diagnosticId}`)
+                //     // props.history.history.push(`mes-diagnostics/${diagnosticId}`)
+                // }
             }
             else{
+                setShow(true);
+                setCalendlyParameters("?email="+email+"&a2="+props.state.serialNo+"")
                 console.log("erroooorrrr");
+                setDisableBtn(false);
+                setCheckActionPlanSpinner(false);
             }
           })
             
-            .catch((error) => console.log("api error", error))
+            .catch((error) => {
+                
+                console.log("api error", error);
+                setCheckActionPlanSpinner(true);
+                setDisableBtn(false);
+            })
     }
 
     const handleClose = () => setShow(false);
@@ -59,6 +82,10 @@ const StepSix = (props) => {
         <div className="step-six-content">
         <div
           className="step-six-content-container">
+            {checkActionPlanSpinner && (
+                <div className="spinner">
+                  <CircularProgress className="circular-spinner-blue" />
+                </div>)}
          <Row>
              <Col>
                 <div className="step-six-content-header">
@@ -82,7 +109,7 @@ const StepSix = (props) => {
                     <div className="card-text-price pb-3">
                         89€ HT
                     </div>
-                    <Button tertiary onClick={checkPaid}>
+                    <Button tertiary onClick={checkPaid} disabled={DisableBtn}>
                             Plan d’action
                     </Button>
                 </div>
@@ -96,12 +123,12 @@ const StepSix = (props) => {
             </Modal.Header>
             <Modal.Body>
               <div className="text-center"><BiError size={40} /></div>
-              <div className="py-2 text-center">Afin de voir le plan d'action, merci de prendre RDV sur ce lien <span><a rel="noreferrer" className="calendly-link" target="_blank" href={`${endPoints.calendlyLink}`}>Calendly</a></span></div>
+              <div className="py-2 text-center">Afin de voir le plan d'action, merci de prendre RDV sur ce lien <span><a rel="noreferrer" className="calendly-link" target="_blank" href={`${endPoints.calendlyLink+calendlyParameters}`}>Calendly</a></span></div>
             </Modal.Body>
             <Modal.Footer>
               <div className="text-center w-100">
               <div className="login-modal-btn">
-                  <a target="_blank" href={`${endPoints.calendlyLink}`}>
+                  <a target="_blank" href={`${endPoints.calendlyLink+calendlyParameters}`}>
                   <Button variant="secondary"> 
                     Ouvrir le lien
                   </Button>

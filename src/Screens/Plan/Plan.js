@@ -146,7 +146,7 @@ const Plan = (props) => {
                 </div>
               </Col>
             </Row>
-            <Row style={{textAlign:"center",marginTop:"3rem"}}>
+            <Row style={{textAlign:"center",marginTop:"3rem", display:"none"}}>
               <Col>
                 <Button secondary>
                   Prendre rendez-vous
@@ -260,7 +260,7 @@ const Plan = (props) => {
               </div>
             </div>
            <Container fluid>
-           <Row style={{textAlign:"center",marginTop:"5rem",paddingBottom:"5rem"}}>
+           <Row style={{textAlign:"center",marginTop:"5rem",paddingBottom:"5rem",display:"none"}}>
                 <Col>
                 <Button secondary>
                   Prendre rendez-vous

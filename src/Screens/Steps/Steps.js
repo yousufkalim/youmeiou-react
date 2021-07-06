@@ -27,6 +27,7 @@ const Steps = (props) => {
 
   useEffect(() => {
     const state = props.location.state;
+    console.log("propsTest",props);
     var pathName = props.history.location.pathname;
     setName(state.name);
     // this.setState({name: state.name});

@@ -16,6 +16,7 @@ import Steps from "./Screens/Steps/Steps";
 import Landing from "./Screens/Landing/Landing";
 import WhoAreWe from "./Screens/WhoAreWe/WhoAreWe";
 import EmailVerify from "./Screens/EmailVerify/EmailVerify";
+import ChangePassword from "./Screens/ChangePassword/ChangePassword";
 import {useSelector,useDispatch} from "react-redux"; 
 import * as actionTypes from "./store/actionTypes";
 
@@ -88,6 +89,7 @@ const App = (props) => {
             <PublicRoute component={Login} path="/login" exact  restricted={true} />
             <PublicRoute component={WhoAreWe} path="/WhoAreWe" exact  restricted={true} />
             <PublicRoute component={EmailVerify} path="/email-verify/:id" exact  restricted={true} />
+            <PublicRoute component={ChangePassword} path="/change-password/:id" exact restricted={true} />
           </Layout>
         </Switch>
       </div>

@@ -20,6 +20,8 @@ import {BiError} from "react-icons/all";
 const Inprogress = (props) => {
   const [toggle, setToggle] = useState(false);
   const [spinner, setSpinner] = useState(true);
+  const [checkActionPlanSpinner, setCheckActionPlanSpinner] = useState(false);
+  const [calendlyParameters, setCalendlyParameters] = useState("");
   const [incompletedRisks, setIncompletedRisks] = useState([]);
   const [completeRisks, setCompleteRisks] = useState([]);
   const [totalRisks, setTotalRisks] = useState([]);
@@ -66,14 +68,60 @@ const Inprogress = (props) => {
       });
   };
 
-  const checkPaid = (risk,id, paid) => {
-    if(paid){
-      // console.log(risk);
-      props.history.push(`mes-diagnostics/${id}`)
-    }
-    else{
-      setShow(true);
-    }
+  const checkPaid = (serialNo,id, paid) => {
+    console.log("test")
+    // debugger;
+    setCheckActionPlanSpinner(true);
+    var decoded = jwt_decode(userToken);
+    
+    const email = decoded.email;
+    console.log(email);
+    fetch(`${endPoints.CHECK_ACTION_PLAN_PAID_FOR}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+      body: JSON.stringify({
+        DiagnosticId:serialNo,
+        Email: email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        setCheckActionPlanSpinner(false);
+        if(result.paidFor === true){
+          props.history.push(`mes-diagnostics/${id}`)
+        }else{
+          setCalendlyParameters("?email="+email+"&a2="+serialNo+"")
+          setShow(true);
+        }
+
+        // setTotalRisks(result);
+        // const incom = result.filter(
+        //   (item) => item.totalRisks !== item.completedRisks && item
+        // );
+        // const com = result.filter(
+        //   (item) => item.totalRisks === item.completedRisks && item
+        // );
+        // setCompleteRisks(com);
+        // setIncompletedRisks(incom);
+      })
+      .catch((error) => {
+        setCheckActionPlanSpinner(false);
+        props.enqueueSnackbar("Un problème est survenu", {
+          variant: "error",
+        });
+        // console.log(error);
+      });
+    // if(paid){
+    //   // console.log(risk);
+    //   props.history.push(`mes-diagnostics/${id}`)
+    // }
+    // else{
+    //   setShow(true);
+    // }
   }
   // console.log(totalRisks);
   // console.log("completed ==> ", completeRisks);
@@ -160,6 +208,10 @@ const Inprogress = (props) => {
             <Heading>Diagnostics réalisés</Heading>
 
             <div className="inprogress-lists inprogress-list-2">
+              {checkActionPlanSpinner && (
+                <div className="spinner">
+                  <CircularProgress className="circular-spinner-blue" />
+                </div>)}
               {spinner ? (
                 <div className="spinner">
                   <CircularProgress className="circular-spinner-blue" />
@@ -182,7 +234,7 @@ const Inprogress = (props) => {
                         //     state: { ...item, now: 100 },
                         //   }}
                         // >
-                          <Button secondary className="inprogress-btn" onClick={() =>checkPaid(item.treatmentOfRisk,item.diagnosticId, item.paid )}>
+                          <Button secondary className="inprogress-btn" onClick={() =>checkPaid(item.serialNo,item.diagnosticId, item.paid )}>
                             Plan d’action
                           </Button>
                         // </NavLink>
@@ -222,12 +274,12 @@ const Inprogress = (props) => {
     </Modal.Header>
     <Modal.Body>
       <div className="text-center"><BiError size={40} /></div>
-      <div className="py-2 text-center">Afin de voir le plan d'action, merci de prendre RDV sur ce lien <span><a rel="noreferrer" className="calendly-link" target="_blank" href={`${endPoints.calendlyLink}`}>Calendly</a></span></div>
+      <div className="py-2 text-center">Afin de voir le plan d'action, merci de prendre RDV sur ce lien <span><a rel="noreferrer" className="calendly-link" target="_blank" href={`${endPoints.calendlyLink+calendlyParameters}`}>Calendly</a></span></div>
     </Modal.Body>
     <Modal.Footer>
       <div className="text-center w-100">
       <div className="login-modal-btn">
-      <a target="_blank" href={`${endPoints.calendlyLink}`}>
+      <a target="_blank" href={`${endPoints.calendlyLink+calendlyParameters}`}>
       <Button variant="secondary">
         Ouvrir le lien
       </Button>

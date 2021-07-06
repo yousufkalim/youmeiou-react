@@ -34,7 +34,7 @@ const Header = (props) => {
           smooth={true}
           offset={0}
           duration={500}>
-            <div className="landing-navbar-buttons">Comment ça marche</div>
+            <div className="landing-navbar-buttons">Comment ça marche ?</div>
           </Link>
           
           </>

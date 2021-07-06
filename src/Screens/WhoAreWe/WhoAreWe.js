@@ -39,13 +39,13 @@ function WhoAreWe() {
           <div>
        <CustomHeader isVisible={false}/>
         <div className="landing">
-          <div className="page-heading-1" style={{marginTop:"5rem"}}>Qu’est-ce</div>
-          <div className="page-heading-2">qu’est RiskR ?</div>
+          <div className="page-heading-1" style={{marginTop:"5rem"}}>Qu'est-ce que Riskr</div>
+          <div className="page-heading-2"></div>
           <div className="page-content">
             RiskR est un outil qui permet de déterminer les risques auxquels
             votre entreprise est exposée. Avant tout, il faut savoir que la
             gestion du risque n’est pas dresser une liste de tous les défauts de
-            votre entreprise.C’est tout le contraire, RiskR permet de consolider
+            votre entreprise. C’est tout le contraire, RiskR permet de consolider
             et pérenniser votre entreprise, nous voulons cibler les risques, les
             éradiquer et prévenir leur occurrence. Identifier un risque est une
             chance, la chance de pouvoir y remédier au plus vite, déceler des

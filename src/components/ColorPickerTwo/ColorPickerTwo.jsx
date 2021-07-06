@@ -29,9 +29,15 @@ class ColorPicker extends React.Component {
 
   render() {
     const value = this.props.gravity * this.props.probability;
+    console.log("gravity"+this.props.gravity);
+    console.log("propbability"+this.props.probability);
+    console.log("value "+this.props.value);
+
+
     //const value = 25;
-    const prob = (value / 25) * 90 + 4;
+    const prob = (value / 25) * 90+4;
     const val = Math.round(prob);
+    console.log("val"+val);
     // const val = 20;
     // console.log(val);
     // const val = 100 - prob;
@@ -76,6 +82,7 @@ class ColorPicker extends React.Component {
       <>
         <Row className="align-items-start">
           <Col
+          className="step-four-color-image-container-1"
             md={6}
             style={{ width: "100%", height: "100%", position: "relative", }}
           >

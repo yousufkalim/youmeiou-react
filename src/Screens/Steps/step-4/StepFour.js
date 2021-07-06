@@ -292,7 +292,7 @@ const StepFour = (props) => {
         <div className="step-four-color-grid">
           <Card
             style={{
-              padding: "1rem",
+              padding: "1rem 1rem 5rem 1rem",
               borderRadius: "3.5rem",
               fontWeight: "bold",
               backgroundColor: "#EBEBEB",

@@ -142,6 +142,7 @@ const EditProfile = (props) => {
   };
   const getImage = (file) => {
     setImageUrl(file)
+    console.log(file);
   }
 
   async function editProfile() {

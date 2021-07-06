@@ -16,13 +16,23 @@ import CustomModal from "../../components/CustomModal/CustomModal";
 import {BiError} from "react-icons/all";
 import endPoints from "../../globals/Constants";
 import { useRouter } from "react-router-dom"
+import ForgetPassword from "../../components/ForgetPassword/ForgetPassword";
+import { withSnackbar } from "notistack";
 
 const Login = (props) => {
   const [data, setData] = useState({ email: "", password: "" });
   const [error, setError] = useState({ email: "", password: "" });
   const [showModal, setShowModal] = useState(false);
+  const [showForgetPasswordModal, setForgetPasswordModal] = useState(false);
   const [message, setMessage] = useState("");
   const [spinner, setSpinner] = useState(false);
+
+  function handleSnackBar(){
+      props.enqueueSnackbar("Successfully fetched the data.", {
+          variant: "success",
+        });
+  }
+
   // const [mailFormat] = useState(
   //   "/^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/"
   // );
@@ -39,7 +49,9 @@ const Login = (props) => {
   const risk = useSelector((state) => state.currentRisk);
   const totalRisk = useSelector((state) => state.riskReducer);
   console.log(store);
-
+  function handleForgetPasswordClose(){
+    setForgetPasswordModal(!showForgetPasswordModal);
+  }
   // const {history} = useRouter();
   // const [locationKeys, setLocationKeys] = useState<(string | undefined)[]>([]);
 
@@ -230,6 +242,13 @@ const Login = (props) => {
                     }
                   </span>
                 </div>
+                <div className="register-text text-center" style={{fontSize:"1.8rem"}}>
+                  {/* <NavLink>Mot de passe oublié?</NavLink> */}
+                    <a href="#" onClick={handleForgetPasswordClose}>
+                      Mot de passe oublié?
+                    </a>
+                    {/* <span class="forget-password" onClick={handleForgetPasswordClose}></span> */}
+                </div>
               </div>
             </Card>
           </form>
@@ -261,8 +280,10 @@ const Login = (props) => {
          
         </Modal.Footer>
       </Modal>
+      {/* Forget Passoword */}
+      <ForgetPassword show={showForgetPasswordModal} onHide={handleForgetPasswordClose} snackBar={handleSnackBar}></ForgetPassword>
     </>
   );
 };
 
-export default Login;
+export default withSnackbar(Login);

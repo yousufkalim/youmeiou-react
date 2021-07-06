@@ -134,6 +134,7 @@ const MyInformation = (props) => {
                 )
               }
             </div>
+
             {/* <FileUploader  /> */}
             {spinner ? (
               <div className="spinner">

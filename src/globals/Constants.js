@@ -1,6 +1,6 @@
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const HTTP = "http://";
-const URL = "160.153.249.64:5059";//"160.153.249.64:5059";  //"localhost:51160"
+const URL = "localhost:51160";//"160.153.249.64:5059";  //"localhost:51160"
 const API = "/api";
 const VERSION = "/v1";
 const BASE_URL_V1 = HTTP + URL + API + VERSION;
@@ -33,6 +33,9 @@ const endPoints = {
     GET_DIAGNOSTIC_TREATMENT: BASE_URL_V1 + "/diagnostic/getDiagnosticTreatment",
     CheckIfUserDiagnosticEvaulationIsPaidFor: BASE_URL_V1 + "/diagnosticEvaluation/get/CheckIfUserDiagnosticEvaulationIsPaidFor",
     UPDATE_USERPROFILE: BASE_URL_V1 + "/userInfo/update",
+    FORGET_PASSWORD: BASE_URL_V1 + "/forgetPassword",
+    CHANGE_PASSWORD: BASE_URL_V1 + "/update/ChangePassword",
+    CHECK_ACTION_PLAN_PAID_FOR: BASE_URL_V1 + "/actionPlan/get/CheckActionPlanPaidFor",
     calendlyLink: "https://calendly.com/expertise-riskr/evaluation-des-risques"
 }
 
