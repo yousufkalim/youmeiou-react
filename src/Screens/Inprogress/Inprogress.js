@@ -13,9 +13,8 @@ import moment from "moment";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { withSnackbar } from "notistack";
-import { Modal} from "react-bootstrap";
-import {BiError} from "react-icons/all";
-
+import { Modal } from "react-bootstrap";
+import { BiError } from "react-icons/all";
 
 const Inprogress = (props) => {
   const [toggle, setToggle] = useState(false);
@@ -68,12 +67,12 @@ const Inprogress = (props) => {
       });
   };
 
-  const checkPaid = (serialNo,id, paid) => {
-    console.log("test")
+  const checkPaid = (serialNo, id, paid) => {
+    console.log("test");
     // debugger;
     setCheckActionPlanSpinner(true);
     var decoded = jwt_decode(userToken);
-    
+
     const email = decoded.email;
     console.log(email);
     fetch(`${endPoints.CHECK_ACTION_PLAN_PAID_FOR}`, {
@@ -83,7 +82,7 @@ const Inprogress = (props) => {
         Authorization: `Bearer ${userToken}`,
       },
       body: JSON.stringify({
-        DiagnosticId:serialNo,
+        DiagnosticId: serialNo,
         Email: email,
       }),
     })
@@ -91,10 +90,10 @@ const Inprogress = (props) => {
       .then((result) => {
         console.log(result);
         setCheckActionPlanSpinner(false);
-        if(result.paidFor === true){
-          props.history.push(`mes-diagnostics/${id}`)
-        }else{
-          setCalendlyParameters("?email="+email+"&a2="+serialNo+"")
+        if (result.paidFor === true) {
+          props.history.push(`mes-diagnostics/${id}`);
+        } else {
+          setCalendlyParameters("?email=" + email + "&a2=" + serialNo + "");
           setShow(true);
         }
 
@@ -122,7 +121,7 @@ const Inprogress = (props) => {
     // else{
     //   setShow(true);
     // }
-  }
+  };
   // console.log(totalRisks);
   // console.log("completed ==> ", completeRisks);
   // console.log("incompleted ==> ", incompletedRisks);
@@ -136,8 +135,8 @@ const Inprogress = (props) => {
 
   return (
     <>
-    <div className="inprogress">
-      {/* <div
+      <div className="inprogress">
+        {/* <div
           className="d-flex justify-content-between mx-3 py-1 screen-navbar"
           style={{ borderBottom: "1px solid rgba(1,35,64, 18%)" }}
         >
@@ -157,140 +156,185 @@ const Inprogress = (props) => {
           </div>
         </div> */}
 
-      <div className="inprogress-wrapper">
-        <div className="inprogress-header"></div>
-        <div className="inprogress-content">
-          <div className="inprogress-first-list">
-            <Heading>Diagnostics en cours</Heading>
+        <div className="inprogress-wrapper">
+          <div className="inprogress-header"></div>
+          <div className="inprogress-content">
+            <div className="inprogress-first-list">
+              <Heading>Diagnostics en cours</Heading>
 
-            <div className="inprogress-lists inprogress-list-1">
-              {spinner ? (
-                <div className="spinner">
-                  <CircularProgress className="circular-spinner-blue" />
-                </div>
-              ) : incompletedRisks.length > 0 ? (
-                incompletedRisks.map((item) => (
-                  <List>
-                    <div style={{ width: "10%" }}>{item.serialNo}</div>
-                    <div style={{ width: "20%" }}>{item.name}</div>
-                    <div style={{ width: "10%" }}>
-                      {moment(item.createdDate).format("DD-MM-YYYY")}
-                    </div>
-                    <div style={{ width: "20%" }}>
-                      <Progressbar
-                        now={(item.completedRisks / item.totalRisks) * 100}
-                      />
-                    </div>
-                    <div style={{ width: "30%" }}>
-                      <NavLink
-                        to={{
-                          pathname: `diagnostic-list/${item.diagnosticId}`,
-                          state: { ...item },
-                        }}
-                      >
-                        <Button className="inprogress-btn" secondary>
-                          Continuer le diagnostic
-                        </Button>
-                      </NavLink>
-                    </div>
-                  </List>
-                ))
-              ) : (
-                <div className="inprogress-not-found">
-                  Aucun diagnostic en cours
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Second */}
-          <div className="inprogress-second-list">
-            <Heading>Diagnostics réalisés</Heading>
-
-            <div className="inprogress-lists inprogress-list-2">
-              {checkActionPlanSpinner && (
-                <div className="spinner">
-                  <CircularProgress className="circular-spinner-blue" />
-                </div>)}
-              {spinner ? (
-                <div className="spinner">
-                  <CircularProgress className="circular-spinner-blue" />
-                </div>
-              ) : completeRisks.length > 0 ? (
-                completeRisks.map((item, index) => (
-                  <List key={index}>
-                    <div style={{ width: "10%" }}>{item.serialNo}</div>
-                    <div style={{ width: "20%" }}>{item.name}</div>
-                    <div style={{ width: "10%" }}>
-                      {moment(item.createdDate).format("DD-MM-YYYY")}
-                    </div>
-                    <div style={{ width: "20%" }}>{item.treatmentOfRisk}</div>
-                    <div style={{ width: "30%" }}>
-                      {item.treatmentOfRisk === "Réduit" ||
-                      item.treatmentOfRisk === "Partagé" ? (
-                        // <NavLink
-                        //   to={{
-                        //     pathname: `mes-diagnostics/${item.diagnosticId}`,
-                        //     state: { ...item, now: 100 },
-                        //   }}
-                        // >
-                          <Button secondary className="inprogress-btn" onClick={() =>checkPaid(item.serialNo,item.diagnosticId, item.paid )}>
-                            Plan d’action
-                          </Button>
-                        // </NavLink>
-                      ) : item.treatmentOfRisk === "NonTraité" && (
+              <div className="inprogress-lists inprogress-list-1">
+                {spinner ? (
+                  <div className="spinner">
+                    <CircularProgress className="circular-spinner-blue" />
+                  </div>
+                ) : incompletedRisks.length > 0 ? (
+                  incompletedRisks.map((item) => (
+                    <List>
+                      <div style={{ width: "10%" }}>{item.serialNo}</div>
+                      <div style={{ width: "20%" }}>{item.name}</div>
+                      <div style={{ width: "10%" }}>
+                        {moment(item.createdDate).format("DD-MM-YYYY")}
+                      </div>
+                      <div style={{ width: "20%" }}>
+                        <Progressbar
+                          now={(item.completedRisks / item.totalRisks) * 100}
+                        />
+                      </div>
+                      <div style={{ width: "30%" }}>
                         <NavLink
                           to={{
                             pathname: `diagnostic-list/${item.diagnosticId}`,
-                            state: { ...item, now: 90 },
+                            state: { ...item },
                           }}
                         >
-                          <Button secondary className="inprogress-btn">
-                            Traiter le risque
+                          <Button className="inprogress-btn" secondary>
+                            Continuer le diagnostic
                           </Button>
                         </NavLink>
-                      ) 
-                      // : (
-                      //   <Button secondary className="inprogress-btn">
-                      //     Modifier mon choix
-                      //   </Button>
-                      // )
-                      }
-                    </div>
-                  </List>
-                ))
-              ) : (
-                <div className="inprogress-not-found">
-                  Aucun diagnostic effectué
-                </div>
-              )}
+                      </div>
+                    </List>
+                  ))
+                ) : (
+                  <div className="inprogress-not-found">
+                    Aucun diagnostic en cours
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Second */}
+            <div className="inprogress-second-list">
+              <Heading>Diagnostics réalisés</Heading>
+
+              <div className="inprogress-lists inprogress-list-2">
+                {checkActionPlanSpinner && (
+                  <div className="spinner">
+                    <CircularProgress className="circular-spinner-blue" />
+                  </div>
+                )}
+                {spinner ? (
+                  <div className="spinner">
+                    <CircularProgress className="circular-spinner-blue" />
+                  </div>
+                ) : completeRisks.length > 0 ? (
+                  completeRisks.map((item, index) => (
+                    <List key={index}>
+                      <div style={{ width: "10%" }}>{item.serialNo}</div>
+                      <div style={{ width: "20%" }}>{item.name}</div>
+                      <div style={{ width: "10%" }}>
+                        {moment(item.createdDate).format("DD-MM-YYYY")}
+                      </div>
+                      <div style={{ width: "20%" }}>{item.treatmentOfRisk}</div>
+                      <div style={{ width: "30%" }}>
+                        {
+                          item.treatmentOfRisk === "Réduit" ||
+                          item.treatmentOfRisk === "Partagé" ? (
+                            // <NavLink
+                            //   to={{
+                            //     pathname: `mes-diagnostics/${item.diagnosticId}`,
+                            //     state: { ...item, now: 100 },
+                            //   }}
+                            // >
+                            <Button
+                              secondary
+                              className="inprogress-btn"
+                              onClick={() =>
+                                checkPaid(
+                                  item.serialNo,
+                                  item.diagnosticId,
+                                  item.paid
+                                )
+                              }
+                            >
+                              Plan d’action
+                            </Button>
+                          ) : // </NavLink>
+                          item.treatmentOfRisk === "Evité" ||
+                            item.treatmentOfRisk === "Accepté" ? (
+                            // <Button
+                            //   secondary
+                            //   className="inprogress-btn"
+                            // >
+                            //   Modifier mon choix
+                            // </Button>
+                            <NavLink
+                              to={{
+                                pathname: `diagnostic-list/${item.diagnosticId}`,
+                                state: { ...item, now: 7, isRedo: true },
+                              }}
+                            >
+                              <Button secondary className="inprogress-btn">
+                                Modifier mon choix
+                              </Button>
+                            </NavLink>
+                          ) : (
+                            item.treatmentOfRisk === "NonTraité" && (
+                              <NavLink
+                                to={{
+                                  pathname: `diagnostic-list/${item.diagnosticId}`,
+                                  state: { ...item, now: 90 },
+                                }}
+                              >
+                                <Button secondary className="inprogress-btn">
+                                  Traiter le risque
+                                </Button>
+                              </NavLink>
+                            )
+                          )
+                          // : (
+                          //   <Button secondary className="inprogress-btn">
+                          //     Modifier mon choix
+                          //   </Button>
+                          // )
+                        }
+                      </div>
+                    </List>
+                  ))
+                ) : (
+                  <div className="inprogress-not-found">
+                    Aucun diagnostic effectué
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <Modal show={show} onHide={handleClose} className="custom-modal-3">
-    <Modal.Header closeButton>
-    </Modal.Header>
-    <Modal.Body>
-      <div className="text-center"><BiError size={40} /></div>
-      <div className="py-2 text-center">Afin de voir le plan d'action, merci de prendre RDV sur ce lien <span><a rel="noreferrer" className="calendly-link" target="_blank" href={`${endPoints.calendlyLink+calendlyParameters}`}>Calendly</a></span></div>
-    </Modal.Body>
-    <Modal.Footer>
-      <div className="text-center w-100">
-      <div className="login-modal-btn">
-      <a target="_blank" href={`${endPoints.calendlyLink+calendlyParameters}`}>
-      <Button variant="secondary">
-        Ouvrir le lien
-      </Button>
-      </a>
-      </div>
-      </div>
-      {/* onClick={handleClose} */}
-    </Modal.Footer>
-  </Modal>
-
-  </>
+      <Modal show={show} onHide={handleClose} className="custom-modal-3">
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <div className="text-center">
+            <BiError size={40} />
+          </div>
+          <div className="py-2 text-center">
+            Afin de voir le plan d'action, merci de prendre RDV sur ce lien{" "}
+            <span>
+              <a
+                rel="noreferrer"
+                className="calendly-link"
+                target="_blank"
+                href={`${endPoints.calendlyLink + calendlyParameters}`}
+              >
+                Calendly
+              </a>
+            </span>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="text-center w-100">
+            <div className="login-modal-btn">
+              <a
+                target="_blank"
+                href={`${endPoints.calendlyLink + calendlyParameters}`}
+              >
+                <Button variant="secondary">Ouvrir le lien</Button>
+              </a>
+            </div>
+          </div>
+          {/* onClick={handleClose} */}
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 

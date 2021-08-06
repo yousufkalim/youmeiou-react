@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import * as actionTypes from "../../../store/actionTypes";
-import { BiArrowBack } from 'react-icons/bi';
+import { BiArrowBack } from "react-icons/bi";
 //import { debugger } from "fusioncharts";
 
 // const questions = [
@@ -103,6 +103,112 @@ const StepThree = (props) => {
   // console.log("divide", progressPerQuestion);
   // console.log("total", totalQuestions);
 
+  async function getAllQuestionsResume() {
+    console.log("checking");
+    const diagnosticId = props.data.diagnosticId || props.data.id;
+    console.log("new data ", props);
+    // var decoded = jwt_decode(userToken);
+    // const id = parseInt(decoded.Id);
+    // console.log(token);
+    await fetch(`${endPoints.GET_QUESTIONS}/${diagnosticId},${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log("final", result);
+        setQuestions(result.riskList);
+        setTotalCount(result.totalQuestions);
+        console.log(result);
+        setDiagEvalId(result.riskList[0].diagnosticEvaluationID);
+
+        // const activeQ = result.riskList[activeQuestionIndex];
+        // Object.keys(activeQ).filter((key) => {
+        //   if(activeQ[key].includes("resp")){
+
+        //   }
+        // })
+        var completeCount = 0;
+
+        var ind = 0;
+        // for(let i = 0; i < result.riskList.length; i++){
+        //   if(result.riskList[i].isCompleted === false){
+        //     console.log(i)
+        //     ind = i
+        //     break;
+        //   }
+        // }
+
+        // if (props.data.isRedo) {
+        //   ind = 0;
+        // } else {
+        //   for (let c = 0; c < result.riskList.length; c++) {
+        //     if (result.riskList[c].isCompleted === false) {
+        //       ind = c;
+        //       break;
+        //     }
+        //   }
+        // }
+
+        // result.riskList.find((item,index) => {
+
+        //   if(item.isCompleted === false){
+        //     console.log(index)
+        //     return ind = index;
+        //   }
+
+        // });
+
+        // for(let b = 0; b < result.riskList.length; b++){
+        //   if(result.riskList[b].isCompleted === true){
+        //     completeCount = completeCount + 1;
+        //   }
+        // }
+
+        console.log("active question index is ", ind);
+        userToken !== ""
+          ? setActiveQuestionIndex(ind)
+          : setActiveQuestionIndex(currentRisk.currentIndex);
+        setTotalQuestions(result.totalQuestions);
+        console.log("total ", result.totalQuestions);
+        console.log("remaining ", result.riskList.length);
+        setSpinner(false);
+        console.log(activeQuestionIndex);
+
+        // var i
+        // result.riskList.find((item,index) => {
+        //   if(item.id === 216){
+        //     i = index;
+        //     return i
+        //   }
+        // })
+        console.log("active index => ", ind);
+        var activeId = result.riskList[0].id;
+        // result.riskList.find((item, index) => {
+        //   if (item.isCompleted === false) {
+        //     return (activeId = item.id);
+        //   }
+        // });
+        console.log(activeId);
+        setActiveQuestionId(activeId);
+        const quest = result.riskList;
+        const diagId =
+          result.riskList.length > 0
+            ? result.riskList[0].diagnosticEvaluationID
+            : 0;
+
+        checkAnswerOnLoad(quest, diagId, ind);
+      })
+      .catch((error) => {
+        setSpinner(false);
+        console.log(error);
+        // alert(error);
+      });
+  }
+
   async function getAllQuestions() {
     console.log("checking");
     const diagnosticId = props.data.diagnosticId || props.data.id;
@@ -132,11 +238,14 @@ const StepThree = (props) => {
         //   }
         // })
         var completeCount = 0;
-        result.riskList.map((item, i) => {
-          if (item.isCompleted === true) {
-            completeCount = completeCount + 1;
-          }
-        });
+        if (props.data.isRedo) {
+        } else {
+          result.riskList.map((item, i) => {
+            if (item.isCompleted === true) {
+              completeCount = completeCount + 1;
+            }
+          });
+        }
         var ind;
         // for(let i = 0; i < result.riskList.length; i++){
         //   if(result.riskList[i].isCompleted === false){
@@ -146,10 +255,14 @@ const StepThree = (props) => {
         //   }
         // }
 
-        for (let c = 0; c < result.riskList.length; c++) {
-          if (result.riskList[c].isCompleted === false) {
-            ind = c;
-            break;
+        if (props.data.isRedo) {
+          ind = 0;
+        } else {
+          for (let c = 0; c < result.riskList.length; c++) {
+            if (result.riskList[c].isCompleted === false) {
+              ind = c;
+              break;
+            }
           }
         }
 
@@ -171,8 +284,7 @@ const StepThree = (props) => {
         console.log("active question index is ", ind);
         userToken !== ""
           ? setActiveQuestionIndex(ind)
-          :
-        setActiveQuestionIndex(currentRisk.currentIndex);
+          : setActiveQuestionIndex(currentRisk.currentIndex);
         setTotalQuestions(result.totalQuestions);
         console.log("total ", result.totalQuestions);
         console.log("remaining ", result.riskList.length);
@@ -186,8 +298,7 @@ const StepThree = (props) => {
             localStorage.removeItem("riskName");
             props.changeStepper(7);
             setActiveQuestionIndex(0);
-          }
-          else{
+          } else {
             props.changeStepper(currentRisk.now);
           }
         } else {
@@ -236,11 +347,11 @@ const StepThree = (props) => {
   }
 
   async function selectAnswer(index, resp) {
+    console.log("selected string ", resp);
     await setActiveIndex(index);
     setActiveAnswer(resp);
     const key = questions[activeQuestionIndex];
     const valu = key[resp];
-    console.log("selected string ", resp);
     console.log("answer ", valu);
     submitRisk(resp);
 
@@ -305,19 +416,18 @@ const StepThree = (props) => {
       const progress = props.now + progressPerQuestion;
       setActiveIndex("");
       // setDiagEvalId(data.id);
-      
-      if(allrisk[activeQuestionIndex + 1]){
+
+      if (allrisk[activeQuestionIndex + 1]) {
         const selected = allrisk[activeQuestionIndex + 1].selectedResponse;
         console.log("next exist");
         const activeInd = boxes
-        .map(function (e) {
-          return e.resp;
-        })
-        .indexOf(selected);
-        setActiveQuestionIndex(activeQuestionIndex + 1)
-      setActiveIndex(activeInd);
-      }
-      else{
+          .map(function (e) {
+            return e.resp;
+          })
+          .indexOf(selected);
+        setActiveQuestionIndex(activeQuestionIndex + 1);
+        setActiveIndex(activeInd);
+      } else {
         console.log("next not exist");
         setActiveQuestionIndex(activeQuestionIndex + 1);
       }
@@ -354,7 +464,7 @@ const StepThree = (props) => {
   async function updateQuestion(resp) {
     // debugger;
     // console.log(token);
-    console.log("response ", resp);
+    console.log("response ", props.now);
     // var decoded = jwt_decode(userToken);
     setSpinner(true);
     // console.log(decoded);
@@ -377,6 +487,7 @@ const StepThree = (props) => {
     // console.log("complete data ", datatosend);
 
     if (props.now === 7) {
+      console.log("7 runn");
       await fetch(endPoints.CREATE_DIAGNOSTIC, {
         method: "POST",
         headers: {
@@ -432,6 +543,7 @@ const StepThree = (props) => {
             })
               .then((res) => {
                 if (res.status === 200) {
+                  console.log("success", res);
                   props.changeStepper(props.now + progressPerQuestion);
                   setActiveIndex("");
                   setDiagEvalId(data.id);
@@ -439,6 +551,9 @@ const StepThree = (props) => {
                   setActiveQuestionId(questions[activeQuestionIndex + 1].id);
                   // setActiveQuestion(activeQuestion + 1);
                   setSpinner(false);
+                  const activeQuestInd = activeQuestionIndex + 1;
+                  const diagId = newObj.userDiagnosticEvaluationId;
+                  checkAnswerOnLoad(questions, diagId, activeQuestInd);
                 } else {
                   setSpinner(false);
                   console.log(res);
@@ -607,7 +722,7 @@ const StepThree = (props) => {
 
   const goBack = () => {
     console.log(activeQuestionIndex);
-    setSpinner(true)
+    setSpinner(true);
 
     const prevQuestionId = parseInt(questions[activeQuestionIndex - 1]?.id);
     console.log("prev id", prevQuestionId);
@@ -648,7 +763,7 @@ const StepThree = (props) => {
             })
             .indexOf(res.selectedResponse)
         );
-    setSpinner(false);
+        setSpinner(false);
 
         // boxes.map(function(e) { return e.hello; }).indexOf(res.selectedResponse);
         const prevIndex = boxes.indexOf((x) => x.resp === res.selectedResponse);
@@ -656,14 +771,71 @@ const StepThree = (props) => {
       })
       .catch((error) => {
         console.log(error);
-    setSpinner(false);
+        setSpinner(false);
+      });
+  };
 
+  const checkAnswerOnLoad = (quest, diagId, activeQuestionInd) => {
+    console.log(activeQuestionIndex);
+    setSpinner(true);
+
+    const prevQuestionId = parseInt(quest[activeQuestionInd]?.id);
+    console.log("prev id", prevQuestionId);
+
+    fetch(`${endPoints.GET_PREVIOUS_ANSWER}/${prevQuestionId},${diagId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        console.log("selected response ", res.selectedResponse);
+        console.log(boxes[0].resp);
+        setIsBack(true);
+
+        console.log("all quest ", quest);
+        // set Id
+        setActiveQuestionId(quest[activeQuestionInd]?.id);
+        setActiveQuestionIndex(activeQuestionInd);
+
+        console.log("active quest ind ", activeQuestionInd);
+        console.log("active quest ind array", quest[activeQuestionInd]);
+
+        // set Progress
+        // var currentprogressper = 73 / questions.length;
+        // var remainProgress = props.now - currentprogressper;
+        activeQuestionInd === 0 && props.changeStepper(7);
+
+        // console.log(boxes.indexOf(x => x.resp === res.selectedResponse))
+        const activeInd = boxes
+          .map(function (e) {
+            return e.resp;
+          })
+          .indexOf(res.selectedResponse);
+        setActiveIndex(activeInd);
+        // console.log(
+        //   boxes
+        //     .map(function (e) {
+        //       return e.resp;
+        //     })
+        //     .indexOf(res.selectedResponse)
+        // );
+        setSpinner(false);
+
+        // boxes.map(function(e) { return e.hello; }).indexOf(res.selectedResponse);
+        // const prevIndex = boxes.indexOf((x) => x.resp === res.selectedResponse);
+        // console.log("answer index ", prevIndex);
+      })
+      .catch((error) => {
+        console.log("load answer ", error);
+        setSpinner(false);
       });
   };
 
   const goBackWithoutLogin = () => {
     console.log("go back without login");
-
 
     // var numbers = [2, 5, 9, 2];
     // console.log(numbers.lastIndexOf(9));
@@ -678,22 +850,22 @@ const StepThree = (props) => {
     console.log("active response", activeResponse);
 
     const activeInd = boxes
-          .map(function (e) {
-            return e.resp;
-          })
-          .indexOf(activeResponse);
-        setActiveIndex(activeInd);
-
+      .map(function (e) {
+        return e.resp;
+      })
+      .indexOf(activeResponse);
+    setActiveIndex(activeInd);
 
     var currentprogressper = 73 / questions.length;
-        var remainProgress = props.now - currentprogressper;
-        props.changeStepper(remainProgress);
-  }
+    var remainProgress = props.now - currentprogressper;
+    props.changeStepper(remainProgress);
+  };
 
   useEffect(() => {
     // setActiveQuestion(0);
     console.log(props);
-    getAllQuestions();
+
+    props.data.isRedo ? getAllQuestionsResume() : getAllQuestions();
     // dispatch({type: actionTypes.CLEAR_RISK})
     // console.log("active", questions[0]);
     // console.log(props.data);
@@ -744,19 +916,16 @@ const StepThree = (props) => {
                 );
               })}
             </div>
-      
-             <div className="text-center pt-5">
-             <Button
-               secondary
-               disabled={activeQuestionIndex === 0 ? true : false}
-               onClick={userToken ? goBack : goBackWithoutLogin}
-             >
-               <BiArrowBack />
-             </Button>  
-           </div>
-           
 
-        
+            <div className="text-center pt-5">
+              <Button
+                secondary
+                disabled={activeQuestionIndex === 0 ? true : false}
+                onClick={userToken ? goBack : goBackWithoutLogin}
+              >
+                <BiArrowBack />
+              </Button>
+            </div>
           </Card>
         </div>
       </div>

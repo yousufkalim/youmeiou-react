@@ -197,7 +197,7 @@ const EditProfile = (props) => {
     formdata.append("EntrepreneurProfileId", parseInt(data.profile));
     formdata.append("LinkedInProfile", newLink);
     formdata.append("ProfileImage", imageUrl);
-    // formdata.append("SerialNo", "")
+    // formdata.append("SerialNo", "")r4
     // formdata.append("Email", "")
     // formdata.append("UserProfileImage", "")
     // formdata.append("IsUserOwner", "")

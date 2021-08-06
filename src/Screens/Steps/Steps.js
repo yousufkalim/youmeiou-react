@@ -10,13 +10,11 @@ import StepTwo from "./step-2/StepTwo";
 import StepThree from "./step-3/StepThree";
 import StepFour from "./step-4/StepFour";
 import StepFive from "./step-5/StepFive";
-import {withRouter} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
+import { withRouter } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import StepSix from "./step-6/StepSix";
 
-
 const Steps = (props) => {
-
   const [now, setNow] = useState(5);
   const [toggle, setToggle] = useState(false);
   const [name, setName] = useState("");
@@ -27,31 +25,37 @@ const Steps = (props) => {
 
   useEffect(() => {
     const state = props.location.state;
-    console.log("propsTest",props);
+    console.log("propsTest", props);
+    localStorage.setItem(
+      "performedDiagnosticSerialNo",
+      props.location.state.serialNo
+    );
+    console.log("TestCheckGetSerialName", props.location.state.serialNo);
     var pathName = props.history.location.pathname;
     setName(state.name);
     // this.setState({name: state.name});
     // console.log("new state ", this.props.location.state);
-    props.location.state.now && setNow(props.location.state.now)
+    props.location.state.now && setNow(props.location.state.now);
     // var result = pathName.split("/diagnostic-list/");
 
-  },[])
+    // const a = localStorage.getItem("serialNo");
 
+    // console.log(a, "aaaaaa");
+  }, []);
 
   const changeStepper = (btn) => {
     setNow(btn);
   };
 
+  // const { now, name, serialNo, explanation,  } = this.state;
+  // console.log(this.props.location.state);
 
-    // const { now, name, serialNo, explanation,  } = this.state;
-    // console.log(this.props.location.state);
-
-    // if(window.location.reload() === true){
-    //   alert("reload")
-    // }   
-    return (
-      <div className="steps">
-        {/* <div
+  // if(window.location.reload() === true){
+  //   alert("reload")
+  // }
+  return (
+    <div className="steps">
+      {/* <div
           className="d-flex justify-content-between mx-3 py-1 screen-navbar"
           style={{ borderBottom: "1px solid rgba(1,35,64, 18%)" }}
         >
@@ -71,60 +75,65 @@ const Steps = (props) => {
           </div>
         </div> */}
 
-        <div className="steps-wrapper">
-          <div className="mx-3">
-            <Heading>
-              {now === 80
-                ? "Résultat du diagnostic"
-                : now === 90
-                ? "Traitement d’un diagnostic"
-                : now === 100 ? "Résultat du diagnostic"
-                : "Diagnostic"}
-            </Heading>  
+      <div className="steps-wrapper">
+        <div className="mx-3">
+          <Heading>
+            {now === 80
+              ? "Résultat du diagnostic"
+              : now === 90
+              ? "Traitement d’un diagnostic"
+              : now === 100
+              ? "Résultat du diagnostic"
+              : "Diagnostic"}
+          </Heading>
+        </div>
+        <div className="steps-content-container">
+          <div className="steps-header-container">
+            <Header>
+              <div className="steps-progress">
+                <Stepper now={now} />
+              </div>
+            </Header>
           </div>
-          <div className="steps-content-container">
-            <div className="steps-header-container">
-              <Header>
-                <div className="steps-progress">
-                  <Stepper now={now} />
-                </div>
-              </Header>
-            </div>
-            <div className="steps-content">
-              {
-              now >= 5 && now < 6 ? (
-                <StepOne changeStepper={changeStepper} data={props.location.state} />
-              ) 
-              : now >= 6 && now < 7 ? (
-                <StepTwo changeStepper={changeStepper} />
-              ) 
-              : now >= 7 && now <= 79 ? (
-                <StepThree changeStepper={changeStepper} now={now} data={props.location.state} />
-              ) 
-              : 
-              now >= 79 && now < 89 ? 
-              (
-               <StepFour changeStepper={changeStepper} history={props} data={props.location.state} withoutLogin={props.location.state.withoutLogin} />
-               
-              ) 
-              :
-              now >= 89 && now < 99 ? 
-              (
-                <StepFive changeStepper={changeStepper} routerInfo={props} state={props.location.state}  />
-
-              ) 
-              : 
-              (
-                <StepSix changeStepper={changeStepper} history={props} state={props.location.state} />
-
-              )
-              }
-            </div>
+          <div className="steps-content">
+            {now >= 5 && now < 6 ? (
+              <StepOne
+                changeStepper={changeStepper}
+                data={props.location.state}
+              />
+            ) : now >= 6 && now < 7 ? (
+              <StepTwo changeStepper={changeStepper} />
+            ) : now >= 7 && now <= 79 ? (
+              <StepThree
+                changeStepper={changeStepper}
+                now={now}
+                data={props.location.state}
+              />
+            ) : now >= 79 && now < 89 ? (
+              <StepFour
+                changeStepper={changeStepper}
+                history={props}
+                data={props.location.state}
+                withoutLogin={props.location.state.withoutLogin}
+              />
+            ) : now >= 89 && now < 99 ? (
+              <StepFive
+                changeStepper={changeStepper}
+                routerInfo={props}
+                state={props.location.state}
+              />
+            ) : (
+              <StepSix
+                changeStepper={changeStepper}
+                history={props}
+                state={props.location.state}
+              />
+            )}
           </div>
         </div>
       </div>
-    );
-  }
-
+    </div>
+  );
+};
 
 export default withRouter(Steps);
