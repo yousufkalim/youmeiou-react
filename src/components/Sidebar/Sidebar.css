@@ -26,6 +26,8 @@
     cursor: pointer;
     font-size: 4rem;
     margin-right: 4rem;
+  color: var(--yellow_color);
+
 }
 .custom-navlink{
     color: grey !important;

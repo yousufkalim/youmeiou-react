@@ -7,14 +7,14 @@
   
   .footer-wrap h3 {
     color: #fff;
-    font-size: 18px;
+    font-size: 2.5rem;
     font-weight: bold;
     text-transform: uppercase;
-    margin-bottom: 30px;
+    margin-bottom: 4rem;
   }
   
   .footer-wrap p {
-    font-size: 14px;
+    font-size: 2rem;
     line-height: 24px;
     color: white;
     margin-top: 15px;
@@ -34,7 +34,7 @@
     width: 30%;
   } */
   .footer-links li a {
-    font-size: 14px;
+    font-size: 2rem;
     line-height: 26px;
     color: white;
     text-decoration: none;
@@ -127,15 +127,11 @@
   /* footer css end */
 
   @media (max-width: 991px) {
-    .custom-navbar .nav-link{
-      padding: 1rem 3rem !important;
-    }
+    
     .footer-image-content{
       margin-right:10rem;
     }
-    .custom-navbar .navbar-collapse{
-      text-align: center;
-    }
+
   }
   @media (max-width: 767.9px) {
     .landing {
