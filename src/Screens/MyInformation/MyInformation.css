@@ -8,7 +8,7 @@
 .account-cards{
     height: 90%;
     width: 100%;
-    padding: 2rem 10rem 5rem 2rem;
+    padding: 2rem 5rem 5rem 5rem;
 }
 
 .account-cards{
@@ -117,7 +117,7 @@
     
 .account-cards {
     flex-direction: column;
-    padding: 0 10rem;
+    padding: 0 5rem;
   }
 
   .account-card{

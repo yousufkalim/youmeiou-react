@@ -187,9 +187,6 @@
 .landing-slider .carousel-indicators{
   /* position: unset !important; */
 }
-.custom-navbar{
-  padding: 2rem 5rem 0 10rem !important;
-}
 .custom-navbar .nav-link{
   padding: 0rem 3rem !important;
 }
@@ -278,7 +275,7 @@
     padding: 0 2rem;
   }
   Button {
-    height: 8rem;
+    /* height: 8rem; */
     font-size: 3rem !important;
     /* width: 20rem; */
   }

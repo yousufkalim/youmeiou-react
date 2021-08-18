@@ -1,0 +1,131 @@
+.container{
+    height: 100vh;
+    overflow:hidden;
+    width: 100%;
+    color: #fff;
+}
+
+.contentContainer{
+    background-color: var(--text_color);
+    height: 90%;
+    overflow:auto;
+    width: 100%;
+    color: #fff;
+    padding: 10rem 10rem 0 10rem;
+}
+
+
+/*   Head   */
+.cguHeader{
+    width: 100%;
+    height: 10%;
+    background-color: rgb(235, 235, 235);
+}
+.cguHead{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 7rem 3rem;
+    border: 1px solid #fff;
+    gap: 3rem;
+}
+
+.cguHead h2{
+    font-size: 4rem;
+    font-weight: 700;
+
+}
+
+.cguHead h1{
+    font-size: 8rem;
+    font-weight: 800;
+    /* margin-top: 5rem;    */
+    letter-spacing:7px;
+
+}
+
+
+/* ======================     Content       ========================= */
+
+.contentWrapper{
+    padding-top: 5rem;
+}
+
+.contentWrapper a{
+    color:var(--primary);
+}
+.contentWrapper p {
+    font-size: 2rem;
+}
+.cguBlock{
+    margin: 5rem 0;
+}
+.simpleList{
+    list-style: none;
+    font-size: 2rem;
+}
+
+.simpleList li{
+    padding: 2rem 2rem 2rem 4rem;
+
+}
+
+.simpleList li a{
+    color: var(--primary) !important;
+}
+
+.headingPrimary{
+    font-size: 3rem;
+    font-weight: 800;
+    border-bottom : 1px solid #fff;
+    margin-bottom: 2rem;    
+
+}
+
+.headingPrimary2{
+    font-size: 3rem;
+    font-weight: 500;
+    /* border-bottom : 1px solid #fff; */
+    margin-bottom: 2rem;    
+
+}
+
+.headingSecondary{
+    font-size: 2.5rem;
+    font-weight: 500;
+    /* border-bottom : 1px solid #fff; */
+    margin-bottom: 2rem;    
+
+}
+
+.numericList{
+    list-style: decimal;
+    font-size: 2rem;
+    padding-left: 8rem;
+}
+
+.numericList li{
+    padding: 2rem 2rem 2rem 2rem;
+
+}
+
+.alphaList{
+ 
+    font-size: 2rem;
+    padding-left: 8rem;
+}
+
+.alphaList li{
+    padding: 2rem 2rem 2rem 2rem;
+
+}
+
+
+@media (max-width: 500px){
+    .contentContainer{
+      
+        padding: 5rem 5rem 0 5rem;
+    }
+    
+}

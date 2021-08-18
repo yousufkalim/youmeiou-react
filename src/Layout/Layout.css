@@ -20,7 +20,7 @@
     visibility: hidden;
     height: 100%;
     /* padding: 0 5rem; */
-    width: 50%;
+    width: 35%;
     position: absolute;
     background-color: var(--text_color);
     animation: sidebarmobileanims 0.1s ease-in;
@@ -50,9 +50,14 @@
 .sidebar-drawer {
   display: inline-block;
   cursor: pointer;
+  display: flex;
+  align-items:center;
 }
-.sidebar-toggler {
+.sidebar-toggler-side {
   color: var(--yellow_color);
+  display:block;
+  font-size: 4rem;
+  margin-right: 4rem;
 }
 .sidebar-toggler-mobile{
     color: var(--yellow_color);
@@ -94,6 +99,10 @@
   /* .sidebar-drawer{
         display: inline-block;
     } */
+
+    .sidebar-toggler-side{
+      display: none !important;
+    }
     .sidebar-toggler-mobile{
        
         display: block;
@@ -110,6 +119,13 @@
     z-index: 9999999999;
   }
 }
+
+@media (max-width: 430px) {
+  .layout-mobile-sidebar{
+    width: 45%;
+  }
+}
+
 @keyframes sidebarmobileanims {
   0% {
     display: none;
